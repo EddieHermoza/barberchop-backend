@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const app_controller_1 = require("./app.controller");
 const users_module_1 = require("./users/users.module");
 const prisma_service_1 = require("./prisma/prisma.service");
 const providers_module_1 = require("./providers/providers.module");
@@ -17,7 +18,7 @@ const products_module_1 = require("./products/products.module");
 const cloudinary_service_1 = require("./cloudinary/cloudinary.service");
 const inventory_module_1 = require("./inventory/inventory.module");
 const sales_module_1 = require("./sales/sales.module");
-const app_controller_1 = require("./app.controller");
+const app_service_1 = require("./app.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,7 +26,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [users_module_1.UsersModule, providers_module_1.ProvidersModule, auth_module_1.AuthModule, products_module_1.ProductsModule, inventory_module_1.InventoryModule, sales_module_1.SalesModule],
         controllers: [app_controller_1.AppController],
-        providers: [prisma_service_1.PrismaService, auth_service_1.AuthService, cloudinary_service_1.CloudinaryService],
+        providers: [prisma_service_1.PrismaService, auth_service_1.AuthService, cloudinary_service_1.CloudinaryService, app_service_1.AppService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
