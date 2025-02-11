@@ -58,7 +58,7 @@ model Provider {
   ruc        String     @unique @db.VarChar(11)
   name       String     @db.VarChar(100)
   legal      String     @db.VarChar(100)
-  web        String?     @db.VarChar(100)
+  web        String?    @db.VarChar(100)
   email      String     @db.VarChar(100)
   number     String     @db.VarChar(9)
   isActive   Boolean    @default(false)
