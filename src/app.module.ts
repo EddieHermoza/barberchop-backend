@@ -10,8 +10,11 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { InventoryModule } from './inventory/inventory.module';
 import { SalesModule } from './sales/sales.module';
 
+import { AppController } from './app.controller';
+
 @Module({
   imports: [UsersModule, ProvidersModule, AuthModule, ProductsModule, InventoryModule, SalesModule],
+  controllers:[AppController],
   providers: [PrismaService, AuthService, CloudinaryService],
 
 })
