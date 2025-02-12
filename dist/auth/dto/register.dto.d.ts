@@ -1,2 +1,1 @@
-export declare class RegisterDto {
-}
+export declare class RegisterDto {}

@@ -7,75 +7,76 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ProvidersService {
+  constructor(private readonly db: PrismaService) {}
 
-  constructor(private readonly db:PrismaService){}
-
-  
   async create(createProviderDto: CreateProviderDto) {
     return await this.db.provider.create({
-      data:createProviderDto
-    })
+      data: createProviderDto,
+    });
   }
 
-  async findAll({limit,page,query,status}:QueryProps) {
-
-    const pages = page || 1
-    const skip = (pages - 1) * limit
-
+  async findAll({ limit, page, query, status }: QueryProps) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
 
     return await this.db.provider.findMany({
-      where:{
-        AND:[
-          query ? { name: { contains: query, mode: Prisma.QueryMode.insensitive } } : {},
+      where: {
+        AND: [
+          query
+            ? { name: { contains: query, mode: Prisma.QueryMode.insensitive } }
+            : {},
           status !== null && status !== undefined ? { isActive: status } : {},
         ],
-        isArchived:false
+        isArchived: false,
       },
       skip: skip,
-      take: limit,  
-    })
+      take: limit,
+    });
   }
 
   async findOne(id: number) {
-    const provider =  await this.db.provider.findFirst({
-      where:{
+    const provider = await this.db.provider.findFirst({
+      where: {
         id,
-        isArchived:false
-      }
-    })
+        isArchived: false,
+      },
+    });
 
-    if (!provider) throw new NotFoundException(`El proveedor del id ${id} no existe`)
+    if (!provider)
+      throw new NotFoundException(`El proveedor del id ${id} no existe`);
 
-    return provider
+    return provider;
   }
 
   async update(id: number, updateProviderDto: UpdateProviderDto) {
-    const updatedProvider =  await this.db.provider.update({
-      where:{
+    const updatedProvider = await this.db.provider.update({
+      where: {
         id,
-        isArchived:false
+        isArchived: false,
       },
-      data:updateProviderDto
-    })
+      data: updateProviderDto,
+    });
 
-    if (!updatedProvider) throw new NotFoundException(`El proveedor del id ${id} no existe`)
+    if (!updatedProvider)
+      throw new NotFoundException(`El proveedor del id ${id} no existe`);
 
-    return updatedProvider
+    return updatedProvider;
   }
 
   async remove(id: number) {
-    const archivedProvider =  await this.db.provider.update({
-      where:{
-        id
+    const archivedProvider = await this.db.provider.update({
+      where: {
+        id,
       },
-      data:{
-        isActive:false,
-        isArchived:true
-      }
-    })
+      data: {
+        isActive: false,
+        isArchived: true,
+      },
+    });
 
-    if (!archivedProvider) throw new NotFoundException(`El proveedor del id ${id} no existe`)
+    if (!archivedProvider)
+      throw new NotFoundException(`El proveedor del id ${id} no existe`);
 
-    return archivedProvider
+    return archivedProvider;
   }
 }

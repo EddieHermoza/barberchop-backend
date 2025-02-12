@@ -1,34 +1,39 @@
-import { PaymentMethod, Status } from "@prisma/client"
-import { ArrayNotEmpty, IsArray, IsEnum, IsNumber, IsString, ValidateNested } from "class-validator"
-import { CreateSaleItemDto } from "./create-sale-item.dto"
-import { Type } from "class-transformer"
+import { PaymentMethod, Status } from '@prisma/client';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsEnum,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CreateSaleItemDto } from './create-sale-item.dto';
+import { Type } from 'class-transformer';
 
 export class CreateSaleDto {
-    
-    @IsNumber()
-    userId:number
-    
-    @IsString()
-    transaction:string
-    
-    @IsNumber({ maxDecimalPlaces: 2 })
-    amount:number
+  @IsNumber()
+  userId: number;
 
-    @IsNumber({ maxDecimalPlaces: 2 })
-    discount:number
+  @IsString()
+  transaction: string;
 
-    @IsNumber({ maxDecimalPlaces: 2 })
-    totalAmount:number
+  @IsNumber({ maxDecimalPlaces: 2 })
+  amount: number;
 
-    @IsEnum(PaymentMethod)
-    paymentMethod:PaymentMethod
-    
-    @IsEnum(Status)
-    status:Status
+  @IsNumber({ maxDecimalPlaces: 2 })
+  discount: number;
 
-    @ArrayNotEmpty()
-    @ValidateNested({each:true})
-    @Type(()=>CreateSaleItemDto)
-    saleItems:CreateSaleItemDto[]
-    
+  @IsNumber({ maxDecimalPlaces: 2 })
+  totalAmount: number;
+
+  @IsEnum(PaymentMethod)
+  paymentMethod: PaymentMethod;
+
+  @IsEnum(Status)
+  status: Status;
+
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => CreateSaleItemDto)
+  saleItems: CreateSaleItemDto[];
 }

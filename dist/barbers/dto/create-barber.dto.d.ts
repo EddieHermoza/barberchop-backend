@@ -1,5 +1,5 @@
 export declare class CreateBarberDto {
-    name: string;
-    img: string;
-    isActive: boolean;
+  name: string;
+  img: string;
+  isActive: boolean;
 }

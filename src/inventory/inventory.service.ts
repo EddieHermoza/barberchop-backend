@@ -1,4 +1,8 @@
-import { Injectable,BadRequestException,NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
@@ -7,97 +11,101 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class InventoryService {
-
-  constructor(private readonly db:PrismaService, private readonly productService:ProductsService){}
+  constructor(
+    private readonly db: PrismaService,
+    private readonly productService: ProductsService,
+  ) {}
 
   async createMovement(createMovementDto: CreateMovementDto) {
-
-    const {type,quantity,productId} = createMovementDto
+    const { type, quantity, productId } = createMovementDto;
 
     if (createMovementDto.type === 'SALIDA') {
+      const product = await this.productService.findOne(
+        createMovementDto.productId,
+      );
 
-      const product = await this.productService.findOne(createMovementDto.productId)
-      
-      if (product.stock < createMovementDto.quantity) throw new BadRequestException("El producto no tiene el suficiente stock para realizar el movimiento")
-      
+      if (product.stock < createMovementDto.quantity)
+        throw new BadRequestException(
+          'El producto no tiene el suficiente stock para realizar el movimiento',
+        );
     }
 
-    const movementQuantity = type === "ENTRADA" ? quantity : -quantity
+    const movementQuantity = type === 'ENTRADA' ? quantity : -quantity;
 
     const newStock = await this.db.product.update({
-      where:{
-        id:productId,
-        isArchived:false
+      where: {
+        id: productId,
+        isArchived: false,
       },
-      data:{
-        lastStockEntry:new Date(),
-        stock:{increment:movementQuantity}
-      }
-    })
+      data: {
+        lastStockEntry: new Date(),
+        stock: { increment: movementQuantity },
+      },
+    });
 
-    if (!newStock) throw new Error(`Hubo un error al actualizar el stock del producto ${productId}`)
+    if (!newStock)
+      throw new Error(
+        `Hubo un error al actualizar el stock del producto ${productId}`,
+      );
 
     return await this.db.movement.create({
-      data:createMovementDto
-    })
-
+      data: createMovementDto,
+    });
   }
 
-  async findAllProductsInventory({page,limit,query,status}:QueryProps){
-
-    const pages = page || 1 
-    const skip = (pages - 1) * limit
+  async findAllProductsInventory({ page, limit, query, status }: QueryProps) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
 
     return await this.db.product.findMany({
-      select:{
-        id:true,
-        name:true,
-        stock:true,
-        lastStockEntry:true,
-        isActive:true
+      select: {
+        id: true,
+        name: true,
+        stock: true,
+        lastStockEntry: true,
+        isActive: true,
       },
-      where:{
-        AND:[
-          query ? { name: { contains: query, mode: Prisma.QueryMode.insensitive } } : {},
+      where: {
+        AND: [
+          query
+            ? { name: { contains: query, mode: Prisma.QueryMode.insensitive } }
+            : {},
           status !== null && status !== undefined ? { isActive: status } : {},
         ],
-        isArchived:false
-        
+        isArchived: false,
       },
       skip: skip,
       take: limit,
-    })
+    });
   }
 
-
-  async findAllMovements({page,limit}:QueryProps) {
-    const pages = page || 1
-    const skip = (pages - 1) * limit
+  async findAllMovements({ page, limit }: QueryProps) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
 
     return await this.db.movement.findMany({
-      include:{
-        Product:{
-          select:{
-            name:true
-          }
-        }
+      include: {
+        Product: {
+          select: {
+            name: true,
+          },
+        },
       },
-      skip:skip,
-      take:limit
-    })
+      skip: skip,
+      take: limit,
+    });
   }
 
   async findOneMovement(id: number) {
     const movement = await this.db.movement.findFirst({
-      where:{
-        id
-      }
-    }) 
+      where: {
+        id,
+      },
+    });
 
-    if (!movement ) throw new NotFoundException(`El movimiento con el id ${id} no existe`)
+    if (!movement)
+      throw new NotFoundException(`El movimiento con el id ${id} no existe`);
 
-    return movement
+    return movement;
   }
-
-
 }

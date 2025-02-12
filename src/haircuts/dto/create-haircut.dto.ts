@@ -1,3 +1,1 @@
-export class CreateHaircutDto {
-
-}
+export class CreateHaircutDto {}

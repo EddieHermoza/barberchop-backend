@@ -1,7 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.CreateHaircutDto = void 0;
-class CreateHaircutDto {
-}
+class CreateHaircutDto {}
 exports.CreateHaircutDto = CreateHaircutDto;
 //# sourceMappingURL=create-haircut.dto.js.map
