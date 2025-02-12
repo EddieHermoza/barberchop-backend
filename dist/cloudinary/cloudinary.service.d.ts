@@ -1,1 +1,2 @@
-export declare class CloudinaryService {}
+export declare class CloudinaryService {
+}

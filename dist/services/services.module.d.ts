@@ -1,1 +1,2 @@
-export declare class ServicesModule {}
+export declare class ServicesModule {
+}

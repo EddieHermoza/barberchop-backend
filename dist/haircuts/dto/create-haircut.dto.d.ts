@@ -1,1 +1,2 @@
-export declare class CreateHaircutDto {}
+export declare class CreateHaircutDto {
+}

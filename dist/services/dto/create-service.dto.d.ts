@@ -1,1 +1,2 @@
-export declare class CreateServiceDto {}
+export declare class CreateServiceDto {
+}

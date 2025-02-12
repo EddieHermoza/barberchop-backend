@@ -1,1 +1,2 @@
-export declare class HaircutsModule {}
+export declare class HaircutsModule {
+}
