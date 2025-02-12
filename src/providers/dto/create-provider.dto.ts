@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsNumber, IsString, Length } from "class-validator"
+import { IsBoolean, IsEmail, IsNumber, IsOptional, IsString, Length } from "class-validator"
 
 export class CreateProviderDto {
 
@@ -12,6 +12,7 @@ export class CreateProviderDto {
     @IsString({message:"El legal debe ser un string"})
     legal:string
 
+    @IsOptional()
     @IsString({message:"La web debe ser un string"})
     web:string
 

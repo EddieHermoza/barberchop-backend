@@ -19,12 +19,27 @@ const cloudinary_service_1 = require("./cloudinary/cloudinary.service");
 const inventory_module_1 = require("./inventory/inventory.module");
 const sales_module_1 = require("./sales/sales.module");
 const app_service_1 = require("./app.service");
+const barbers_module_1 = require("./barbers/barbers.module");
+const services_module_1 = require("./services/services.module");
+const appointments_module_1 = require("./appointments/appointments.module");
+const haircuts_module_1 = require("./haircuts/haircuts.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, providers_module_1.ProvidersModule, auth_module_1.AuthModule, products_module_1.ProductsModule, inventory_module_1.InventoryModule, sales_module_1.SalesModule],
+        imports: [
+            users_module_1.UsersModule,
+            providers_module_1.ProvidersModule,
+            auth_module_1.AuthModule,
+            products_module_1.ProductsModule,
+            inventory_module_1.InventoryModule,
+            sales_module_1.SalesModule,
+            barbers_module_1.BarbersModule,
+            services_module_1.ServicesModule,
+            appointments_module_1.AppointmentsModule,
+            haircuts_module_1.HaircutsModule,
+        ],
         controllers: [app_controller_1.AppController],
         providers: [prisma_service_1.PrismaService, auth_service_1.AuthService, cloudinary_service_1.CloudinaryService, app_service_1.AppService],
     })

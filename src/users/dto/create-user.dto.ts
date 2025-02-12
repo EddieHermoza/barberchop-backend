@@ -25,7 +25,7 @@ export class CreateUserDto {
   @Length(8, 20, { message: 'La contraseña debe tener entre 8 y 20 caracteres.' })
   password: string
 
-  @IsEnum(UserRole, { message: 'El rol debe ser uno de los siguientes valores: ADMINISTRADOR, VENDEDOR, CLIENTE.' })
+  @IsEnum(UserRole, { message: 'El rol debe ser uno de los siguientes valores: ADMINISTRADOR, CLIENTE.' })
   role: UserRole
 
   @IsBoolean({ message: 'El campo isActive debe ser un valor booleano.' })

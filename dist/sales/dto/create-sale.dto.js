@@ -28,15 +28,15 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
+], CreateSaleDto.prototype, "amount", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
+    __metadata("design:type", Number)
+], CreateSaleDto.prototype, "discount", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
+    __metadata("design:type", Number)
 ], CreateSaleDto.prototype, "totalAmount", void 0);
-__decorate([
-    (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
-    __metadata("design:type", Number)
-], CreateSaleDto.prototype, "totalDiscount", void 0);
-__decorate([
-    (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
-    __metadata("design:type", Number)
-], CreateSaleDto.prototype, "totalPayment", void 0);
 __decorate([
     (0, class_validator_1.IsEnum)(client_1.PaymentMethod),
     __metadata("design:type", String)

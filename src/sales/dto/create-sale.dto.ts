@@ -12,13 +12,13 @@ export class CreateSaleDto {
     transaction:string
     
     @IsNumber({ maxDecimalPlaces: 2 })
+    amount:number
+
+    @IsNumber({ maxDecimalPlaces: 2 })
+    discount:number
+
+    @IsNumber({ maxDecimalPlaces: 2 })
     totalAmount:number
-
-    @IsNumber({ maxDecimalPlaces: 2 })
-    totalDiscount:number
-
-    @IsNumber({ maxDecimalPlaces: 2 })
-    totalPayment:number
 
     @IsEnum(PaymentMethod)
     paymentMethod:PaymentMethod

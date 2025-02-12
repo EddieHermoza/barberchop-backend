@@ -28,6 +28,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateProviderDto.prototype, "legal", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)({ message: "La web debe ser un string" }),
     __metadata("design:type", String)
 ], CreateProviderDto.prototype, "web", void 0);
