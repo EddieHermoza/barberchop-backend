@@ -23,6 +23,7 @@ const barbers_module_1 = require("./barbers/barbers.module");
 const services_module_1 = require("./services/services.module");
 const appointments_module_1 = require("./appointments/appointments.module");
 const haircuts_module_1 = require("./haircuts/haircuts.module");
+const purchases_module_1 = require("./purchases/purchases.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -39,6 +40,7 @@ exports.AppModule = AppModule = __decorate([
             services_module_1.ServicesModule,
             appointments_module_1.AppointmentsModule,
             haircuts_module_1.HaircutsModule,
+            purchases_module_1.PurchasesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [prisma_service_1.PrismaService, auth_service_1.AuthService, cloudinary_service_1.CloudinaryService, app_service_1.AppService],

@@ -14,6 +14,7 @@ import { BarbersModule } from './barbers/barbers.module';
 import { ServicesModule } from './services/services.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { HaircutsModule } from './haircuts/haircuts.module';
+import { PurchasesModule } from './purchases/purchases.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { HaircutsModule } from './haircuts/haircuts.module';
     ServicesModule,
     AppointmentsModule,
     HaircutsModule,
+    PurchasesModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AuthService, CloudinaryService, AppService],

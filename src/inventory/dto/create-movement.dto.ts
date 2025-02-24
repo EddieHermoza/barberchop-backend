@@ -1,5 +1,5 @@
 import { MovementType } from '@prisma/client';
-import { IsEnum, IsIn, IsInt, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsString } from 'class-validator';
 
 export class CreateMovementDto {
   @IsInt()

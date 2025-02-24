@@ -1,7 +1,6 @@
 import { PaymentMethod, Status } from '@prisma/client';
 import {
   ArrayNotEmpty,
-  IsArray,
   IsEnum,
   IsNumber,
   IsString,
