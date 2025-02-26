@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { QueryProps, ValidateQueryPipe } from '../pipes/validate-query.pipe';

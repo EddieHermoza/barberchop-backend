@@ -2,6 +2,7 @@ import { CreateMovementDto } from './dto/create-movement.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
 import { QueryProps } from '../pipes/validate-query.pipe';
+import { Prisma } from '@prisma/client';
 export declare class InventoryService {
     private readonly db;
     private readonly productService;
@@ -40,5 +41,21 @@ export declare class InventoryService {
         productId: number;
         quantity: number;
         notes: string;
+    }>;
+    updateProductStock(productId: number, quantity: number, type: string): Promise<{
+        name: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        description: string;
+        category: string;
+        img: string;
+        orderLimit: number;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
+        lastStockEntry: Date | null;
     }>;
 }

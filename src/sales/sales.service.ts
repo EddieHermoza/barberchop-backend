@@ -1,26 +1,111 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
-import { UpdateSaleDto } from './dto/update-sale.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { Prisma } from '@prisma/client';
+import { InventoryService } from 'src/inventory/inventory.service';
 
 @Injectable()
 export class SalesService {
-  create(createSaleDto: CreateSaleDto) {
-    return 'This action adds a new sale';
+  constructor(
+    private readonly db: PrismaService,
+    private readonly InventoryService: InventoryService,
+  ) {}
+  async create(createSaleDto: CreateSaleDto) {
+    return await this.db.$transaction(async (prisma) => {
+      const sale = await prisma.sale.create({
+        data: {
+          ...createSaleDto,
+          SaleItem: {
+            createMany: {
+              data: createSaleDto.saleItems,
+            },
+          },
+        },
+      });
+
+      await Promise.all(
+        createSaleDto.saleItems.map(async (item) => {
+          await this.InventoryService.updateProductStock(
+            item.productId,
+            item.quantity,
+            'SALIDA',
+          );
+        }),
+      );
+
+      return sale;
+    });
   }
 
-  findAll() {
-    return `This action returns all sales`;
+  async findAll({ limit, page, query }: QueryProps) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
+    return await this.db.sale.findMany({
+      where: {
+        AND: [
+          query
+            ? {
+                transaction: {
+                  contains: query,
+                  mode: Prisma.QueryMode.insensitive,
+                },
+              }
+            : {},
+        ],
+      },
+      skip: skip,
+      take: limit,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sale`;
+  async findOne(id: number) {
+    const sale = await this.db.sale.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        created: true,
+        transaction: true,
+        amount: true,
+        discount: true,
+        totalAmount: true,
+        paymentMethod: true,
+        status: true,
+        User: {
+          select: {
+            id: true,
+            name: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        SaleItem: {
+          select: {
+            id: true,
+            productId: true,
+            productName: true,
+            quantity: true,
+            price: true,
+            discount: true,
+          },
+        },
+      },
+    });
+
+    if (!sale) throw new BadRequestException(`La venta del id ${id} no existe`);
+
+    return sale;
   }
 
-  update(id: number, updateSaleDto: UpdateSaleDto) {
-    return `This action updates a #${id} sale`;
-  }
+  async remove(id: number) {
+    const sale = await this.db.sale.delete({
+      where: {
+        id,
+      },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} sale`;
+    if (!sale) throw new BadRequestException(`La venta del id ${id} no existe`);
   }
 }

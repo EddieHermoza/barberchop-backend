@@ -30,23 +30,7 @@ export class InventoryService {
         );
     }
 
-    const movementQuantity = type === 'ENTRADA' ? quantity : -quantity;
-
-    const newStock = await this.db.product.update({
-      where: {
-        id: productId,
-        isArchived: false,
-      },
-      data: {
-        lastStockEntry: new Date(),
-        stock: { increment: movementQuantity },
-      },
-    });
-
-    if (!newStock)
-      throw new Error(
-        `Hubo un error al actualizar el stock del producto ${productId}`,
-      );
+    await this.updateProductStock(productId, quantity, type);
 
     return await this.db.movement.create({
       data: createMovementDto,
@@ -107,5 +91,27 @@ export class InventoryService {
       throw new NotFoundException(`El movimiento con el id ${id} no existe`);
 
     return movement;
+  }
+
+  async updateProductStock(productId: number, quantity: number, type: string) {
+    const movementQuantity = type === 'ENTRADA' ? quantity : -quantity;
+
+    const newStock = await this.db.product.update({
+      where: {
+        id: productId,
+        isArchived: false,
+      },
+      data: {
+        ...(type === 'ENTRADA' && { lastStockEntry: new Date() }),
+        stock: { increment: movementQuantity },
+      },
+    });
+
+    if (!newStock)
+      throw new Error(
+        `Hubo un error al actualizar el stock del producto ${productId}`,
+      );
+
+    return newStock;
   }
 }

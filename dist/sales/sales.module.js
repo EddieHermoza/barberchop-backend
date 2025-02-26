@@ -10,13 +10,16 @@ exports.SalesModule = void 0;
 const common_1 = require("@nestjs/common");
 const sales_service_1 = require("./sales.service");
 const sales_controller_1 = require("./sales.controller");
+const inventory_module_1 = require("../inventory/inventory.module");
+const prisma_service_1 = require("../prisma/prisma.service");
 let SalesModule = class SalesModule {
 };
 exports.SalesModule = SalesModule;
 exports.SalesModule = SalesModule = __decorate([
     (0, common_1.Module)({
+        imports: [inventory_module_1.InventoryModule],
         controllers: [sales_controller_1.SalesController],
-        providers: [sales_service_1.SalesService],
+        providers: [sales_service_1.SalesService, prisma_service_1.PrismaService],
     })
 ], SalesModule);
 //# sourceMappingURL=sales.module.js.map

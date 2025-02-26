@@ -1,9 +1,4 @@
-import {
-  ArgumentMetadata,
-  Injectable,
-  PipeTransform,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
 
 export interface QueryProps {
   limit: number;
@@ -14,7 +9,7 @@ export interface QueryProps {
 
 @Injectable()
 export class ValidateQueryPipe implements PipeTransform {
-  transform(value: any, metadata: ArgumentMetadata) {
+  transform(value: any) {
     const limit = parseInt(value.limit?.toString() || '5');
     const page = parseInt(value.page?.toString() || '1');
     const query = value.query?.toString() || '';

@@ -3,13 +3,14 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SalesService } from './sales.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
-import { UpdateSaleDto } from './dto/update-sale.dto';
+import { QueryProps, ValidateQueryPipe } from 'src/pipes/validate-query.pipe';
+import { ValidateId } from 'src/pipes/validate-id.pipe';
 
 @Controller('sales')
 export class SalesController {
@@ -21,22 +22,17 @@ export class SalesController {
   }
 
   @Get()
-  findAll() {
-    return this.salesService.findAll();
+  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+    return this.salesService.findAll(params);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.salesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSaleDto: UpdateSaleDto) {
-    return this.salesService.update(+id, updateSaleDto);
+  findOne(@Param('id', ValidateId) id: number) {
+    return this.salesService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.salesService.remove(+id);
+  remove(@Param('id', ValidateId) id: number) {
+    return this.salesService.remove(id);
   }
 }

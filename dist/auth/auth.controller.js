@@ -14,9 +14,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
-const auth_guard_1 = require("./guard/auth.guard");
 const auth_service_1 = require("./auth.service");
 const signIn_dto_1 = require("./dto/signIn.dto");
+const auth_decorator_1 = require("./decorators/auth.decorator");
+const client_1 = require("@prisma/client");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -38,7 +39,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, auth_decorator_1.Auth)([client_1.UserRole.ADMINISTRADOR]),
     (0, common_1.Get)('/profile'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),

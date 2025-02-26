@@ -12,29 +12,101 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PurchasesService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const client_1 = require("@prisma/client");
+const inventory_service_1 = require("../inventory/inventory.service");
 let PurchasesService = class PurchasesService {
-    constructor(db) {
+    constructor(db, InventoryService) {
         this.db = db;
+        this.InventoryService = InventoryService;
     }
-    create(createPurchaseDto) {
-        return 'This action adds a new purchase';
+    async create(createPurchaseDto) {
+        return await this.db.$transaction(async (prisma) => {
+            const purchase = await prisma.purchase.create({
+                data: {
+                    ...createPurchaseDto,
+                    PurchaseItem: {
+                        createMany: {
+                            data: createPurchaseDto.purchaseItems,
+                        },
+                    },
+                },
+            });
+            await Promise.all(createPurchaseDto.purchaseItems.map(async (item) => {
+                await this.InventoryService.updateProductStock(item.productId, item.quantity, 'ENTRADA');
+            }));
+            return purchase;
+        });
     }
-    findAll() {
-        return `This action returns all purchases`;
+    async findAll({ limit, page, query }) {
+        const pages = page || 1;
+        const skip = (pages - 1) * limit;
+        return await this.db.purchase.findMany({
+            where: {
+                AND: [
+                    query
+                        ? {
+                            receiptNumber: {
+                                contains: query,
+                                mode: client_1.Prisma.QueryMode.insensitive,
+                            },
+                        }
+                        : {},
+                ],
+            },
+            skip: skip,
+            take: limit,
+        });
     }
-    findOne(id) {
-        return `This action returns a #${id} purchase`;
+    async findOne(id) {
+        const purchase = await this.db.purchase.findFirst({
+            where: { id },
+            select: {
+                id: true,
+                created: true,
+                totalAmount: true,
+                receiptNumber: true,
+                receiptType: true,
+                receiptDate: true,
+                Provider: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                User: {
+                    select: {
+                        id: true,
+                        name: true,
+                        lastName: true,
+                    },
+                },
+                PurchaseItem: {
+                    select: {
+                        productId: true,
+                        productName: true,
+                        quantity: true,
+                        price: true,
+                    },
+                },
+            },
+        });
+        if (!purchase)
+            throw new common_1.BadRequestException(`La compra del id ${id} no existe`);
+        return purchase;
     }
-    update(id, updatePurchaseDto) {
-        return `This action updates a #${id} purchase`;
-    }
-    remove(id) {
-        return `This action removes a #${id} purchase`;
+    async remove(id) {
+        const purchase = await this.db.purchase.delete({
+            where: { id },
+        });
+        if (!purchase)
+            throw new common_1.BadRequestException(`La compra del id ${id} no existe`);
+        return purchase;
     }
 };
 exports.PurchasesService = PurchasesService;
 exports.PurchasesService = PurchasesService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        inventory_service_1.InventoryService])
 ], PurchasesService);
 //# sourceMappingURL=purchases.service.js.map

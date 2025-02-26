@@ -1,4 +1,4 @@
-import { ArgumentMetadata, PipeTransform } from '@nestjs/common';
+import { PipeTransform } from '@nestjs/common';
 export interface QueryProps {
     limit: number;
     query: string;
@@ -6,5 +6,5 @@ export interface QueryProps {
     page: number;
 }
 export declare class ValidateQueryPipe implements PipeTransform {
-    transform(value: any, metadata: ArgumentMetadata): any;
+    transform(value: any): any;
 }

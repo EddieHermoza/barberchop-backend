@@ -34,7 +34,7 @@ __decorate([
         message: 'El tipo de comprobante debe ser uno de los siguientes valores: BOLETA, FACTURA.',
     }),
     __metadata("design:type", String)
-], CreatePurchaseDto.prototype, "receipType", void 0);
+], CreatePurchaseDto.prototype, "receiptType", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
@@ -42,11 +42,11 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsDate)(),
     __metadata("design:type", Date)
-], CreatePurchaseDto.prototype, "receipDate", void 0);
+], CreatePurchaseDto.prototype, "receiptDate", void 0);
 __decorate([
     (0, class_validator_1.ArrayNotEmpty)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => create_purchase_itemsdto_1.CreatePurchaseItemDto),
     __metadata("design:type", Array)
-], CreatePurchaseDto.prototype, "saleItems", void 0);
+], CreatePurchaseDto.prototype, "purchaseItems", void 0);
 //# sourceMappingURL=create-purchase.dto.js.map

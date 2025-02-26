@@ -1,12 +1,63 @@
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
-import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { Prisma } from '@prisma/client';
+import { InventoryService } from 'src/inventory/inventory.service';
 export declare class PurchasesService {
     private readonly db;
-    constructor(db: PrismaService);
-    create(createPurchaseDto: CreatePurchaseDto): string;
-    findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updatePurchaseDto: UpdatePurchaseDto): string;
-    remove(id: number): string;
+    private readonly InventoryService;
+    constructor(db: PrismaService, InventoryService: InventoryService);
+    create(createPurchaseDto: CreatePurchaseDto): Promise<{
+        id: number;
+        created: Date;
+        userId: number;
+        totalAmount: Prisma.Decimal;
+        providerId: number;
+        receiptType: import(".prisma/client").$Enums.ReceiptType;
+        receiptNumber: string;
+        receiptDate: Date;
+    }>;
+    findAll({ limit, page, query }: QueryProps): Promise<{
+        id: number;
+        created: Date;
+        userId: number;
+        totalAmount: Prisma.Decimal;
+        providerId: number;
+        receiptType: import(".prisma/client").$Enums.ReceiptType;
+        receiptNumber: string;
+        receiptDate: Date;
+    }[]>;
+    findOne(id: number): Promise<{
+        id: number;
+        created: Date;
+        User: {
+            name: string;
+            lastName: string;
+            id: number;
+        };
+        Provider: {
+            name: string;
+            id: number;
+        };
+        PurchaseItem: {
+            price: Prisma.Decimal;
+            productId: number;
+            quantity: number;
+            productName: string;
+        }[];
+        totalAmount: Prisma.Decimal;
+        receiptType: import(".prisma/client").$Enums.ReceiptType;
+        receiptNumber: string;
+        receiptDate: Date;
+    }>;
+    remove(id: number): Promise<{
+        id: number;
+        created: Date;
+        userId: number;
+        totalAmount: Prisma.Decimal;
+        providerId: number;
+        receiptType: import(".prisma/client").$Enums.ReceiptType;
+        receiptNumber: string;
+        receiptDate: Date;
+    }>;
 }

@@ -24,8 +24,8 @@ export class ProvidersController {
   }
 
   @Get()
-  async findAll(@Query(ValidateQueryPipe) params: QueryProps) {
-    return await this.providersService.findAll(params);
+  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+    return this.providersService.findAll(params);
   }
 
   @Get(':id')

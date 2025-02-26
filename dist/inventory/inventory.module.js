@@ -18,6 +18,7 @@ exports.InventoryModule = InventoryModule;
 exports.InventoryModule = InventoryModule = __decorate([
     (0, common_1.Module)({
         imports: [products_module_1.ProductsModule],
+        exports: [inventory_service_1.InventoryService],
         controllers: [inventory_controller_1.InventoryController],
         providers: [inventory_service_1.InventoryService, prisma_service_1.PrismaService],
     })

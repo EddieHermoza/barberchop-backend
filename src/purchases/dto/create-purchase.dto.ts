@@ -24,16 +24,16 @@ export class CreatePurchaseDto {
     message:
       'El tipo de comprobante debe ser uno de los siguientes valores: BOLETA, FACTURA.',
   })
-  receipType: ReceiptType;
+  receiptType: ReceiptType;
 
   @IsString()
   receiptNumber: string;
 
   @IsDate()
-  receipDate: Date;
+  receiptDate: Date;
 
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreatePurchaseItemDto)
-  saleItems: CreatePurchaseItemDto[];
+  purchaseItems: CreatePurchaseItemDto[];
 }

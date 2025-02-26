@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidateQueryPipe = void 0;
 const common_1 = require("@nestjs/common");
 let ValidateQueryPipe = class ValidateQueryPipe {
-    transform(value, metadata) {
+    transform(value) {
         const limit = parseInt(value.limit?.toString() || '5');
         const page = parseInt(value.page?.toString() || '1');
         const query = value.query?.toString() || '';

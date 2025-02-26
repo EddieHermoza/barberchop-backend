@@ -26,8 +26,8 @@ let ProvidersController = class ProvidersController {
     create(createProviderDto) {
         return this.providersService.create(createProviderDto);
     }
-    async findAll(params) {
-        return await this.providersService.findAll(params);
+    findAll(params) {
+        return this.providersService.findAll(params);
     }
     findOne(id) {
         return this.providersService.findOne(id);
@@ -52,7 +52,7 @@ __decorate([
     __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),

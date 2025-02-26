@@ -16,7 +16,8 @@ exports.SalesController = void 0;
 const common_1 = require("@nestjs/common");
 const sales_service_1 = require("./sales.service");
 const create_sale_dto_1 = require("./dto/create-sale.dto");
-const update_sale_dto_1 = require("./dto/update-sale.dto");
+const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
+const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
 let SalesController = class SalesController {
     constructor(salesService) {
         this.salesService = salesService;
@@ -24,17 +25,14 @@ let SalesController = class SalesController {
     create(createSaleDto) {
         return this.salesService.create(createSaleDto);
     }
-    findAll() {
-        return this.salesService.findAll();
+    findAll(params) {
+        return this.salesService.findAll(params);
     }
     findOne(id) {
-        return this.salesService.findOne(+id);
-    }
-    update(id, updateSaleDto) {
-        return this.salesService.update(+id, updateSaleDto);
+        return this.salesService.findOne(id);
     }
     remove(id) {
-        return this.salesService.remove(+id);
+        return this.salesService.remove(id);
     }
 };
 exports.SalesController = SalesController;
@@ -47,30 +45,23 @@ __decorate([
 ], SalesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], SalesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], SalesController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_sale_dto_1.UpdateSaleDto]),
-    __metadata("design:returntype", void 0)
-], SalesController.prototype, "update", null);
-__decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], SalesController.prototype, "remove", null);
 exports.SalesController = SalesController = __decorate([

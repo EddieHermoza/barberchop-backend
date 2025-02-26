@@ -6,11 +6,11 @@ import {
   HttpStatus,
   Post,
   Request,
-  UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from './guard/auth.guard';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signIn.dto';
+import { Auth } from './decorators/auth.decorator';
+import { UserRole } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +22,7 @@ export class AuthController {
     return await this.authService.signIn(signInDto);
   }
 
-  @UseGuards(AuthGuard)
+  @Auth([UserRole.ADMINISTRADOR])
   @Get('/profile')
   getProfile(@Request() req) {
     return req.user;

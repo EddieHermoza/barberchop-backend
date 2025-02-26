@@ -3,13 +3,14 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PurchasesService } from './purchases.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
-import { UpdatePurchaseDto } from './dto/update-purchase.dto';
+import { QueryProps, ValidateQueryPipe } from 'src/pipes/validate-query.pipe';
+import { ValidateId } from 'src/pipes/validate-id.pipe';
 
 @Controller('purchases')
 export class PurchasesController {
@@ -21,25 +22,17 @@ export class PurchasesController {
   }
 
   @Get()
-  findAll() {
-    return this.purchasesService.findAll();
+  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+    return this.purchasesService.findAll(params);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.purchasesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePurchaseDto: UpdatePurchaseDto,
-  ) {
-    return this.purchasesService.update(+id, updatePurchaseDto);
+  findOne(@Param('id', ValidateId) id: number) {
+    return this.purchasesService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.purchasesService.remove(+id);
+  remove(@Param('id', ValidateId) id: number) {
+    return this.purchasesService.remove(id);
   }
 }

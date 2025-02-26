@@ -4,8 +4,8 @@ export declare class CreatePurchaseDto {
     userId: number;
     providerId: number;
     totalAmount: number;
-    receipType: ReceiptType;
+    receiptType: ReceiptType;
     receiptNumber: string;
-    receipDate: Date;
-    saleItems: CreatePurchaseItemDto[];
+    receiptDate: Date;
+    purchaseItems: CreatePurchaseItemDto[];
 }
