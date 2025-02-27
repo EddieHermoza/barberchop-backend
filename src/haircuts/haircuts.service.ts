@@ -1,26 +1,92 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateHaircutDto } from './dto/create-haircut.dto';
 import { UpdateHaircutDto } from './dto/update-haircut.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class HaircutsService {
-  create(createHaircutDto: CreateHaircutDto) {
-    return 'This action adds a new haircut';
+  constructor(private readonly db: PrismaService) {}
+  async create(createHaircutDto: CreateHaircutDto) {
+    return await this.db.haircutType.create({
+      data: createHaircutDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all haircuts`;
+  findAll({ limit, page, query, status }: QueryProps) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
+
+    return this.db.haircutType.findMany({
+      where: {
+        AND: [
+          query
+            ? { name: { contains: query, mode: Prisma.QueryMode.insensitive } }
+            : {},
+          status !== null && status !== undefined ? { isActive: status } : {},
+        ],
+        isArchived: false,
+      },
+      skip: skip,
+      take: limit,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} haircut`;
+  async findOne(id: number) {
+    const haircut = await this.db.haircutType.findUnique({
+      where: {
+        id,
+        isArchived: false,
+      },
+    });
+
+    if (!haircut) {
+      throw new NotFoundException(`El corte de cabello del id ${id} no existe`);
+    }
+
+    return haircut;
   }
 
-  update(id: number, updateHaircutDto: UpdateHaircutDto) {
-    return `This action updates a #${id} haircut`;
+  async update(id: number, updateHaircutDto: UpdateHaircutDto) {
+    try {
+      const updateHaircut = await this.db.haircutType.update({
+        where: {
+          id,
+          isArchived: false,
+        },
+        data: updateHaircutDto,
+      });
+      return updateHaircut;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `El corte de cabello del id ${id} no existe`,
+        );
+      }
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} haircut`;
+  async remove(id: number) {
+    try {
+      const deleteHaircut = await this.db.haircutType.update({
+        where: {
+          id,
+        },
+        data: {
+          isActive: false,
+          isArchived: true,
+        },
+      });
+      return deleteHaircut;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `El corte de cabello del id ${id} no existe`,
+        );
+      }
+      throw error;
+    }
   }
 }

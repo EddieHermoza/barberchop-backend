@@ -18,6 +18,8 @@ const common_1 = require("@nestjs/common");
 const barbers_service_1 = require("./barbers.service");
 const create_barber_dto_1 = require("./dto/create-barber.dto");
 const update_barber_dto_1 = require("./dto/update-barber.dto");
+const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
+const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
 let BarbersController = class BarbersController {
     constructor(barbersService) {
         this.barbersService = barbersService;
@@ -25,23 +27,23 @@ let BarbersController = class BarbersController {
     create(createBarberDto) {
         return this.barbersService.create(createBarberDto);
     }
-    findAll() {
-        return this.barbersService.findAll();
+    findAll(params) {
+        return this.barbersService.findAll(params);
     }
     findOne(id) {
-        return this.barbersService.findOne(+id);
+        return this.barbersService.findOne(id);
     }
     update(id, updateBarberDto) {
-        return this.barbersService.update(+id, updateBarberDto);
+        return this.barbersService.update(id, updateBarberDto);
     }
     remove(id) {
-        return this.barbersService.remove(+id);
+        return this.barbersService.remove(id);
     }
 };
 exports.BarbersController = BarbersController;
 __decorate([
     (0, common_1.Post)(),
-    openapi.ApiResponse({ status: 201, type: String }),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_barber_dto_1.CreateBarberDto]),
@@ -49,34 +51,35 @@ __decorate([
 ], BarbersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], BarbersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    openapi.ApiResponse({ status: 200, type: String }),
-    __param(0, (0, common_1.Param)('id')),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], BarbersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    openapi.ApiResponse({ status: 200, type: String }),
-    __param(0, (0, common_1.Param)('id')),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_barber_dto_1.UpdateBarberDto]),
+    __metadata("design:paramtypes", [Number, update_barber_dto_1.UpdateBarberDto]),
     __metadata("design:returntype", void 0)
 ], BarbersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    openapi.ApiResponse({ status: 200, type: String }),
-    __param(0, (0, common_1.Param)('id')),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], BarbersController.prototype, "remove", null);
 exports.BarbersController = BarbersController = __decorate([

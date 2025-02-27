@@ -10,13 +10,16 @@ exports.BarbersModule = void 0;
 const common_1 = require("@nestjs/common");
 const barbers_service_1 = require("./barbers.service");
 const barbers_controller_1 = require("./barbers.controller");
+const prisma_service_1 = require("../prisma/prisma.service");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 let BarbersModule = class BarbersModule {
 };
 exports.BarbersModule = BarbersModule;
 exports.BarbersModule = BarbersModule = __decorate([
     (0, common_1.Module)({
+        exports: [barbers_service_1.BarbersService],
         controllers: [barbers_controller_1.BarbersController],
-        providers: [barbers_service_1.BarbersService],
+        providers: [barbers_service_1.BarbersService, cloudinary_service_1.CloudinaryService, prisma_service_1.PrismaService],
     })
 ], BarbersModule);
 //# sourceMappingURL=barbers.module.js.map

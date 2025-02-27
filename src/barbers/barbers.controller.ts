@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BarbersService } from './barbers.service';
 import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
+import { ValidateId } from 'src/pipes/validate-id.pipe';
+import { QueryProps, ValidateQueryPipe } from 'src/pipes/validate-query.pipe';
 
 @Controller('barbers')
 export class BarbersController {
@@ -21,22 +24,25 @@ export class BarbersController {
   }
 
   @Get()
-  findAll() {
-    return this.barbersService.findAll();
+  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+    return this.barbersService.findAll(params);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.barbersService.findOne(+id);
+  findOne(@Param('id', ValidateId) id: number) {
+    return this.barbersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBarberDto: UpdateBarberDto) {
-    return this.barbersService.update(+id, updateBarberDto);
+  update(
+    @Param('id', ValidateId) id: number,
+    @Body() updateBarberDto: UpdateBarberDto,
+  ) {
+    return this.barbersService.update(id, updateBarberDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.barbersService.remove(+id);
+  remove(@Param('id', ValidateId) id: number) {
+    return this.barbersService.remove(id);
   }
 }

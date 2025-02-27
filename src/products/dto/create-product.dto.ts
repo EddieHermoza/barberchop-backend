@@ -1,13 +1,4 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsIn,
-  IsInt,
-  IsNumber,
-  IsString,
-  ValidateIf,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsBoolean, IsInt, IsNumber, IsString } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
