@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
+import { ValidateId } from 'src/pipes/validate-id.pipe';
+import { QueryProps, ValidateQueryPipe } from 'src/pipes/validate-query.pipe';
 
 @Controller('services')
 export class ServicesController {
@@ -21,22 +24,25 @@ export class ServicesController {
   }
 
   @Get()
-  findAll() {
-    return this.servicesService.findAll();
+  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+    return this.servicesService.findAll(params);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(+id);
+  findOne(@Param('id', ValidateId) id: number) {
+    return this.servicesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.servicesService.update(+id, updateServiceDto);
+  update(
+    @Param('id', ValidateId) id: number,
+    @Body() updateServiceDto: UpdateServiceDto,
+  ) {
+    return this.servicesService.update(id, updateServiceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.servicesService.remove(+id);
+  remove(@Param('id', ValidateId) id: number) {
+    return this.servicesService.remove(id);
   }
 }

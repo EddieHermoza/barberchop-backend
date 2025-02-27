@@ -10,13 +10,16 @@ exports.HaircutsModule = void 0;
 const common_1 = require("@nestjs/common");
 const haircuts_service_1 = require("./haircuts.service");
 const haircuts_controller_1 = require("./haircuts.controller");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
+const prisma_service_1 = require("../prisma/prisma.service");
 let HaircutsModule = class HaircutsModule {
 };
 exports.HaircutsModule = HaircutsModule;
 exports.HaircutsModule = HaircutsModule = __decorate([
     (0, common_1.Module)({
+        exports: [haircuts_service_1.HaircutsService],
         controllers: [haircuts_controller_1.HaircutsController],
-        providers: [haircuts_service_1.HaircutsService],
+        providers: [haircuts_service_1.HaircutsService, cloudinary_service_1.CloudinaryService, prisma_service_1.PrismaService],
     })
 ], HaircutsModule);
 //# sourceMappingURL=haircuts.module.js.map
