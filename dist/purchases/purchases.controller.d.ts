@@ -28,6 +28,15 @@ export declare class PurchasesController {
     findOne(id: number): Promise<{
         id: number;
         created: Date;
+        User: {
+            name: string;
+            lastName: string;
+            id: number;
+        };
+        Provider: {
+            name: string;
+            id: number;
+        };
         PurchaseItem: {
             price: import("@prisma/client/runtime/library").Decimal;
             productId: number;
@@ -35,18 +44,9 @@ export declare class PurchasesController {
             productName: string;
         }[];
         totalAmount: import("@prisma/client/runtime/library").Decimal;
-        User: {
-            id: number;
-            name: string;
-            lastName: string;
-        };
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
-        Provider: {
-            id: number;
-            name: string;
-        };
     }>;
     remove(id: number): Promise<{
         id: number;

@@ -7,46 +7,46 @@ export declare class ServicesController {
     constructor(servicesService: ServicesService);
     create(createServiceDto: CreateServiceDto): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
     findAll(params: QueryProps): import(".prisma/client").Prisma.PrismaPromise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: import("@prisma/client/runtime/library").Decimal;
     }[]>;
     findOne(id: number): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
     remove(id: number): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;

@@ -8,18 +8,18 @@ export declare class InventoryService {
     private readonly productService;
     constructor(db: PrismaService, productService: ProductsService);
     createMovement(createMovementDto: CreateMovementDto): Promise<{
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     }>;
     findAllProductsInventory({ page, limit, query, status }: QueryProps): Promise<{
-        id: number;
         name: string;
-        stock: number;
         isActive: boolean;
+        id: number;
+        stock: number;
         lastStockEntry: Date;
     }[]>;
     findAllMovements({ page, limit }: QueryProps): Promise<({
@@ -27,35 +27,35 @@ export declare class InventoryService {
             name: string;
         };
     } & {
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     })[]>;
     findOneMovement(id: number): Promise<{
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     }>;
     updateProductStock(productId: number, quantity: number, type: string): Promise<{
+        name: string;
+        description: string;
+        isActive: boolean;
         id: number;
         created: Date;
         updated: Date;
-        name: string;
-        description: string;
+        isArchived: boolean;
         category: string;
         img: string;
-        stock: number;
-        price: Prisma.Decimal;
-        discount: Prisma.Decimal;
         orderLimit: number;
-        isActive: boolean;
-        isArchived: boolean;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
         lastStockEntry: Date | null;
     }>;
 }

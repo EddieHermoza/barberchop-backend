@@ -10,10 +10,10 @@ export declare class SalesService {
     create(createSaleDto: CreateSaleDto): Promise<{
         id: number;
         created: Date;
-        discount: Prisma.Decimal;
         status: import(".prisma/client").$Enums.Status;
-        transaction: string;
+        discount: Prisma.Decimal;
         userId: number;
+        transaction: string;
         amount: Prisma.Decimal;
         totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
@@ -21,10 +21,10 @@ export declare class SalesService {
     findAll({ limit, page, query }: QueryProps): Promise<{
         id: number;
         created: Date;
-        discount: Prisma.Decimal;
         status: import(".prisma/client").$Enums.Status;
-        transaction: string;
+        discount: Prisma.Decimal;
         userId: number;
+        transaction: string;
         amount: Prisma.Decimal;
         totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
@@ -32,26 +32,26 @@ export declare class SalesService {
     findOne(id: number): Promise<{
         id: number;
         created: Date;
+        User: {
+            name: string;
+            lastName: string;
+            email: string;
+            id: number;
+        };
+        status: import(".prisma/client").$Enums.Status;
         discount: Prisma.Decimal;
         SaleItem: {
             id: number;
-            price: Prisma.Decimal;
             discount: Prisma.Decimal;
+            price: Prisma.Decimal;
             productId: number;
             quantity: number;
             productName: string;
         }[];
-        status: import(".prisma/client").$Enums.Status;
         transaction: string;
         amount: Prisma.Decimal;
         totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        User: {
-            id: number;
-            name: string;
-            lastName: string;
-            email: string;
-        };
     }>;
     remove(id: number): Promise<void>;
 }

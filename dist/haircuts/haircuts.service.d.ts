@@ -8,42 +8,42 @@ export declare class HaircutsService {
     constructor(db: PrismaService);
     create(createHaircutDto: CreateHaircutDto): Promise<{
         name: string;
+        description: string | null;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string | null;
         imgs: string[];
     }>;
     findAll({ limit, page, query, status }: QueryProps): Prisma.PrismaPromise<{
         name: string;
+        description: string | null;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string | null;
         imgs: string[];
     }[]>;
     findOne(id: number): Promise<{
         name: string;
+        description: string | null;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string | null;
         imgs: string[];
     }>;
     update(id: number, updateHaircutDto: UpdateHaircutDto): Promise<{
         name: string;
+        description: string | null;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string | null;
         imgs: string[];
     }>;
     remove(id: number): Promise<{
         name: string;
+        description: string | null;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string | null;
         imgs: string[];
     }>;
 }

@@ -8,46 +8,46 @@ export declare class ServicesService {
     constructor(db: PrismaService);
     create(createServiceDto: CreateServiceDto): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: Prisma.Decimal;
     }>;
     findAll({ limit, page, query, status }: QueryProps): Prisma.PrismaPromise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: Prisma.Decimal;
     }[]>;
     findOne(id: number): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: Prisma.Decimal;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: Prisma.Decimal;
     }>;
     remove(id: number): Promise<{
         name: string;
+        description: string;
         isActive: boolean;
         id: number;
         isArchived: boolean;
-        description: string;
         img: string | null;
         price: Prisma.Decimal;
     }>;

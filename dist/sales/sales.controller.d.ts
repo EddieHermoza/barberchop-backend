@@ -8,10 +8,10 @@ export declare class SalesController {
     create(user: IUserSession, createSaleDto: CreateSaleDto): Promise<{
         id: number;
         created: Date;
-        discount: import("@prisma/client/runtime/library").Decimal;
         status: import(".prisma/client").$Enums.Status;
-        transaction: string;
+        discount: import("@prisma/client/runtime/library").Decimal;
         userId: number;
+        transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
@@ -19,10 +19,10 @@ export declare class SalesController {
     findAll(params: QueryProps): Promise<{
         id: number;
         created: Date;
-        discount: import("@prisma/client/runtime/library").Decimal;
         status: import(".prisma/client").$Enums.Status;
-        transaction: string;
+        discount: import("@prisma/client/runtime/library").Decimal;
         userId: number;
+        transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
@@ -30,26 +30,26 @@ export declare class SalesController {
     findOne(id: number): Promise<{
         id: number;
         created: Date;
+        User: {
+            name: string;
+            lastName: string;
+            email: string;
+            id: number;
+        };
+        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
         SaleItem: {
             id: number;
-            price: import("@prisma/client/runtime/library").Decimal;
             discount: import("@prisma/client/runtime/library").Decimal;
+            price: import("@prisma/client/runtime/library").Decimal;
             productId: number;
             quantity: number;
             productName: string;
         }[];
-        status: import(".prisma/client").$Enums.Status;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        User: {
-            id: number;
-            name: string;
-            lastName: string;
-            email: string;
-        };
     }>;
     remove(id: number): Promise<void>;
 }
