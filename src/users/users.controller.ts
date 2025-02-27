@@ -15,7 +15,11 @@ import * as bcrypt from 'bcryptjs';
 import { formatDate } from '../lib/utils';
 import { ValidateId } from '../pipes/validate-id.pipe';
 import { QueryProps, ValidateQueryPipe } from '../pipes/validate-query.pipe';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@Auth(['ADMINISTRADOR'])
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

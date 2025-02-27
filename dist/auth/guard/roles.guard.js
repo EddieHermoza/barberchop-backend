@@ -14,16 +14,26 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const roles_decorator_1 = require("../decorators/roles.decorator");
 const client_1 = require("@prisma/client");
+const public_decorator_1 = require("../decorators/public.decorator");
 let RolesGuard = class RolesGuard {
     constructor(reflector) {
         this.reflector = reflector;
     }
     canActivate(context) {
+        const isPublic = this.reflector.getAllAndOverride(public_decorator_1.PUBLIC_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        if (isPublic)
+            return true;
         const requiredRoles = this.reflector.getAllAndOverride(roles_decorator_1.ROLES_KEY, [context.getHandler(), context.getClass()]);
         if (requiredRoles.includes(client_1.UserRole.ADMINISTRADOR))
             return true;
         const { user } = context.switchToHttp().getRequest();
-        return requiredRoles.includes(user.role);
+        const isValidRole = requiredRoles.includes(user.role);
+        if (!isValidRole)
+            throw new common_1.UnauthorizedException('No tienes permisos para acceder a este recurso');
+        return isValidRole;
     }
 };
 exports.RolesGuard = RolesGuard;

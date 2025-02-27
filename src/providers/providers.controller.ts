@@ -13,7 +13,11 @@ import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { ValidateQueryPipe, QueryProps } from '../pipes/validate-query.pipe';
 import { ValidateId } from '../pipes/validate-id.pipe';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@Auth(['ADMINISTRADOR'])
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}

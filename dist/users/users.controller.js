@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
@@ -21,6 +22,8 @@ const bcrypt = require("bcryptjs");
 const utils_1 = require("../lib/utils");
 const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
 const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
+const auth_decorator_1 = require("../auth/decorators/auth.decorator");
+const swagger_1 = require("@nestjs/swagger");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -61,6 +64,7 @@ let UsersController = class UsersController {
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Post)(),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
@@ -68,6 +72,7 @@ __decorate([
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)('/get-customers'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -75,6 +80,7 @@ __decorate([
 ], UsersController.prototype, "findAllCustomers", null);
 __decorate([
     (0, common_1.Get)('/get-admins'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -82,6 +88,7 @@ __decorate([
 ], UsersController.prototype, "findAllAdmins", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -89,6 +96,7 @@ __decorate([
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -97,12 +105,15 @@ __decorate([
 ], UsersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "remove", null);
 exports.UsersController = UsersController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, auth_decorator_1.Auth)(['ADMINISTRADOR']),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);

@@ -1,5 +1,5 @@
 import { ReceiptType } from '@prisma/client';
-import { CreatePurchaseItemDto } from './create-purchase-itemsdto';
+import { CreatePurchaseItemDto } from './create-purchase-item.dto';
 export declare class CreatePurchaseDto {
     userId: number;
     providerId: number;

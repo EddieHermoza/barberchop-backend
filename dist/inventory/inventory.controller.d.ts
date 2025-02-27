@@ -5,10 +5,10 @@ export declare class InventoryController {
     private readonly inventoryService;
     constructor(inventoryService: InventoryService);
     findAll(params: QueryProps): Promise<{
-        name: string;
-        isActive: boolean;
         id: number;
+        name: string;
         stock: number;
+        isActive: boolean;
         lastStockEntry: Date;
     }[]>;
     create(createMovementDto: CreateMovementDto): Promise<{

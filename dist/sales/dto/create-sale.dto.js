@@ -10,11 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateSaleDto = void 0;
+const openapi = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
 const class_validator_1 = require("class-validator");
 const create_sale_item_dto_1 = require("./create-sale-item.dto");
 const class_transformer_1 = require("class-transformer");
+const swagger_1 = require("@nestjs/swagger");
 class CreateSaleDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { userId: { required: true, type: () => Number }, transaction: { required: true, type: () => String }, amount: { required: true, type: () => Number }, discount: { required: true, type: () => Number }, totalAmount: { required: true, type: () => Number }, paymentMethod: { required: true, type: () => Object }, status: { required: true, type: () => Object }, saleItems: { required: true, type: () => [require("./create-sale-item.dto").CreateSaleItemDto], minItems: 1 } };
+    }
 }
 exports.CreateSaleDto = CreateSaleDto;
 __decorate([
@@ -38,10 +43,12 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateSaleDto.prototype, "totalAmount", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ enum: client_1.PaymentMethod }),
     (0, class_validator_1.IsEnum)(client_1.PaymentMethod),
     __metadata("design:type", String)
 ], CreateSaleDto.prototype, "paymentMethod", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ enum: client_1.Status }),
     (0, class_validator_1.IsEnum)(client_1.Status),
     __metadata("design:type", String)
 ], CreateSaleDto.prototype, "status", void 0);

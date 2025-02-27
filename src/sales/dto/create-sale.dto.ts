@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { CreateSaleItemDto } from './create-sale-item.dto';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSaleDto {
   @IsNumber()
@@ -25,9 +26,11 @@ export class CreateSaleDto {
   @IsNumber({ maxDecimalPlaces: 2 })
   totalAmount: number;
 
+  @ApiProperty({ enum: PaymentMethod })
   @IsEnum(PaymentMethod)
   paymentMethod: PaymentMethod;
 
+  @ApiProperty({ enum: Status })
   @IsEnum(Status)
   status: Status;
 

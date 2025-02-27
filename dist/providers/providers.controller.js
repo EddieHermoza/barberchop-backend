@@ -13,12 +13,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProvidersController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const providers_service_1 = require("./providers.service");
 const create_provider_dto_1 = require("./dto/create-provider.dto");
 const update_provider_dto_1 = require("./dto/update-provider.dto");
 const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
 const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
+const auth_decorator_1 = require("../auth/decorators/auth.decorator");
+const swagger_1 = require("@nestjs/swagger");
 let ProvidersController = class ProvidersController {
     constructor(providersService) {
         this.providersService = providersService;
@@ -42,6 +45,7 @@ let ProvidersController = class ProvidersController {
 exports.ProvidersController = ProvidersController;
 __decorate([
     (0, common_1.Post)(),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_provider_dto_1.CreateProviderDto]),
@@ -49,6 +53,7 @@ __decorate([
 ], ProvidersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -56,6 +61,7 @@ __decorate([
 ], ProvidersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -63,6 +69,7 @@ __decorate([
 ], ProvidersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -71,12 +78,15 @@ __decorate([
 ], ProvidersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "remove", null);
 exports.ProvidersController = ProvidersController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, auth_decorator_1.Auth)(['ADMINISTRADOR']),
     (0, common_1.Controller)('providers'),
     __metadata("design:paramtypes", [providers_service_1.ProvidersService])
 ], ProvidersController);

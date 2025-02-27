@@ -63,15 +63,22 @@ let ProvidersService = class ProvidersService {
         return updatedProvider;
     }
     async remove(id) {
-        const archivedProvider = await this.db.provider.update({
-            where: {
-                id,
-            },
-            data: {
-                isActive: false,
-                isArchived: true,
-            },
-        });
+        let archivedProvider;
+        try {
+            archivedProvider = await this.db.provider.update({
+                where: {
+                    id,
+                },
+                data: {
+                    isActive: false,
+                    isArchived: true,
+                },
+            });
+        }
+        catch (error) {
+            if (error.code === 'P2025')
+                throw new common_1.NotFoundException(`El proveedor del id ${id} no existe`);
+        }
         if (!archivedProvider)
             throw new common_1.NotFoundException(`El proveedor del id ${id} no existe`);
         return archivedProvider;

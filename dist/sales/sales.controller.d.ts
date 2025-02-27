@@ -1,16 +1,17 @@
 import { SalesService } from './sales.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { IUserSession } from 'src/common/interfaces/user-session.interface';
 export declare class SalesController {
     private readonly salesService;
     constructor(salesService: SalesService);
-    create(createSaleDto: CreateSaleDto): Promise<{
+    create(user: IUserSession, createSaleDto: CreateSaleDto): Promise<{
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
-        userId: number;
+        status: import(".prisma/client").$Enums.Status;
         transaction: string;
+        userId: number;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
@@ -18,10 +19,10 @@ export declare class SalesController {
     findAll(params: QueryProps): Promise<{
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
-        userId: number;
+        status: import(".prisma/client").$Enums.Status;
         transaction: string;
+        userId: number;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
@@ -29,26 +30,26 @@ export declare class SalesController {
     findOne(id: number): Promise<{
         id: number;
         created: Date;
-        User: {
-            name: string;
-            lastName: string;
-            email: string;
-            id: number;
-        };
-        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
         SaleItem: {
             id: number;
-            discount: import("@prisma/client/runtime/library").Decimal;
             price: import("@prisma/client/runtime/library").Decimal;
+            discount: import("@prisma/client/runtime/library").Decimal;
             productId: number;
             quantity: number;
             productName: string;
         }[];
+        status: import(".prisma/client").$Enums.Status;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
+        User: {
+            id: number;
+            name: string;
+            lastName: string;
+            email: string;
+        };
     }>;
     remove(id: number): Promise<void>;
 }

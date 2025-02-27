@@ -16,10 +16,10 @@ export declare class InventoryService {
         notes: string;
     }>;
     findAllProductsInventory({ page, limit, query, status }: QueryProps): Promise<{
-        name: string;
-        isActive: boolean;
         id: number;
+        name: string;
         stock: number;
+        isActive: boolean;
         lastStockEntry: Date;
     }[]>;
     findAllMovements({ page, limit }: QueryProps): Promise<({
@@ -43,19 +43,19 @@ export declare class InventoryService {
         notes: string;
     }>;
     updateProductStock(productId: number, quantity: number, type: string): Promise<{
-        name: string;
-        isActive: boolean;
         id: number;
         created: Date;
         updated: Date;
-        isArchived: boolean;
+        name: string;
         description: string;
         category: string;
         img: string;
-        orderLimit: number;
-        discount: Prisma.Decimal;
-        price: Prisma.Decimal;
         stock: number;
+        price: Prisma.Decimal;
+        discount: Prisma.Decimal;
+        orderLimit: number;
+        isActive: boolean;
+        isArchived: boolean;
         lastStockEntry: Date | null;
     }>;
 }

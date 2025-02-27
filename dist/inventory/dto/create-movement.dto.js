@@ -10,9 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMovementDto = void 0;
+const openapi = require("@nestjs/swagger");
+const swagger_1 = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
 const class_validator_1 = require("class-validator");
 class CreateMovementDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { productId: { required: true, type: () => Number }, quantity: { required: true, type: () => Number }, notes: { required: true, type: () => String }, type: { required: true, type: () => Object } };
+    }
 }
 exports.CreateMovementDto = CreateMovementDto;
 __decorate([
@@ -28,6 +33,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateMovementDto.prototype, "notes", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ enum: client_1.MovementType }),
     (0, class_validator_1.IsEnum)(client_1.MovementType, {
         message: 'El tipo de movimiento debe ser uno de los siguientes valores: ENTRADA, SALIDA.',
     }),

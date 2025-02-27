@@ -8,7 +8,8 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { CreatePurchaseItemDto } from './create-purchase-itemsdto';
+import { CreatePurchaseItemDto } from './create-purchase-item.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePurchaseDto {
   @IsNumber()
@@ -20,6 +21,7 @@ export class CreatePurchaseDto {
   @IsNumber({ maxDecimalPlaces: 2 })
   totalAmount: number;
 
+  @ApiProperty({ enum: ReceiptType })
   @IsEnum(ReceiptType, {
     message:
       'El tipo de comprobante debe ser uno de los siguientes valores: BOLETA, FACTURA.',

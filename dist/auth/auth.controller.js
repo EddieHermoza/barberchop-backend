@@ -13,11 +13,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const signIn_dto_1 = require("./dto/signIn.dto");
-const auth_decorator_1 = require("./decorators/auth.decorator");
-const client_1 = require("@prisma/client");
+const user_session_decorator_1 = require("../common/decorators/user-session.decorator");
+const swagger_1 = require("@nestjs/swagger");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -25,23 +26,27 @@ let AuthController = class AuthController {
     async signIn(signInDto) {
         return await this.authService.signIn(signInDto);
     }
-    getProfile(req) {
-        return req.user;
+    getProfile(user) {
+        if (!user)
+            throw new common_1.BadRequestException('No se ha encontrado el usuario');
+        return user.id;
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('/signIn'),
+    openapi.ApiResponse({ status: common_1.HttpStatus.OK, type: String }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [signIn_dto_1.SignInDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, auth_decorator_1.Auth)([client_1.UserRole.ADMINISTRADOR]),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)('/profile'),
-    __param(0, (0, common_1.Request)()),
+    openapi.ApiResponse({ status: 200, type: Number }),
+    __param(0, (0, user_session_decorator_1.UserSession)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

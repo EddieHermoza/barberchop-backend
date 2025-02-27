@@ -1,10 +1,11 @@
 import { PurchasesService } from './purchases.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { IUserSession } from 'src/common/interfaces/user-session.interface';
 export declare class PurchasesController {
     private readonly purchasesService;
     constructor(purchasesService: PurchasesService);
-    create(createPurchaseDto: CreatePurchaseDto): Promise<{
+    create(user: IUserSession, createPurchaseDto: CreatePurchaseDto): Promise<{
         id: number;
         created: Date;
         userId: number;
@@ -27,15 +28,6 @@ export declare class PurchasesController {
     findOne(id: number): Promise<{
         id: number;
         created: Date;
-        User: {
-            name: string;
-            lastName: string;
-            id: number;
-        };
-        Provider: {
-            name: string;
-            id: number;
-        };
         PurchaseItem: {
             price: import("@prisma/client/runtime/library").Decimal;
             productId: number;
@@ -43,9 +35,18 @@ export declare class PurchasesController {
             productName: string;
         }[];
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        User: {
+            id: number;
+            name: string;
+            lastName: string;
+        };
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
+        Provider: {
+            id: number;
+            name: string;
+        };
     }>;
     remove(id: number): Promise<{
         id: number;

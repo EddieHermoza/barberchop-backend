@@ -10,6 +10,8 @@ exports.ValidateId = void 0;
 const common_1 = require("@nestjs/common");
 let ValidateId = class ValidateId {
     transform(value) {
+        if (!/^\d+$/.test(value))
+            throw new common_1.BadRequestException('El ID debe contener solo números enteros');
         const id = parseInt(value, 10);
         if (isNaN(id) || id <= 0)
             throw new common_1.BadRequestException('El ID debe ser un número positivo');

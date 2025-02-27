@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { SignInDto } from './dto/signIn.dto';
+import { IUserSession } from 'src/common/interfaces/user-session.interface';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
 
     if (!match) throw new UnauthorizedException('La contraseña es incorrecta');
 
-    const payload = {
+    const payload: IUserSession = {
       id: user.id,
       username: user.name + ' ' + user.lastName,
       email: user.email,

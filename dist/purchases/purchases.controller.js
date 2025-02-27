@@ -13,16 +13,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PurchasesController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const purchases_service_1 = require("./purchases.service");
 const create_purchase_dto_1 = require("./dto/create-purchase.dto");
 const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
 const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
+const auth_decorator_1 = require("../auth/decorators/auth.decorator");
+const client_1 = require("@prisma/client");
+const user_session_decorator_1 = require("../common/decorators/user-session.decorator");
+const swagger_1 = require("@nestjs/swagger");
 let PurchasesController = class PurchasesController {
     constructor(purchasesService) {
         this.purchasesService = purchasesService;
     }
-    create(createPurchaseDto) {
+    create(user, createPurchaseDto) {
+        createPurchaseDto.userId = user.id;
         return this.purchasesService.create(createPurchaseDto);
     }
     findAll(params) {
@@ -38,13 +44,16 @@ let PurchasesController = class PurchasesController {
 exports.PurchasesController = PurchasesController;
 __decorate([
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    openapi.ApiResponse({ status: 201 }),
+    __param(0, (0, user_session_decorator_1.UserSession)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_purchase_dto_1.CreatePurchaseDto]),
+    __metadata("design:paramtypes", [Object, create_purchase_dto_1.CreatePurchaseDto]),
     __metadata("design:returntype", void 0)
 ], PurchasesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -52,6 +61,7 @@ __decorate([
 ], PurchasesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -59,12 +69,15 @@ __decorate([
 ], PurchasesController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], PurchasesController.prototype, "remove", null);
 exports.PurchasesController = PurchasesController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, auth_decorator_1.Auth)([client_1.UserRole.ADMINISTRADOR]),
     (0, common_1.Controller)('purchases'),
     __metadata("design:paramtypes", [purchases_service_1.PurchasesService])
 ], PurchasesController);

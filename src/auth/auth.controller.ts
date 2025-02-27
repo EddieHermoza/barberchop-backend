@@ -1,16 +1,17 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Post,
-  Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signIn.dto';
-import { Auth } from './decorators/auth.decorator';
-import { UserRole } from '@prisma/client';
+import { UserSession } from 'src/common/decorators/user-session.decorator';
+import { IUserSession } from 'src/common/interfaces/user-session.interface';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -22,9 +23,10 @@ export class AuthController {
     return await this.authService.signIn(signInDto);
   }
 
-  @Auth([UserRole.ADMINISTRADOR])
+  @ApiBearerAuth()
   @Get('/profile')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@UserSession() user: IUserSession) {
+    if (!user) throw new BadRequestException('No se ha encontrado el usuario');
+    return user.id;
   }
 }

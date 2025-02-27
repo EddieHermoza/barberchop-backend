@@ -10,11 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePurchaseDto = void 0;
+const openapi = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
-const create_purchase_itemsdto_1 = require("./create-purchase-itemsdto");
+const create_purchase_item_dto_1 = require("./create-purchase-item.dto");
+const swagger_1 = require("@nestjs/swagger");
 class CreatePurchaseDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { userId: { required: true, type: () => Number }, providerId: { required: true, type: () => Number }, totalAmount: { required: true, type: () => Number }, receiptType: { required: true, type: () => Object }, receiptNumber: { required: true, type: () => String }, receiptDate: { required: true, type: () => Date }, purchaseItems: { required: true, type: () => [require("./create-purchase-item.dto").CreatePurchaseItemDto], minItems: 1 } };
+    }
 }
 exports.CreatePurchaseDto = CreatePurchaseDto;
 __decorate([
@@ -30,6 +35,7 @@ __decorate([
     __metadata("design:type", Number)
 ], CreatePurchaseDto.prototype, "totalAmount", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ enum: client_1.ReceiptType }),
     (0, class_validator_1.IsEnum)(client_1.ReceiptType, {
         message: 'El tipo de comprobante debe ser uno de los siguientes valores: BOLETA, FACTURA.',
     }),
@@ -46,7 +52,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.ArrayNotEmpty)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
-    (0, class_transformer_1.Type)(() => create_purchase_itemsdto_1.CreatePurchaseItemDto),
+    (0, class_transformer_1.Type)(() => create_purchase_item_dto_1.CreatePurchaseItemDto),
     __metadata("design:type", Array)
 ], CreatePurchaseDto.prototype, "purchaseItems", void 0);
 //# sourceMappingURL=create-purchase.dto.js.map

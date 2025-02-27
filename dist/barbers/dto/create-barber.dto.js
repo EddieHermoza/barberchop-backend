@@ -10,8 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateBarberDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateBarberDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { name: { required: true, type: () => String, minLength: 2, maxLength: 50 }, img: { required: true, type: () => String }, isActive: { required: true, type: () => Boolean } };
+    }
 }
 exports.CreateBarberDto = CreateBarberDto;
 __decorate([

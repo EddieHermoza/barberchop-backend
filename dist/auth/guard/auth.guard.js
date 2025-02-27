@@ -13,15 +13,24 @@ exports.AuthGuard = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const jwt_const_1 = require("../constants/jwt.const");
+const public_decorator_1 = require("../decorators/public.decorator");
+const core_1 = require("@nestjs/core");
 let AuthGuard = class AuthGuard {
-    constructor(jwtService) {
+    constructor(jwtService, reflector) {
         this.jwtService = jwtService;
+        this.reflector = reflector;
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();
+        const isPublic = this.reflector.getAllAndOverride(public_decorator_1.PUBLIC_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        if (isPublic)
+            return true;
         const token = this.extractTokenFromHeader(request);
         if (!token)
-            throw new common_1.UnauthorizedException();
+            throw new common_1.UnauthorizedException('No se ha proporcionado un token');
         try {
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: jwt_const_1.jwtConstants.secret,
@@ -29,7 +38,7 @@ let AuthGuard = class AuthGuard {
             request['user'] = payload;
         }
         catch {
-            throw new common_1.UnauthorizedException();
+            throw new common_1.UnauthorizedException('El token proporcionado no es válido');
         }
         return true;
     }
@@ -41,6 +50,7 @@ let AuthGuard = class AuthGuard {
 exports.AuthGuard = AuthGuard;
 exports.AuthGuard = AuthGuard = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService])
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        core_1.Reflector])
 ], AuthGuard);
 //# sourceMappingURL=auth.guard.js.map
