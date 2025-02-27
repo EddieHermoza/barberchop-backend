@@ -24,12 +24,18 @@ const services_module_1 = require("./services/services.module");
 const appointments_module_1 = require("./appointments/appointments.module");
 const haircuts_module_1 = require("./haircuts/haircuts.module");
 const purchases_module_1 = require("./purchases/purchases.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'swagger-static'),
+                serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+            }),
             users_module_1.UsersModule,
             providers_module_1.ProvidersModule,
             auth_module_1.AuthModule,
