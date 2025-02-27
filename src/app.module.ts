@@ -15,15 +15,9 @@ import { ServicesModule } from './services/services.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { HaircutsModule } from './haircuts/haircuts.module';
 import { PurchasesModule } from './purchases/purchases.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'swagger-static'),
-      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/doc',
-    }),
     UsersModule,
     ProvidersModule,
     AuthModule,
