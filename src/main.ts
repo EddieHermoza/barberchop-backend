@@ -39,7 +39,6 @@ async function bootstrap() {
     const swaggerJson = JSON.stringify(document, null, 2);
     writeFileSync(pathToSwaggerJson, swaggerJson);
     console.log(`Swagger JSON file written to: '/swagger-static/swagger.json'`);
-    await app.listen(process.env.PORT ?? 3000);
   }
 }
 
