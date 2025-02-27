@@ -34,7 +34,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'swagger-static'),
-                serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+                serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/doc',
             }),
             users_module_1.UsersModule,
             providers_module_1.ProvidersModule,
