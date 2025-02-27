@@ -22,7 +22,13 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('doc', app, document);
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.get('/doc-json', (_, res) => res.json(document));
+
+  SwaggerModule.setup('doc', app, document, {
+    swaggerOptions: { url: '/doc-json' },
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 }
