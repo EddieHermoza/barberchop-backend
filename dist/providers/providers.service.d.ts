@@ -1,7 +1,7 @@
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ProvidersService {
     private readonly db;
     constructor(db: PrismaService);
@@ -18,7 +18,7 @@ export declare class ProvidersService {
         legal: string;
         web: string | null;
     }>;
-    findAll({ limit, page, query, status }: QueryProps): Promise<{
+    findAll({ limit, page, query, status }: SearchStatusQueryDto): Promise<{
         number: string;
         name: string;
         email: string;
@@ -57,5 +57,17 @@ export declare class ProvidersService {
         legal: string;
         web: string | null;
     }>;
-    remove(id: number): Promise<any>;
+    remove(id: number): Promise<{
+        number: string;
+        name: string;
+        email: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        ruc: string;
+        legal: string;
+        web: string | null;
+    }>;
 }

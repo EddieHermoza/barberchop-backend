@@ -1,7 +1,7 @@
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
@@ -19,9 +19,7 @@ export declare class UsersController {
         updated: Date;
         isArchived: boolean;
     }>;
-    findAllCustomers(params: QueryProps): Promise<{
-        created: string;
-        updated: string;
+    findAllCustomers(params: SearchStatusQueryDto): Promise<{
         number: string;
         dni: string;
         name: string;
@@ -31,11 +29,11 @@ export declare class UsersController {
         role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
         id: number;
+        created: Date;
+        updated: Date;
         isArchived: boolean;
     }[]>;
-    findAllAdmins(params: QueryProps): Promise<{
-        created: string;
-        updated: string;
+    findAllAdmins(params: SearchStatusQueryDto): Promise<{
         number: string;
         dni: string;
         name: string;
@@ -45,6 +43,8 @@ export declare class UsersController {
         role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
         id: number;
+        created: Date;
+        updated: Date;
         isArchived: boolean;
     }[]>;
     findOne(id: number): Promise<{

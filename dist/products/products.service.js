@@ -63,28 +63,25 @@ let ProductsService = class ProductsService {
         return product;
     }
     async update(id, updateProductDto) {
-        let updatedProduct;
         try {
-            updatedProduct = await this.db.product.update({
+            const updatedProduct = await this.db.product.update({
                 where: {
                     id,
                     isArchived: false,
                 },
                 data: updateProductDto,
             });
+            return updatedProduct;
         }
         catch (error) {
             if (error.code === 'P2025')
                 throw new common_1.NotFoundException(`El producto del id ${id} no existe`);
+            throw error;
         }
-        if (!updatedProduct)
-            throw new common_1.NotFoundException(`El producto del id ${id} no existe`);
-        return updatedProduct;
     }
     async remove(id) {
-        let archivedProduct;
         try {
-            archivedProduct = await this.db.product.update({
+            const archivedProduct = await this.db.product.update({
                 where: {
                     id,
                 },
@@ -93,14 +90,13 @@ let ProductsService = class ProductsService {
                     isArchived: true,
                 },
             });
+            return archivedProduct;
         }
         catch (error) {
             if (error.code === 'P2025')
                 throw new common_1.NotFoundException(`El producto del id ${id} no existe`);
+            throw error;
         }
-        if (!archivedProduct)
-            throw new common_1.NotFoundException(`El producto del id ${id} no existe`);
-        return archivedProduct;
     }
 };
 exports.ProductsService = ProductsService;

@@ -1,8 +1,8 @@
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { QueryProps } from '../pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ProductsService {
     private readonly db;
     constructor(db: PrismaService);
@@ -22,7 +22,7 @@ export declare class ProductsService {
         stock: number;
         lastStockEntry: Date | null;
     }>;
-    findAll({ limit, page, status, query }: QueryProps): Promise<{
+    findAll({ limit, page, status, query }: SearchStatusQueryDto): Promise<{
         name: string;
         description: string;
         isActive: boolean;
@@ -50,6 +50,36 @@ export declare class ProductsService {
         stock: number;
         lastStockEntry: Date | null;
     }>;
-    update(id: number, updateProductDto: UpdateProductDto): Promise<any>;
-    remove(id: number): Promise<any>;
+    update(id: number, updateProductDto: UpdateProductDto): Promise<{
+        name: string;
+        description: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        category: string;
+        img: string;
+        orderLimit: number;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
+        lastStockEntry: Date | null;
+    }>;
+    remove(id: number): Promise<{
+        name: string;
+        description: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        category: string;
+        img: string;
+        orderLimit: number;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
+        lastStockEntry: Date | null;
+    }>;
 }

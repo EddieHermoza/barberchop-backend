@@ -165,6 +165,7 @@ model Appointment {
   User        User                 @relation(fields: [userId], references: [id])
   Barber      Barber               @relation(fields: [barberId], references: [id])
   Service     Service              @relation(fields: [serviceId], references: [id])
+  isArchived  Boolean              @default(false)
   Payment     AppointmentPayment[]
 }
 
@@ -240,7 +241,8 @@ enum Status {
 
 enum AppointmentStatus {
   PENDIENTE
-  PROCESO
-  COMPLETADO
-  CANCELADO
+  CONFIRMADA
+  EN_PROCESO
+  COMPLETADA
+  CANCELADA
 }

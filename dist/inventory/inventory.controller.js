@@ -17,21 +17,22 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const inventory_service_1 = require("./inventory.service");
 const create_movement_dto_1 = require("./dto/create-movement.dto");
-const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
-const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
+const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
+const movement_query_dto_1 = require("./dto/movement-query.dto");
 let InventoryController = class InventoryController {
     constructor(inventoryService) {
         this.inventoryService = inventoryService;
     }
-    async findAll(params) {
+    findAll(params) {
         return this.inventoryService.findAllProductsInventory(params);
     }
-    async create(createMovementDto) {
+    create(createMovementDto) {
         return this.inventoryService.createMovement(createMovementDto);
     }
-    async findAllMovements(params) {
+    findAllMovements(params) {
         return this.inventoryService.findAllMovements(params);
     }
     findOne(id) {
@@ -42,10 +43,10 @@ exports.InventoryController = InventoryController;
 __decorate([
     (0, common_1.Get)(),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [search_status_query_dto_1.SearchStatusQueryDto]),
+    __metadata("design:returntype", void 0)
 ], InventoryController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Post)('/movements'),
@@ -53,15 +54,15 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_movement_dto_1.CreateMovementDto]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], InventoryController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)('/movements'),
     openapi.ApiResponse({ status: 200, type: [Object] }),
-    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [movement_query_dto_1.MovementQueryDto]),
+    __metadata("design:returntype", void 0)
 ], InventoryController.prototype, "findAllMovements", null);
 __decorate([
     (0, common_1.Get)('/movements/:id'),

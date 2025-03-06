@@ -2,7 +2,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserRole } from '@prisma/client';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class UsersService {
     private readonly db;
     constructor(db: PrismaService);
@@ -20,7 +20,7 @@ export declare class UsersService {
         updated: Date;
         isArchived: boolean;
     }>;
-    findAll(role: UserRole, { limit, query, status, page }: QueryProps): Promise<{
+    findAll(role: UserRole, { limit, query, status, page }: SearchStatusQueryDto): Promise<{
         number: string;
         dni: string;
         name: string;

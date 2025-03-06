@@ -1,7 +1,7 @@
 import { PurchasesService } from './purchases.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { IUserSession } from 'src/common/interfaces/user-session.interface';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 export declare class PurchasesController {
     private readonly purchasesService;
     constructor(purchasesService: PurchasesService);
@@ -15,7 +15,7 @@ export declare class PurchasesController {
         receiptNumber: string;
         receiptDate: Date;
     }>;
-    findAll(params: QueryProps): Promise<{
+    findAll(params: SearchQueryDto): Promise<{
         id: number;
         created: Date;
         userId: number;

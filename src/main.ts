@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -11,12 +11,21 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      forbidNonWhitelisted: true,
+      exceptionFactory: (errors) => {
+        const message = errors.map(
+          (err) => `El campo '${err.property}' no está permitido.`,
+        );
+        return new BadRequestException({
+          message,
+        });
+      },
     }),
   );
 
   const config = new DocumentBuilder()
     .setTitle('Barbershop Backend')
-    .setDescription('API description')
+    .setDescription('Proyecto de una API REST para una barberia')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
@@ -24,8 +33,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup('doc', app, document, {
-    customSiteTitle: 'Backend Generator',
-    customfavIcon: 'https://avatars.githubusercontent.com/u/6936373?s=200&v=4',
+    customSiteTitle: 'Barbershop Backend',
+    customfavIcon:
+      'https://static1.smartbear.co/swagger/media/assets/swagger_fav.png',
     customJs: [
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js',

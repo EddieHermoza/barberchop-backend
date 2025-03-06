@@ -1,14 +1,14 @@
 import { SalesService } from './sales.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { IUserSession } from 'src/common/interfaces/user-session.interface';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 export declare class SalesController {
     private readonly salesService;
     constructor(salesService: SalesService);
     create(user: IUserSession, createSaleDto: CreateSaleDto): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
         userId: number;
         transaction: string;
@@ -16,10 +16,10 @@ export declare class SalesController {
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
     }>;
-    findAll(params: QueryProps): Promise<{
+    findAll(params: SearchQueryDto): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
         userId: number;
         transaction: string;
@@ -28,6 +28,7 @@ export declare class SalesController {
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
     }[]>;
     findOne(id: number): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
         User: {
@@ -36,7 +37,6 @@ export declare class SalesController {
             email: string;
             id: number;
         };
-        status: import(".prisma/client").$Enums.Status;
         discount: import("@prisma/client/runtime/library").Decimal;
         SaleItem: {
             id: number;

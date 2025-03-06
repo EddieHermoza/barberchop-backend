@@ -1,7 +1,7 @@
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ProductsController {
     private readonly productsService;
     constructor(productsService: ProductsService);
@@ -21,7 +21,7 @@ export declare class ProductsController {
         stock: number;
         lastStockEntry: Date | null;
     }>;
-    findAll(params: QueryProps): Promise<{
+    findAll(params: SearchStatusQueryDto): Promise<{
         name: string;
         description: string;
         isActive: boolean;
@@ -49,6 +49,36 @@ export declare class ProductsController {
         stock: number;
         lastStockEntry: Date | null;
     }>;
-    update(id: number, updateProductDto: UpdateProductDto): Promise<any>;
-    remove(id: number): Promise<any>;
+    update(id: number, updateProductDto: UpdateProductDto): Promise<{
+        name: string;
+        description: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        category: string;
+        img: string;
+        orderLimit: number;
+        discount: import("@prisma/client/runtime/library").Decimal;
+        price: import("@prisma/client/runtime/library").Decimal;
+        stock: number;
+        lastStockEntry: Date | null;
+    }>;
+    remove(id: number): Promise<{
+        name: string;
+        description: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        category: string;
+        img: string;
+        orderLimit: number;
+        discount: import("@prisma/client/runtime/library").Decimal;
+        price: import("@prisma/client/runtime/library").Decimal;
+        stock: number;
+        lastStockEntry: Date | null;
+    }>;
 }

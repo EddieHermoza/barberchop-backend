@@ -12,6 +12,7 @@ import { CreatePurchaseItemDto } from './create-purchase-item.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePurchaseDto {
+  @ApiProperty({ required: false })
   @IsNumber()
   userId: number;
 

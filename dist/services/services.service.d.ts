@@ -1,8 +1,8 @@
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ServicesService {
     private readonly db;
     constructor(db: PrismaService);
@@ -15,7 +15,7 @@ export declare class ServicesService {
         img: string | null;
         price: Prisma.Decimal;
     }>;
-    findAll({ limit, page, query, status }: QueryProps): Prisma.PrismaPromise<{
+    findAll({ limit, page, query, status }: SearchStatusQueryDto): Prisma.PrismaPromise<{
         name: string;
         description: string;
         isActive: boolean;

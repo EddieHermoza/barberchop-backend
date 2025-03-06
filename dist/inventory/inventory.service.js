@@ -31,7 +31,7 @@ let InventoryService = class InventoryService {
             data: createMovementDto,
         });
     }
-    async findAllProductsInventory({ page, limit, query, status }) {
+    async findAllProductsInventory({ page, limit, query, status, }) {
         const pages = page || 1;
         const skip = (pages - 1) * limit;
         return await this.db.product.findMany({
@@ -55,9 +55,10 @@ let InventoryService = class InventoryService {
             take: limit,
         });
     }
-    async findAllMovements({ page, limit }) {
+    async findAllMovements({ page, limit, status }) {
         const pages = page || 1;
         const skip = (pages - 1) * limit;
+        console.log(status);
         return await this.db.movement.findMany({
             include: {
                 Product: {
@@ -65,6 +66,9 @@ let InventoryService = class InventoryService {
                         name: true,
                     },
                 },
+            },
+            where: {
+                AND: [status !== null && status !== undefined ? { type: status } : {}],
             },
             skip: skip,
             take: limit,
@@ -82,19 +86,24 @@ let InventoryService = class InventoryService {
     }
     async updateProductStock(productId, quantity, type) {
         const movementQuantity = type === 'ENTRADA' ? quantity : -quantity;
-        const newStock = await this.db.product.update({
-            where: {
-                id: productId,
-                isArchived: false,
-            },
-            data: {
-                ...(type === 'ENTRADA' && { lastStockEntry: new Date() }),
-                stock: { increment: movementQuantity },
-            },
-        });
-        if (!newStock)
-            throw new Error(`Hubo un error al actualizar el stock del producto ${productId}`);
-        return newStock;
+        try {
+            const newStock = await this.db.product.update({
+                where: {
+                    id: productId,
+                    isArchived: false,
+                },
+                data: {
+                    ...(type === 'ENTRADA' && { lastStockEntry: new Date() }),
+                    stock: { increment: movementQuantity },
+                },
+            });
+            return newStock;
+        }
+        catch (error) {
+            if ((error.code = 'P2025'))
+                throw new common_1.NotFoundException(`El producto del id ${productId} no existe`);
+            throw error;
+        }
     }
 };
 exports.InventoryService = InventoryService;

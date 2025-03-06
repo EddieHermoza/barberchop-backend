@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @Injectable()
 export class BarbersService {
@@ -14,10 +14,9 @@ export class BarbersService {
     });
   }
 
-  findAll({ limit, page, query, status }: QueryProps) {
+  findAll({ limit, page, query, status }: SearchStatusQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
-
     return this.db.barber.findMany({
       where: {
         AND: [

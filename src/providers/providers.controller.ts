@@ -11,10 +11,10 @@ import {
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
-import { ValidateQueryPipe, QueryProps } from '../pipes/validate-query.pipe';
-import { ValidateId } from '../pipes/validate-id.pipe';
+import { ValidateId } from '../common/pipes/validate-id.pipe';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @ApiBearerAuth()
 @Auth(['ADMINISTRADOR'])
@@ -28,7 +28,7 @@ export class ProvidersController {
   }
 
   @Get()
-  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+  findAll(@Query() params: SearchStatusQueryDto) {
     return this.providersService.findAll(params);
   }
 

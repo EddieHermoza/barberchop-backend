@@ -12,11 +12,10 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcryptjs';
-import { formatDate } from '../lib/utils';
-import { ValidateId } from '../pipes/validate-id.pipe';
-import { QueryProps, ValidateQueryPipe } from '../pipes/validate-query.pipe';
+import { ValidateId } from '../common/pipes/validate-id.pipe';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @ApiBearerAuth()
 @Auth(['ADMINISTRADOR'])
@@ -33,46 +32,30 @@ export class UsersController {
   }
 
   @Get('/get-customers')
-  async findAllCustomers(@Query(ValidateQueryPipe) params: QueryProps) {
-    const users = await this.usersService.findAll('CLIENTE', params);
-
-    const formattedUsers = users.map((user) => ({
-      ...user,
-      created: formatDate(new Date(user.created)),
-      updated: formatDate(new Date(user.updated)),
-    }));
-
-    return formattedUsers;
+  findAllCustomers(@Query() params: SearchStatusQueryDto) {
+    return this.usersService.findAll('CLIENTE', params);
   }
 
   @Get('/get-admins')
-  async findAllAdmins(@Query(ValidateQueryPipe) params: QueryProps) {
-    const users = await this.usersService.findAll('ADMINISTRADOR', params);
-
-    const formattedUsers = users.map((user) => ({
-      ...user,
-      created: formatDate(new Date(user.created)),
-      updated: formatDate(new Date(user.updated)),
-    }));
-
-    return formattedUsers;
+  findAllAdmins(@Query() params: SearchStatusQueryDto) {
+    return this.usersService.findAll('ADMINISTRADOR', params);
   }
 
   @Get(':id')
-  async findOne(@Param('id', ValidateId) id: number) {
-    return await this.usersService.findOne(id);
+  findOne(@Param('id', ValidateId) id: number) {
+    return this.usersService.findOne(id);
   }
 
   @Patch(':id')
-  async update(
+  update(
     @Param('id', ValidateId) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return await this.usersService.update(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id', ValidateId) id: number) {
-    return await this.usersService.remove(id);
+  remove(@Param('id', ValidateId) id: number) {
+    return this.usersService.remove(id);
   }
 }

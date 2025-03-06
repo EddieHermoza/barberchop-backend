@@ -17,12 +17,12 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const purchases_service_1 = require("./purchases.service");
 const create_purchase_dto_1 = require("./dto/create-purchase.dto");
-const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
-const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
+const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const client_1 = require("@prisma/client");
 const user_session_decorator_1 = require("../common/decorators/user-session.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const search_query_dto_1 = require("../common/dto/search-query.dto");
 let PurchasesController = class PurchasesController {
     constructor(purchasesService) {
         this.purchasesService = purchasesService;
@@ -54,9 +54,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [search_query_dto_1.SearchQueryDto]),
     __metadata("design:returntype", void 0)
 ], PurchasesController.prototype, "findAll", null);
 __decorate([

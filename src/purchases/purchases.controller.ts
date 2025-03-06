@@ -9,13 +9,13 @@ import {
 } from '@nestjs/common';
 import { PurchasesService } from './purchases.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
-import { QueryProps, ValidateQueryPipe } from 'src/pipes/validate-query.pipe';
-import { ValidateId } from 'src/pipes/validate-id.pipe';
+import { ValidateId } from 'src/common/pipes/validate-id.pipe';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { UserRole } from '@prisma/client';
 import { UserSession } from 'src/common/decorators/user-session.decorator';
 import { IUserSession } from 'src/common/interfaces/user-session.interface';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 
 @ApiBearerAuth()
 @Auth([UserRole.ADMINISTRADOR])
@@ -33,7 +33,7 @@ export class PurchasesController {
   }
 
   @Get()
-  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+  findAll(@Query() params: SearchQueryDto) {
     return this.purchasesService.findAll(params);
   }
 

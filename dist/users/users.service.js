@@ -52,30 +52,40 @@ let UsersService = class UsersService {
         return user;
     }
     async update(id, updateUserDto) {
-        const updatedUser = await this.db.user.update({
-            where: {
-                id,
-                isArchived: false,
-            },
-            data: updateUserDto,
-        });
-        if (!updatedUser)
-            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
-        return updatedUser;
+        try {
+            const updatedUser = await this.db.user.update({
+                where: {
+                    id,
+                    isArchived: false,
+                },
+                data: updateUserDto,
+            });
+            return updatedUser;
+        }
+        catch (error) {
+            if ((error.code = 'P2025'))
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw error;
+        }
     }
     async remove(id) {
-        const archivedUser = await this.db.user.update({
-            where: {
-                id,
-            },
-            data: {
-                isActive: false,
-                isArchived: true,
-            },
-        });
-        if (!archivedUser)
-            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
-        return archivedUser;
+        try {
+            const archivedUser = await this.db.user.update({
+                where: {
+                    id,
+                },
+                data: {
+                    isActive: false,
+                    isArchived: true,
+                },
+            });
+            return archivedUser;
+        }
+        catch (error) {
+            if ((error.code = 'P2025'))
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw error;
+        }
     }
     async findOneByEmail(email) {
         const user = await this.db.user.findFirst({

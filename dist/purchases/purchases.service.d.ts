@@ -1,8 +1,8 @@
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
 import { InventoryService } from 'src/inventory/inventory.service';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 export declare class PurchasesService {
     private readonly db;
     private readonly InventoryService;
@@ -17,7 +17,7 @@ export declare class PurchasesService {
         receiptNumber: string;
         receiptDate: Date;
     }>;
-    findAll({ limit, page, query }: QueryProps): Promise<{
+    findAll({ limit, page, query }: SearchQueryDto): Promise<{
         id: number;
         created: Date;
         userId: number;

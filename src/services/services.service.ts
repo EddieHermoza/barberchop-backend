@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @Injectable()
 export class ServicesService {
@@ -14,7 +14,7 @@ export class ServicesService {
     });
   }
 
-  findAll({ limit, page, query, status }: QueryProps) {
+  findAll({ limit, page, query, status }: SearchStatusQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
 
@@ -58,9 +58,9 @@ export class ServicesService {
       });
       return updateService;
     } catch (error) {
-      if (error.code === 'P2025') {
+      if (error.code === 'P2025')
         throw new NotFoundException(`El servicio del id ${id} no existe`);
-      }
+
       throw error;
     }
   }
@@ -78,9 +78,9 @@ export class ServicesService {
       });
       return deleteService;
     } catch (error) {
-      if (error.code === 'P2025') {
+      if (error.code === 'P2025')
         throw new NotFoundException(`El servicio del id ${id} no existe`);
-      }
+
       throw error;
     }
   }

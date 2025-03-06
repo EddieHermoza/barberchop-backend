@@ -63,9 +63,8 @@ let ServicesService = class ServicesService {
             return updateService;
         }
         catch (error) {
-            if (error.code === 'P2025') {
+            if (error.code === 'P2025')
                 throw new common_1.NotFoundException(`El servicio del id ${id} no existe`);
-            }
             throw error;
         }
     }
@@ -83,9 +82,8 @@ let ServicesService = class ServicesService {
             return deleteService;
         }
         catch (error) {
-            if (error.code === 'P2025') {
+            if (error.code === 'P2025')
                 throw new common_1.NotFoundException(`El servicio del id ${id} no existe`);
-            }
             throw error;
         }
     }

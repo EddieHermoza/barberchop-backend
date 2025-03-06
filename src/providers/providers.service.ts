@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { QueryProps } from '../pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @Injectable()
 export class ProvidersService {
@@ -15,7 +15,7 @@ export class ProvidersService {
     });
   }
 
-  async findAll({ limit, page, query, status }: QueryProps) {
+  async findAll({ limit, page, query, status }: SearchStatusQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
 
@@ -49,24 +49,26 @@ export class ProvidersService {
   }
 
   async update(id: number, updateProviderDto: UpdateProviderDto) {
-    const updatedProvider = await this.db.provider.update({
-      where: {
-        id,
-        isArchived: false,
-      },
-      data: updateProviderDto,
-    });
+    try {
+      const updatedProvider = await this.db.provider.update({
+        where: {
+          id,
+          isArchived: false,
+        },
+        data: updateProviderDto,
+      });
+      return updatedProvider;
+    } catch (error) {
+      if (error.code === 'P2025')
+        throw new NotFoundException(`El proveedor del id ${id} no existe`);
 
-    if (!updatedProvider)
-      throw new NotFoundException(`El proveedor del id ${id} no existe`);
-
-    return updatedProvider;
+      throw error;
+    }
   }
 
   async remove(id: number) {
-    let archivedProvider;
     try {
-      archivedProvider = await this.db.provider.update({
+      const archivedProvider = await this.db.provider.update({
         where: {
           id,
         },
@@ -75,14 +77,12 @@ export class ProvidersService {
           isArchived: true,
         },
       });
+      return archivedProvider;
     } catch (error: any) {
       if (error.code === 'P2025')
         throw new NotFoundException(`El proveedor del id ${id} no existe`);
+
+      throw error;
     }
-
-    if (!archivedProvider)
-      throw new NotFoundException(`El proveedor del id ${id} no existe`);
-
-    return archivedProvider;
   }
 }

@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma, UserRole } from '@prisma/client';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +15,10 @@ export class UsersService {
     });
   }
 
-  async findAll(role: UserRole, { limit, query, status, page }: QueryProps) {
+  async findAll(
+    role: UserRole,
+    { limit, query, status, page }: SearchStatusQueryDto,
+  ) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
 
@@ -49,35 +52,41 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const updatedUser = await this.db.user.update({
-      where: {
-        id,
-        isArchived: false,
-      },
-      data: updateUserDto,
-    });
+    try {
+      const updatedUser = await this.db.user.update({
+        where: {
+          id,
+          isArchived: false,
+        },
+        data: updateUserDto,
+      });
+      return updatedUser;
+    } catch (error) {
+      if ((error.code = 'P2025'))
+        throw new NotFoundException(`El usuario del id ${id} no existe`);
 
-    if (!updatedUser)
-      throw new NotFoundException(`El usuario del id ${id} no existe`);
-
-    return updatedUser;
+      throw error;
+    }
   }
 
   async remove(id: number) {
-    const archivedUser = await this.db.user.update({
-      where: {
-        id,
-      },
-      data: {
-        isActive: false,
-        isArchived: true,
-      },
-    });
+    try {
+      const archivedUser = await this.db.user.update({
+        where: {
+          id,
+        },
+        data: {
+          isActive: false,
+          isArchived: true,
+        },
+      });
+      return archivedUser;
+    } catch (error) {
+      if ((error.code = 'P2025'))
+        throw new NotFoundException(`El usuario del id ${id} no existe`);
 
-    if (!archivedUser)
-      throw new NotFoundException(`El usuario del id ${id} no existe`);
-
-    return archivedUser;
+      throw error;
+    }
   }
 
   async findOneByEmail(email: string) {

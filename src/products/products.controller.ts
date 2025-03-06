@@ -11,11 +11,11 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { QueryProps, ValidateQueryPipe } from '../pipes/validate-query.pipe';
-import { ValidateId } from '../pipes/validate-id.pipe';
+import { ValidateId } from '../common/pipes/validate-id.pipe';
 import { Auth } from 'src/auth/decorators/auth.decorator';
-import { PublicAccess } from 'src/auth/decorators/public.decorator';
+import { PublicAccess } from 'src/common/decorators/public.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
 @Auth(['ADMINISTRADOR'])
 @Controller('products')
@@ -24,34 +24,34 @@ export class ProductsController {
 
   @ApiBearerAuth()
   @Post()
-  async create(@Body() createProductDto: CreateProductDto) {
+  create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
   @PublicAccess()
   @Get()
-  async findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+  findAll(@Query() params: SearchStatusQueryDto) {
     return this.productsService.findAll(params);
   }
 
   @PublicAccess()
   @Get(':id')
-  async findOne(@Param('id', ValidateId) id: number) {
+  findOne(@Param('id', ValidateId) id: number) {
     return this.productsService.findOne(id);
   }
 
   @ApiBearerAuth()
   @Patch(':id')
-  async update(
+  update(
     @Param('id', ValidateId) id: number,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    return await this.productsService.update(id, updateProductDto);
+    return this.productsService.update(id, updateProductDto);
   }
 
   @ApiBearerAuth()
   @Delete(':id')
-  async remove(@Param('id', ValidateId) id: number) {
+  remove(@Param('id', ValidateId) id: number) {
     return this.productsService.remove(id);
   }
 }

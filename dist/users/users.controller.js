@@ -19,11 +19,10 @@ const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const bcrypt = require("bcryptjs");
-const utils_1 = require("../lib/utils");
-const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
-const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
+const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -33,32 +32,20 @@ let UsersController = class UsersController {
         const UserDto = { ...createUserDto, password: hash };
         return this.usersService.create(UserDto);
     }
-    async findAllCustomers(params) {
-        const users = await this.usersService.findAll('CLIENTE', params);
-        const formattedUsers = users.map((user) => ({
-            ...user,
-            created: (0, utils_1.formatDate)(new Date(user.created)),
-            updated: (0, utils_1.formatDate)(new Date(user.updated)),
-        }));
-        return formattedUsers;
+    findAllCustomers(params) {
+        return this.usersService.findAll('CLIENTE', params);
     }
-    async findAllAdmins(params) {
-        const users = await this.usersService.findAll('ADMINISTRADOR', params);
-        const formattedUsers = users.map((user) => ({
-            ...user,
-            created: (0, utils_1.formatDate)(new Date(user.created)),
-            updated: (0, utils_1.formatDate)(new Date(user.updated)),
-        }));
-        return formattedUsers;
+    findAllAdmins(params) {
+        return this.usersService.findAll('ADMINISTRADOR', params);
     }
-    async findOne(id) {
-        return await this.usersService.findOne(id);
+    findOne(id) {
+        return this.usersService.findOne(id);
     }
-    async update(id, updateUserDto) {
-        return await this.usersService.update(id, updateUserDto);
+    update(id, updateUserDto) {
+        return this.usersService.update(id, updateUserDto);
     }
-    async remove(id) {
-        return await this.usersService.remove(id);
+    remove(id) {
+        return this.usersService.remove(id);
     }
 };
 exports.UsersController = UsersController;
@@ -73,18 +60,18 @@ __decorate([
 __decorate([
     (0, common_1.Get)('/get-customers'),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [search_status_query_dto_1.SearchStatusQueryDto]),
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAllCustomers", null);
 __decorate([
     (0, common_1.Get)('/get-admins'),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [search_status_query_dto_1.SearchStatusQueryDto]),
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAllAdmins", null);
 __decorate([
     (0, common_1.Get)(':id'),
@@ -92,7 +79,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -101,7 +88,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, update_user_dto_1.UpdateUserDto]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
@@ -109,7 +96,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "remove", null);
 exports.UsersController = UsersController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),

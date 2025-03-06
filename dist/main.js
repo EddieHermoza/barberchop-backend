@@ -10,17 +10,24 @@ async function bootstrap() {
     app.setGlobalPrefix('api/v1');
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,
+        forbidNonWhitelisted: true,
+        exceptionFactory: (errors) => {
+            const message = errors.map((err) => `El campo '${err.property}' no está permitido.`);
+            return new common_1.BadRequestException({
+                message,
+            });
+        },
     }));
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Barbershop Backend')
-        .setDescription('API description')
+        .setDescription('Proyecto de una API REST para una barberia')
         .setVersion('1.0')
         .addBearerAuth()
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('doc', app, document, {
-        customSiteTitle: 'Backend Generator',
-        customfavIcon: 'https://avatars.githubusercontent.com/u/6936373?s=200&v=4',
+        customSiteTitle: 'Barbershop Backend',
+        customfavIcon: 'https://static1.smartbear.co/swagger/media/assets/swagger_fav.png',
         customJs: [
             'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js',

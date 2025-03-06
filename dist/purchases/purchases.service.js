@@ -91,7 +91,7 @@ let PurchasesService = class PurchasesService {
             },
         });
         if (!purchase)
-            throw new common_1.BadRequestException(`La compra del id ${id} no existe`);
+            throw new common_1.NotFoundException(`La compra del id ${id} no existe`);
         return purchase;
     }
     async remove(id) {
@@ -99,7 +99,7 @@ let PurchasesService = class PurchasesService {
             where: { id },
         });
         if (!purchase)
-            throw new common_1.BadRequestException(`La compra del id ${id} no existe`);
+            throw new common_1.NotFoundException(`La compra del id ${id} no existe`);
         return purchase;
     }
 };

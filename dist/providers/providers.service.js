@@ -51,21 +51,25 @@ let ProvidersService = class ProvidersService {
         return provider;
     }
     async update(id, updateProviderDto) {
-        const updatedProvider = await this.db.provider.update({
-            where: {
-                id,
-                isArchived: false,
-            },
-            data: updateProviderDto,
-        });
-        if (!updatedProvider)
-            throw new common_1.NotFoundException(`El proveedor del id ${id} no existe`);
-        return updatedProvider;
+        try {
+            const updatedProvider = await this.db.provider.update({
+                where: {
+                    id,
+                    isArchived: false,
+                },
+                data: updateProviderDto,
+            });
+            return updatedProvider;
+        }
+        catch (error) {
+            if (error.code === 'P2025')
+                throw new common_1.NotFoundException(`El proveedor del id ${id} no existe`);
+            throw error;
+        }
     }
     async remove(id) {
-        let archivedProvider;
         try {
-            archivedProvider = await this.db.provider.update({
+            const archivedProvider = await this.db.provider.update({
                 where: {
                     id,
                 },
@@ -74,14 +78,13 @@ let ProvidersService = class ProvidersService {
                     isArchived: true,
                 },
             });
+            return archivedProvider;
         }
         catch (error) {
             if (error.code === 'P2025')
                 throw new common_1.NotFoundException(`El proveedor del id ${id} no existe`);
+            throw error;
         }
-        if (!archivedProvider)
-            throw new common_1.NotFoundException(`El proveedor del id ${id} no existe`);
-        return archivedProvider;
     }
 };
 exports.ProvidersService = ProvidersService;

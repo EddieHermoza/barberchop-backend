@@ -1,7 +1,7 @@
 import { HaircutsService } from './haircuts.service';
 import { CreateHaircutDto } from './dto/create-haircut.dto';
 import { UpdateHaircutDto } from './dto/update-haircut.dto';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class HaircutsController {
     private readonly haircutsService;
     constructor(haircutsService: HaircutsService);
@@ -13,7 +13,7 @@ export declare class HaircutsController {
         isArchived: boolean;
         imgs: string[];
     }>;
-    findAll(params: QueryProps): import(".prisma/client").Prisma.PrismaPromise<{
+    findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
         name: string;
         description: string | null;
         isActive: boolean;

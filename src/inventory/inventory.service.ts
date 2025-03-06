@@ -6,8 +6,9 @@ import {
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
-import { QueryProps } from '../pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { MovementQueryDto } from './dto/movement-query.dto';
 
 @Injectable()
 export class InventoryService {
@@ -37,7 +38,12 @@ export class InventoryService {
     });
   }
 
-  async findAllProductsInventory({ page, limit, query, status }: QueryProps) {
+  async findAllProductsInventory({
+    page,
+    limit,
+    query,
+    status,
+  }: SearchStatusQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
 
@@ -63,10 +69,10 @@ export class InventoryService {
     });
   }
 
-  async findAllMovements({ page, limit }: QueryProps) {
+  async findAllMovements({ page, limit, status }: MovementQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
-
+    console.log(status);
     return await this.db.movement.findMany({
       include: {
         Product: {
@@ -74,6 +80,9 @@ export class InventoryService {
             name: true,
           },
         },
+      },
+      where: {
+        AND: [status !== null && status !== undefined ? { type: status } : {}],
       },
       skip: skip,
       take: limit,
@@ -96,22 +105,25 @@ export class InventoryService {
   async updateProductStock(productId: number, quantity: number, type: string) {
     const movementQuantity = type === 'ENTRADA' ? quantity : -quantity;
 
-    const newStock = await this.db.product.update({
-      where: {
-        id: productId,
-        isArchived: false,
-      },
-      data: {
-        ...(type === 'ENTRADA' && { lastStockEntry: new Date() }),
-        stock: { increment: movementQuantity },
-      },
-    });
+    try {
+      const newStock = await this.db.product.update({
+        where: {
+          id: productId,
+          isArchived: false,
+        },
+        data: {
+          ...(type === 'ENTRADA' && { lastStockEntry: new Date() }),
+          stock: { increment: movementQuantity },
+        },
+      });
+      return newStock;
+    } catch (error) {
+      if ((error.code = 'P2025'))
+        throw new NotFoundException(
+          `El producto del id ${productId} no existe`,
+        );
 
-    if (!newStock)
-      throw new Error(
-        `Hubo un error al actualizar el stock del producto ${productId}`,
-      );
-
-    return newStock;
+      throw error;
+    }
   }
 }

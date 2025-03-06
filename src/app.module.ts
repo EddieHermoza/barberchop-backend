@@ -15,6 +15,7 @@ import { ServicesModule } from './services/services.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { HaircutsModule } from './haircuts/haircuts.module';
 import { PurchasesModule } from './purchases/purchases.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { PurchasesModule } from './purchases/purchases.module';
     AppointmentsModule,
     HaircutsModule,
     PurchasesModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AuthService, CloudinaryService, AppService],

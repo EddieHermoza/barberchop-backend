@@ -1,7 +1,7 @@
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ProvidersController {
     private readonly providersService;
     constructor(providersService: ProvidersService);
@@ -18,7 +18,7 @@ export declare class ProvidersController {
         legal: string;
         web: string | null;
     }>;
-    findAll(params: QueryProps): Promise<{
+    findAll(params: SearchStatusQueryDto): Promise<{
         number: string;
         name: string;
         email: string;
@@ -57,5 +57,17 @@ export declare class ProvidersController {
         legal: string;
         web: string | null;
     }>;
-    remove(id: number): Promise<any>;
+    remove(id: number): Promise<{
+        number: string;
+        name: string;
+        email: string;
+        isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        isArchived: boolean;
+        ruc: string;
+        legal: string;
+        web: string | null;
+    }>;
 }

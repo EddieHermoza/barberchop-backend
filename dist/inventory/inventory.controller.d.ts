@@ -1,10 +1,11 @@
 import { InventoryService } from './inventory.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
-import { QueryProps } from '../pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { MovementQueryDto } from './dto/movement-query.dto';
 export declare class InventoryController {
     private readonly inventoryService;
     constructor(inventoryService: InventoryService);
-    findAll(params: QueryProps): Promise<{
+    findAll(params: SearchStatusQueryDto): Promise<{
         name: string;
         isActive: boolean;
         id: number;
@@ -19,7 +20,7 @@ export declare class InventoryController {
         quantity: number;
         notes: string;
     }>;
-    findAllMovements(params: QueryProps): Promise<({
+    findAllMovements(params: MovementQueryDto): Promise<({
         Product: {
             name: string;
         };

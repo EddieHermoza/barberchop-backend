@@ -23,6 +23,7 @@ class CreatePurchaseDto {
 }
 exports.CreatePurchaseDto = CreatePurchaseDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreatePurchaseDto.prototype, "userId", void 0);

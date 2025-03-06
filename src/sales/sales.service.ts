@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
 import { InventoryService } from 'src/inventory/inventory.service';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 
 @Injectable()
 export class SalesService {
@@ -38,7 +38,7 @@ export class SalesService {
     });
   }
 
-  async findAll({ limit, page, query }: QueryProps) {
+  async findAll({ limit, page, query }: SearchQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
     return await this.db.sale.findMany({
@@ -94,7 +94,7 @@ export class SalesService {
       },
     });
 
-    if (!sale) throw new BadRequestException(`La venta del id ${id} no existe`);
+    if (!sale) throw new NotFoundException(`La venta del id ${id} no existe`);
 
     return sale;
   }
@@ -106,6 +106,6 @@ export class SalesService {
       },
     });
 
-    if (!sale) throw new BadRequestException(`La venta del id ${id} no existe`);
+    if (!sale) throw new NotFoundException(`La venta del id ${id} no existe`);
   }
 }

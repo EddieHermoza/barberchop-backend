@@ -92,7 +92,7 @@ let SalesService = class SalesService {
             },
         });
         if (!sale)
-            throw new common_1.BadRequestException(`La venta del id ${id} no existe`);
+            throw new common_1.NotFoundException(`La venta del id ${id} no existe`);
         return sale;
     }
     async remove(id) {
@@ -102,7 +102,7 @@ let SalesService = class SalesService {
             },
         });
         if (!sale)
-            throw new common_1.BadRequestException(`La venta del id ${id} no existe`);
+            throw new common_1.NotFoundException(`La venta del id ${id} no existe`);
     }
 };
 exports.SalesService = SalesService;

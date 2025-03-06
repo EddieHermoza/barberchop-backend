@@ -1,7 +1,7 @@
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ServicesController {
     private readonly servicesService;
     constructor(servicesService: ServicesService);
@@ -14,7 +14,7 @@ export declare class ServicesController {
         img: string | null;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
-    findAll(params: QueryProps): import(".prisma/client").Prisma.PrismaPromise<{
+    findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
         name: string;
         description: string;
         isActive: boolean;

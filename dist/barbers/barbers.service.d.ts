@@ -1,8 +1,8 @@
 import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QueryProps } from 'src/pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class BarbersService {
     private readonly db;
     constructor(db: PrismaService);
@@ -13,7 +13,7 @@ export declare class BarbersService {
         isArchived: boolean;
         img: string | null;
     }>;
-    findAll({ limit, page, query, status }: QueryProps): Prisma.PrismaPromise<{
+    findAll({ limit, page, query, status }: SearchStatusQueryDto): Prisma.PrismaPromise<{
         name: string;
         isActive: boolean;
         id: number;

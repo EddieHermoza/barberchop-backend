@@ -11,9 +11,12 @@ import {
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
-import { ValidateId } from 'src/pipes/validate-id.pipe';
-import { QueryProps, ValidateQueryPipe } from 'src/pipes/validate-query.pipe';
+import { ValidateId } from 'src/common/pipes/validate-id.pipe';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { PublicAccess } from 'src/common/decorators/public.decorator';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 
+@ApiBearerAuth()
 @Controller('services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
@@ -23,11 +26,13 @@ export class ServicesController {
     return this.servicesService.create(createServiceDto);
   }
 
+  @PublicAccess()
   @Get()
-  findAll(@Query(ValidateQueryPipe) params: QueryProps) {
+  findAll(@Query() params: SearchStatusQueryDto) {
     return this.servicesService.findAll(params);
   }
 
+  @PublicAccess()
   @Get(':id')
   findOne(@Param('id', ValidateId) id: number) {
     return this.servicesService.findOne(id);

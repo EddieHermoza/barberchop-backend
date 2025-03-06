@@ -18,10 +18,10 @@ const common_1 = require("@nestjs/common");
 const providers_service_1 = require("./providers.service");
 const create_provider_dto_1 = require("./dto/create-provider.dto");
 const update_provider_dto_1 = require("./dto/update-provider.dto");
-const validate_query_pipe_1 = require("../pipes/validate-query.pipe");
-const validate_id_pipe_1 = require("../pipes/validate-id.pipe");
+const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 let ProvidersController = class ProvidersController {
     constructor(providersService) {
         this.providersService = providersService;
@@ -54,9 +54,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)(validate_query_pipe_1.ValidateQueryPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [search_status_query_dto_1.SearchStatusQueryDto]),
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "findAll", null);
 __decorate([
@@ -78,7 +78,7 @@ __decorate([
 ], ProvidersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    openapi.ApiResponse({ status: 200, type: Object }),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

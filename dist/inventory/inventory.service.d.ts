@@ -1,8 +1,9 @@
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
-import { QueryProps } from '../pipes/validate-query.pipe';
 import { Prisma } from '@prisma/client';
+import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { MovementQueryDto } from './dto/movement-query.dto';
 export declare class InventoryService {
     private readonly db;
     private readonly productService;
@@ -15,14 +16,14 @@ export declare class InventoryService {
         quantity: number;
         notes: string;
     }>;
-    findAllProductsInventory({ page, limit, query, status }: QueryProps): Promise<{
+    findAllProductsInventory({ page, limit, query, status, }: SearchStatusQueryDto): Promise<{
         name: string;
         isActive: boolean;
         id: number;
         stock: number;
         lastStockEntry: Date;
     }[]>;
-    findAllMovements({ page, limit }: QueryProps): Promise<({
+    findAllMovements({ page, limit, status }: MovementQueryDto): Promise<({
         Product: {
             name: string;
         };
