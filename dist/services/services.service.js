@@ -70,7 +70,7 @@ let ServicesService = class ServicesService {
     }
     async remove(id) {
         try {
-            const deleteService = await this.db.service.update({
+            const archivedService = await this.db.service.update({
                 where: {
                     id,
                 },
@@ -79,7 +79,8 @@ let ServicesService = class ServicesService {
                     isArchived: true,
                 },
             });
-            return deleteService;
+            if (archivedService)
+                return { message: `El servicio con el ID ${id} fue archivado` };
         }
         catch (error) {
             if (error.code === 'P2025')

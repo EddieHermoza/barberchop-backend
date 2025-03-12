@@ -31,7 +31,7 @@ export class AppointmentsController {
     @UserSession() user: IUserSession,
     @Body() createAppointmentDto: CreateAppointmentDto,
   ) {
-    createAppointmentDto.userId = user.id;
+    createAppointmentDto.customerId = user.id;
     return this.appointmentsService.create(createAppointmentDto);
   }
 

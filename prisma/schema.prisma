@@ -29,19 +29,19 @@ model Movement {
 }
 
 model Product {
-  id             Int            @id @default(autoincrement())
-  created        DateTime       @default(now())
-  updated        DateTime       @updatedAt
-  name           String         @db.VarChar(100)
-  description    String         @db.VarChar(100)
-  category       String         @db.VarChar(100)
-  img            String         @default("PENDIENTE")
-  stock          Int            @default(0)
-  price          Decimal        @db.Decimal(10, 2)
-  discount       Decimal        @db.Decimal(10, 2)
+  id             Int             @id @default(autoincrement())
+  created        DateTime        @default(now())
+  updated        DateTime        @updatedAt
+  name           String          @db.VarChar(100)
+  description    String          @db.VarChar(100)
+  category       ProductCategory
+  img            String          @default("PENDIENTE")
+  stock          Int             @default(0)
+  price          Decimal         @db.Decimal(10, 2)
+  discount       Decimal         @db.Decimal(10, 2)
   orderLimit     Int
-  isActive       Boolean        @default(false)
-  isArchived     Boolean        @default(false)
+  isActive       Boolean         @default(false)
+  isArchived     Boolean         @default(false)
   lastStockEntry DateTime?
   Movement       Movement[]
   SaleItem       SaleItem[]
@@ -66,15 +66,15 @@ model Provider {
 model Purchase {
   id            Int            @id @default(autoincrement())
   created       DateTime       @default(now())
-  userId        Int
   providerId    Int
   totalAmount   Decimal        @db.Decimal(10, 2)
   receiptType   ReceiptType
   receiptNumber String
   receiptDate   DateTime
-  User          User           @relation(fields: [userId], references: [id])
   Provider      Provider       @relation(fields: [providerId], references: [id])
   PurchaseItem  PurchaseItem[]
+  Admin         Admin          @relation(fields: [adminId], references: [id])
+  adminId       Int
 }
 
 model PurchaseItem {
@@ -85,21 +85,21 @@ model PurchaseItem {
   quantity    Int
   price       Decimal  @db.Decimal(10, 2)
   Product     Product  @relation(fields: [productId], references: [id])
-  Purchase    Purchase @relation(fields: [purchaseId], references: [id])
+  Purchase    Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
 }
 
 model Sale {
   id            Int           @id @default(autoincrement())
   created       DateTime      @default(now())
   transaction   String        @default("NO HUBO TRANSACCION")
-  userId        Int
   amount        Decimal       @db.Decimal(10, 2)
   discount      Decimal       @db.Decimal(10, 2)
   totalAmount   Decimal       @db.Decimal(10, 2)
   paymentMethod PaymentMethod
   status        Status        @default(PENDIENTE)
-  User          User          @relation(fields: [userId], references: [id])
   SaleItem      SaleItem[]
+  Customer      Customer      @relation(fields: [customerId], references: [id])
+  customerId    Int
 }
 
 model SaleItem {
@@ -111,35 +111,55 @@ model SaleItem {
   price       Decimal @db.Decimal(10, 2)
   discount    Decimal @db.Decimal(10, 2)
   Product     Product @relation(fields: [productId], references: [id])
-  Sale        Sale    @relation(fields: [saleId], references: [id])
+  Sale        Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
 }
 
 model User {
+  id         Int        @id @default(autoincrement())
+  created    DateTime   @default(now())
+  updated    DateTime   @updatedAt
+  dni        String     @unique @db.VarChar(8)
+  name       String     @db.VarChar(100)
+  lastName   String     @db.VarChar(100)
+  email      String     @unique @db.VarChar(100)
+  password   String
+  role       UserRole
+  isActive   Boolean    @default(false)
+  isArchived Boolean    @default(false)
+  AuditLog   AuditLog[]
+  Customer   Customer?
+  Admin      Admin?
+  Barber     Barber?
+}
+
+model Customer {
   id          Int           @id @default(autoincrement())
-  created     DateTime      @default(now())
-  updated     DateTime      @updatedAt
-  dni         String        @unique @db.VarChar(8)
-  name        String        @db.VarChar(100)
-  lastName    String        @db.VarChar(100)
-  email       String        @unique @db.VarChar(100)
   number      String        @db.VarChar(9)
-  password    String
-  role        UserRole
-  isActive    Boolean       @default(false)
-  isArchived  Boolean       @default(false)
-  AuditLog    AuditLog[]
+  userId      Int           @unique
+  User        User          @relation(fields: [userId], references: [id])
   Sale        Sale[]
-  Purchase    Purchase[]
   Appointment Appointment[]
+  isArchived  Boolean       @default(false)
+}
+
+model Admin {
+  id         Int        @id @default(autoincrement())
+  lastLogin  DateTime?
+  userId     Int        @unique
+  User       User       @relation(fields: [userId], references: [id])
+  Purchase   Purchase[]
+  isArchived Boolean    @default(false)
 }
 
 model Barber {
   id          Int           @id @default(autoincrement())
-  name        String
   img         String?
+  skills      String        @db.Text
+  userId      Int           @unique
+  User        User          @relation(fields: [userId], references: [id])
+  Appointment Appointment[]
   isActive    Boolean       @default(false)
   isArchived  Boolean       @default(false)
-  Appointment Appointment[]
 }
 
 model Service {
@@ -154,19 +174,19 @@ model Service {
 }
 
 model Appointment {
-  id          Int                  @id @default(autoincrement())
-  created     DateTime             @default(now())
+  id          Int                 @id @default(autoincrement())
+  created     DateTime            @default(now())
   scheduledAt DateTime
-  userId      Int
+  customerId  Int
   barberId    Int
   serviceId   Int
-  status      AppointmentStatus    @default(PENDIENTE)
-  notes       String?              @db.Text
-  User        User                 @relation(fields: [userId], references: [id])
-  Barber      Barber               @relation(fields: [barberId], references: [id])
-  Service     Service              @relation(fields: [serviceId], references: [id])
-  isArchived  Boolean              @default(false)
-  Payment     AppointmentPayment[]
+  status      AppointmentStatus   @default(PENDIENTE)
+  notes       String?             @db.Text
+  Customer    Customer            @relation(fields: [customerId], references: [id])
+  Barber      Barber              @relation(fields: [barberId], references: [id])
+  Service     Service             @relation(fields: [serviceId], references: [id])
+  isArchived  Boolean             @default(false)
+  Payment     AppointmentPayment?
 }
 
 model HaircutType {
@@ -182,7 +202,7 @@ model AppointmentPayment {
   id               Int           @id @default(autoincrement())
   created          DateTime      @default(now())
   appointmentId    Int           @unique
-  amount           Decimal       @default(0.00) @db.Decimal(10, 2)
+  serviceAmount    Decimal       @default(0.00) @db.Decimal(10, 2)
   additionalAmount Decimal       @default(0.00) @db.Decimal(10, 2)
   discount         Decimal       @default(0.00) @db.Decimal(10, 2)
   totalAmount      Decimal       @default(0.00) @db.Decimal(10, 2)
@@ -195,6 +215,7 @@ model AppointmentPayment {
 enum UserRole {
   ADMINISTRADOR
   CLIENTE
+  BARBERO
 }
 
 enum MovementType {
@@ -245,4 +266,14 @@ enum AppointmentStatus {
   EN_PROCESO
   COMPLETADA
   CANCELADA
+}
+
+enum ProductCategory {
+  CUIDADO_CABELLO
+  TINTES
+  CUIDADO_BARBA
+  HERRAMIENTAS_CORTE
+  LOCIONES_FRAGANCIAS
+  CUIDADO_PIEL
+  ACCESORIOS
 }

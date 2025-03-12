@@ -12,11 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserDto = void 0;
 const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-const client_1 = require("@prisma/client");
-const swagger_1 = require("@nestjs/swagger");
 class CreateUserDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { dni: { required: true, type: () => String, minLength: 8, maxLength: 8 }, number: { required: true, type: () => String, minLength: 9, maxLength: 9 }, name: { required: true, type: () => String, minLength: 2, maxLength: 50 }, lastName: { required: true, type: () => String, minLength: 2, maxLength: 50 }, email: { required: true, type: () => String, format: "email" }, password: { required: true, type: () => String, minLength: 8, maxLength: 20 }, role: { required: true, type: () => Object }, isActive: { required: true, type: () => Boolean } };
+        return { dni: { required: true, type: () => String, minLength: 8, maxLength: 8 }, name: { required: true, type: () => String, minLength: 2, maxLength: 50 }, lastName: { required: true, type: () => String, minLength: 2, maxLength: 50 }, email: { required: true, type: () => String, format: "email" }, password: { required: true, type: () => String, minLength: 8, maxLength: 20 }, isActive: { required: true, type: () => Boolean } };
     }
 }
 exports.CreateUserDto = CreateUserDto;
@@ -25,11 +23,6 @@ __decorate([
     (0, class_validator_1.Length)(8, 8, { message: 'El DNI debe tener exactamente 8 caracteres.' }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "dni", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(9, 9, { message: 'El número debe tener 9 caracteres.' }),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "number", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(2, 50, { message: 'El nombre debe tener entre 2 y 50 caracteres.' }),
@@ -51,13 +44,6 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ enum: client_1.UserRole }),
-    (0, class_validator_1.IsEnum)(client_1.UserRole, {
-        message: 'El rol debe ser uno de los siguientes valores: ADMINISTRADOR, CLIENTE.',
-    }),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "role", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)({ message: 'El campo isActive debe ser un valor booleano.' }),
     __metadata("design:type", Boolean)

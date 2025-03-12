@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AppointmentsService } from 'src/appointments/appointments.service';
+import { AppointmentPaymentQueryDto } from './dto/appointmentPayment-query.dto';
 
 @Injectable()
 export class PaymentsService {
@@ -12,22 +12,56 @@ export class PaymentsService {
   ) {}
 
   async create(createPaymentDto: CreatePaymentDto) {
-    return 'This action adds a new payment';
+    try {
+      const payment = await this.db.appointmentPayment.create({
+        data: createPaymentDto,
+      });
+
+      return payment;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Hubo un error en el registro del pago de cita');
+    }
   }
 
-  async findAll() {
-    return `This action returns all payments`;
+  async findAll({ limit, payment, page, status }: AppointmentPaymentQueryDto) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
+    return this.db.appointmentPayment.findMany({
+      where: {
+        ...(payment ? { method: payment } : {}),
+        ...(payment ? { status: status } : {}),
+      },
+      skip: skip,
+      take: limit,
+    });
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} payment`;
-  }
+    const payment = await this.db.appointmentPayment.findUnique({
+      where: { id },
+    });
 
-  async update(id: number, updatePaymentDto: UpdatePaymentDto) {
-    return `This action updates a #${id} payment`;
+    if (!payment) {
+      throw new NotFoundException(`Pago con el ${id} no encontrado`);
+    }
+
+    return payment;
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} payment`;
+    const payment = await this.db.appointmentPayment.findUnique({
+      where: { id },
+    });
+
+    if (!payment) {
+      throw new NotFoundException(`Pago con el ID ${id} no encontrado`);
+    }
+
+    await this.db.appointmentPayment.delete({
+      where: { id },
+    });
+
+    return { message: `Pago con el ID ${id} fue eliminado` };
   }
 }

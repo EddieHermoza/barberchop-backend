@@ -18,15 +18,16 @@ const class_transformer_1 = require("class-transformer");
 const swagger_1 = require("@nestjs/swagger");
 class CreateSaleDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { userId: { required: true, type: () => Number }, transaction: { required: true, type: () => String }, amount: { required: true, type: () => Number }, discount: { required: true, type: () => Number }, totalAmount: { required: true, type: () => Number }, paymentMethod: { required: true, type: () => Object }, status: { required: true, type: () => Object }, saleItems: { required: true, type: () => [require("./create-sale-item.dto").CreateSaleItemDto], minItems: 1 } };
+        return { transaction: { required: true, type: () => String }, amount: { required: true, type: () => Number }, discount: { required: true, type: () => Number }, totalAmount: { required: true, type: () => Number }, paymentMethod: { required: true, type: () => Object }, status: { required: true, type: () => Object }, saleItems: { required: true, type: () => [require("./create-sale-item.dto").CreateSaleItemDto], minItems: 1 } };
     }
 }
 exports.CreateSaleDto = CreateSaleDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
-    (0, class_validator_1.IsNumber)(),
+    (0, swagger_1.ApiHideProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], CreateSaleDto.prototype, "userId", void 0);
+], CreateSaleDto.prototype, "customerId", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

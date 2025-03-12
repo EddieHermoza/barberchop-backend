@@ -28,7 +28,7 @@ let SalesController = class SalesController {
         this.salesService = salesService;
     }
     create(user, createSaleDto) {
-        createSaleDto.userId = user.id;
+        createSaleDto.customerId = user.id;
         return this.salesService.create(createSaleDto);
     }
     findAll(params) {
@@ -61,7 +61,7 @@ __decorate([
 ], SalesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

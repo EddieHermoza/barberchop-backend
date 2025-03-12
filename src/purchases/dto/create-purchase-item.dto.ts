@@ -1,10 +1,7 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsString } from 'class-validator';
 
 export class CreatePurchaseItemDto {
-  @IsNumber()
-  purchaseId: number;
-
-  @IsNumber()
+  @IsInt()
   productId: number;
 
   @IsString()

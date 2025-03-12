@@ -17,22 +17,69 @@ let UsersService = class UsersService {
     constructor(db) {
         this.db = db;
     }
-    async create(createUserDto) {
+    async createAdminUser(createAdminDto) {
         return await this.db.user.create({
-            data: createUserDto,
+            data: {
+                ...createAdminDto,
+                role: client_1.UserRole.ADMINISTRADOR,
+                Admin: {
+                    create: {},
+                },
+            },
+        });
+    }
+    async createClientUser(createClientDto) {
+        const { number } = createClientDto;
+        return await this.db.user.create({
+            data: {
+                ...createClientDto,
+                role: client_1.UserRole.CLIENTE,
+                Customer: {
+                    create: { number },
+                },
+            },
+        });
+    }
+    async createBarberUser(createBarberDto) {
+        const { skills, isActive } = createBarberDto;
+        return await this.db.user.create({
+            data: {
+                ...createBarberDto,
+                role: client_1.UserRole.BARBERO,
+                Barber: {
+                    create: { skills, isActive },
+                },
+            },
         });
     }
     async findAll(role, { limit, query, status, page }) {
         const pages = page || 1;
         const skip = (pages - 1) * limit;
+        const roleFilter = role
+            ? role === client_1.UserRole.ADMINISTRADOR
+                ? { Admin: { isArchived: false } }
+                : role === client_1.UserRole.BARBERO
+                    ? { Barber: { isArchived: false } }
+                    : role === client_1.UserRole.CLIENTE
+                        ? { Customer: { isArchived: false } }
+                        : {}
+            : {};
         return await this.db.user.findMany({
+            omit: {
+                password: true,
+            },
+            include: {
+                Admin: true,
+                Customer: true,
+                Barber: true,
+            },
             where: {
                 AND: [
                     query
                         ? { name: { contains: query, mode: client_1.Prisma.QueryMode.insensitive } }
                         : {},
                     status !== null && status !== undefined ? { isActive: status } : {},
-                    role ? { role: role } : {},
+                    roleFilter,
                 ],
                 isArchived: false,
             },
@@ -51,14 +98,142 @@ let UsersService = class UsersService {
             throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
         return user;
     }
-    async update(id, updateUserDto) {
+    async findBarber(id) {
+        const user = await this.db.user.findFirst({
+            where: {
+                id,
+                isArchived: false,
+                Barber: {
+                    isArchived: false,
+                },
+            },
+            include: {
+                Barber: true,
+            },
+        });
+        if (!user)
+            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+        return user;
+    }
+    async findAdmin(id) {
+        const user = await this.db.user.findFirst({
+            where: {
+                id,
+                isArchived: false,
+                Admin: {
+                    isArchived: false,
+                },
+            },
+            include: {
+                Admin: true,
+            },
+        });
+        if (!user)
+            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+        return user;
+    }
+    async findCustomer(id) {
+        const user = await this.db.user.findFirst({
+            where: {
+                id,
+                isArchived: false,
+                Customer: {
+                    isArchived: false,
+                },
+            },
+            include: {
+                Customer: true,
+            },
+        });
+        if (!user)
+            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+        return user;
+    }
+    async updateAdmin(id, updateAdminDto) {
         try {
+            const user = await this.db.user.findUnique({
+                where: { id },
+                include: { Admin: true },
+            });
+            if (!user || !user.Admin) {
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe o no es un administrador`);
+            }
             const updatedUser = await this.db.user.update({
                 where: {
                     id,
                     isArchived: false,
                 },
-                data: updateUserDto,
+                data: {
+                    ...updateAdminDto,
+                    Admin: {
+                        update: {},
+                    },
+                },
+            });
+            return updatedUser;
+        }
+        catch (error) {
+            if ((error.code = 'P2025'))
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw error;
+        }
+    }
+    async updateBarber(id, updateBarberDto) {
+        const { skills, isActiveBarber } = updateBarberDto;
+        try {
+            const user = await this.db.user.findUnique({
+                where: { id },
+                include: { Barber: true },
+            });
+            if (!user || !user.Barber) {
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe o no es un barber`);
+            }
+            const updatedUser = await this.db.user.update({
+                where: {
+                    id,
+                    isArchived: false,
+                },
+                data: {
+                    ...updateBarberDto,
+                    Barber: {
+                        update: {
+                            ...(skills ? { skills } : {}),
+                            ...(isActiveBarber ? { isActive: isActiveBarber } : {}),
+                        },
+                    },
+                },
+            });
+            return updatedUser;
+        }
+        catch (error) {
+            if ((error.code = 'P2025'))
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw error;
+        }
+    }
+    async updateClient(id, updateClientDto) {
+        const { number } = updateClientDto;
+        try {
+            const user = await this.db.user.findUnique({
+                where: { id },
+                include: { Customer: true },
+            });
+            if (!user || !user.Customer) {
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe o no es un cliente`);
+            }
+            const updatedUser = await this.db.user.update({
+                where: {
+                    id,
+                    isArchived: false,
+                },
+                data: {
+                    ...updateClientDto,
+                    Customer: {
+                        update: {
+                            ...(number ? { number } : {}),
+                        },
+                    },
+                },
             });
             return updatedUser;
         }
@@ -70,20 +245,52 @@ let UsersService = class UsersService {
     }
     async remove(id) {
         try {
-            const archivedUser = await this.db.user.update({
-                where: {
-                    id,
-                },
-                data: {
-                    isActive: false,
-                    isArchived: true,
-                },
+            const user = await this.db.user.findUnique({
+                where: { id },
+                include: { Admin: true, Barber: true, Customer: true },
             });
-            return archivedUser;
+            if (!user) {
+                throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            }
+            const updateData = {
+                isActive: false,
+                isArchived: true,
+            };
+            if (user.Admin) {
+                updateData.Admin = {
+                    update: {
+                        isActive: false,
+                        isArchived: true,
+                    },
+                };
+            }
+            if (user.Barber) {
+                updateData.Barber = {
+                    update: {
+                        isActive: false,
+                        isArchived: true,
+                    },
+                };
+            }
+            if (user.Customer) {
+                updateData.Client = {
+                    update: {
+                        isActive: false,
+                        isArchived: true,
+                    },
+                };
+            }
+            const archivedUser = await this.db.user.update({
+                where: { id },
+                data: updateData,
+            });
+            if (archivedUser)
+                return { message: `El usuario con el ID ${id} fue archivado` };
         }
         catch (error) {
-            if ((error.code = 'P2025'))
+            if (error.code === 'P2025') {
                 throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            }
             throw error;
         }
     }

@@ -67,7 +67,7 @@ export class ServicesService {
 
   async remove(id: number) {
     try {
-      const deleteService = await this.db.service.update({
+      const archivedService = await this.db.service.update({
         where: {
           id,
         },
@@ -76,7 +76,8 @@ export class ServicesService {
           isArchived: true,
         },
       });
-      return deleteService;
+      if (archivedService)
+        return { message: `El servicio con el ID ${id} fue archivado` };
     } catch (error) {
       if (error.code === 'P2025')
         throw new NotFoundException(`El servicio del id ${id} no existe`);

@@ -44,15 +44,15 @@ export declare class InventoryService {
         notes: string;
     }>;
     updateProductStock(productId: number, quantity: number, type: string): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
         isArchived: boolean;
-        category: string;
-        img: string;
+        category: import(".prisma/client").$Enums.ProductCategory;
         orderLimit: number;
         discount: Prisma.Decimal;
         price: Prisma.Decimal;

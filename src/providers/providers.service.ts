@@ -77,7 +77,8 @@ export class ProvidersService {
           isArchived: true,
         },
       });
-      return archivedProvider;
+      if (archivedProvider)
+        return { message: `El proveedor con el ID ${id} fue archivado` };
     } catch (error: any) {
       if (error.code === 'P2025')
         throw new NotFoundException(`El proveedor del id ${id} no existe`);

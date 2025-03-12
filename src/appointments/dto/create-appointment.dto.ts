@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { AppointmentStatus } from '@prisma/client';
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
@@ -8,10 +8,10 @@ export class CreateAppointmentDto {
   @IsDate()
   scheduledAt: Date;
 
-  @ApiProperty({ required: false })
+  @ApiHideProperty()
   @IsOptional()
   @IsInt()
-  userId: number;
+  customerId: number;
 
   @IsInt()
   barberId: number;

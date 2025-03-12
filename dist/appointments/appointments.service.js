@@ -13,24 +13,26 @@ exports.AppointmentsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const services_service_1 = require("../services/services.service");
-const barbers_service_1 = require("../barbers/barbers.service");
 const users_service_1 = require("../users/users.service");
 const date_fns_1 = require("date-fns");
 let AppointmentsService = class AppointmentsService {
-    constructor(db, servicesService, barbersService, usersService) {
+    constructor(db, servicesService, usersService) {
         this.db = db;
         this.servicesService = servicesService;
-        this.barbersService = barbersService;
         this.usersService = usersService;
     }
     async create(createAppointmentDto) {
-        const { userId, barberId, serviceId } = createAppointmentDto;
+        const { customerId, serviceId, barberId } = createAppointmentDto;
         try {
-            await Promise.all([
-                this.servicesService.findOne(serviceId),
-                this.barbersService.findOne(barberId),
-                this.usersService.findOne(userId),
-            ]);
+            const service = await this.servicesService.findOne(serviceId);
+            const Customer = await this.usersService.findCustomer(customerId);
+            const { Barber } = await this.usersService.findBarber(barberId);
+            if (!service.isActive)
+                throw new common_1.NotFoundException('El servicio no esta disponible');
+            if (!Customer.isActive)
+                throw new common_1.NotFoundException('El cliente no esta habilitado');
+            if (!Barber.isActive)
+                throw new common_1.NotFoundException('El barbero no esta habilitado');
             const newAppointment = await this.db.appointment.create({
                 data: createAppointmentDto,
             });
@@ -86,7 +88,7 @@ let AppointmentsService = class AppointmentsService {
     }
     async remove(id) {
         try {
-            const deleteAppointment = await this.db.appointment.update({
+            const arhivedAppointment = await this.db.appointment.update({
                 where: {
                     id,
                 },
@@ -94,7 +96,8 @@ let AppointmentsService = class AppointmentsService {
                     isArchived: true,
                 },
             });
-            return deleteAppointment;
+            if (arhivedAppointment)
+                return { message: `La cita con el ID ${id} fue archivada` };
         }
         catch (error) {
             if (error.code === 'P2025') {
@@ -145,7 +148,7 @@ let AppointmentsService = class AppointmentsService {
     async findAppointmentsByUser(id) {
         const appointments = await this.db.appointment.findMany({
             where: {
-                userId: id,
+                customerId: id,
                 isArchived: false,
             },
         });
@@ -177,7 +180,6 @@ exports.AppointmentsService = AppointmentsService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         services_service_1.ServicesService,
-        barbers_service_1.BarbersService,
         users_service_1.UsersService])
 ], AppointmentsService);
 //# sourceMappingURL=appointments.service.js.map

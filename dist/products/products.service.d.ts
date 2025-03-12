@@ -7,15 +7,15 @@ export declare class ProductsService {
     private readonly db;
     constructor(db: PrismaService);
     create(createProductDto: CreateProductDto): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
         isArchived: boolean;
-        category: string;
-        img: string;
+        category: import(".prisma/client").$Enums.ProductCategory;
         orderLimit: number;
         discount: Prisma.Decimal;
         price: Prisma.Decimal;
@@ -23,27 +23,27 @@ export declare class ProductsService {
         lastStockEntry: Date | null;
     }>;
     findAll({ limit, page, status, query }: SearchStatusQueryDto): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
-        img: string;
         orderLimit: number;
         discount: Prisma.Decimal;
         price: Prisma.Decimal;
     }[]>;
     findOne(id: number): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
         isArchived: boolean;
-        category: string;
-        img: string;
+        category: import(".prisma/client").$Enums.ProductCategory;
         orderLimit: number;
         discount: Prisma.Decimal;
         price: Prisma.Decimal;
@@ -51,15 +51,15 @@ export declare class ProductsService {
         lastStockEntry: Date | null;
     }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
         isArchived: boolean;
-        category: string;
-        img: string;
+        category: import(".prisma/client").$Enums.ProductCategory;
         orderLimit: number;
         discount: Prisma.Decimal;
         price: Prisma.Decimal;
@@ -67,19 +67,6 @@ export declare class ProductsService {
         lastStockEntry: Date | null;
     }>;
     remove(id: number): Promise<{
-        name: string;
-        description: string;
-        isActive: boolean;
-        id: number;
-        created: Date;
-        updated: Date;
-        isArchived: boolean;
-        category: string;
-        img: string;
-        orderLimit: number;
-        discount: Prisma.Decimal;
-        price: Prisma.Decimal;
-        stock: number;
-        lastStockEntry: Date | null;
+        message: string;
     }>;
 }

@@ -19,19 +19,49 @@ let PaymentsService = class PaymentsService {
         this.appointmentsService = appointmentsService;
     }
     async create(createPaymentDto) {
-        return 'This action adds a new payment';
+        try {
+            const payment = await this.db.appointmentPayment.create({
+                data: createPaymentDto,
+            });
+            return payment;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error('Hubo un error en el registro del pago de cita');
+        }
     }
-    async findAll() {
-        return `This action returns all payments`;
+    async findAll({ limit, payment, page, status }) {
+        const pages = page || 1;
+        const skip = (pages - 1) * limit;
+        return this.db.appointmentPayment.findMany({
+            where: {
+                ...(payment ? { method: payment } : {}),
+                ...(payment ? { status: status } : {}),
+            },
+            skip: skip,
+            take: limit,
+        });
     }
     async findOne(id) {
-        return `This action returns a #${id} payment`;
-    }
-    async update(id, updatePaymentDto) {
-        return `This action updates a #${id} payment`;
+        const payment = await this.db.appointmentPayment.findUnique({
+            where: { id },
+        });
+        if (!payment) {
+            throw new common_1.NotFoundException(`Pago con el ${id} no encontrado`);
+        }
+        return payment;
     }
     async remove(id) {
-        return `This action removes a #${id} payment`;
+        const payment = await this.db.appointmentPayment.findUnique({
+            where: { id },
+        });
+        if (!payment) {
+            throw new common_1.NotFoundException(`Pago con el ID ${id} no encontrado`);
+        }
+        await this.db.appointmentPayment.delete({
+            where: { id },
+        });
+        return { message: `Pago con el ID ${id} fue eliminado` };
     }
 };
 exports.PaymentsService = PaymentsService;

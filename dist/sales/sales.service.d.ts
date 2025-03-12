@@ -8,50 +8,62 @@ export declare class SalesService {
     private readonly InventoryService;
     constructor(db: PrismaService, InventoryService: InventoryService);
     create(createSaleDto: CreateSaleDto): Promise<{
-        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        discount: Prisma.Decimal;
-        userId: number;
         transaction: string;
         amount: Prisma.Decimal;
+        discount: Prisma.Decimal;
         totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
+        status: import(".prisma/client").$Enums.Status;
+        customerId: number;
     }>;
     findAll({ limit, page, query }: SearchQueryDto): Promise<{
-        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        discount: Prisma.Decimal;
-        userId: number;
         transaction: string;
         amount: Prisma.Decimal;
+        discount: Prisma.Decimal;
         totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
+        status: import(".prisma/client").$Enums.Status;
+        customerId: number;
     }[]>;
     findOne(id: number): Promise<{
-        status: import(".prisma/client").$Enums.Status;
-        id: number;
-        created: Date;
-        User: {
-            name: string;
-            lastName: string;
-            email: string;
-            id: number;
-        };
-        discount: Prisma.Decimal;
         SaleItem: {
             id: number;
             discount: Prisma.Decimal;
+            productName: string;
+            quantity: number;
             price: Prisma.Decimal;
             productId: number;
-            quantity: number;
-            productName: string;
+            saleId: number;
         }[];
+        Customer: {
+            User: {
+                id: number;
+                name: string;
+                dni: string;
+                lastName: string;
+                email: string;
+                role: import(".prisma/client").$Enums.UserRole;
+            };
+        } & {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
+        id: number;
+        created: Date;
         transaction: string;
         amount: Prisma.Decimal;
+        discount: Prisma.Decimal;
         totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
+        status: import(".prisma/client").$Enums.Status;
+        customerId: number;
     }>;
     remove(id: number): Promise<void>;
 }

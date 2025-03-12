@@ -3,13 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { AppointmentPaymentQueryDto } from './dto/appointmentPayment-query.dto';
 
 @Controller('payments')
 export class PaymentsController {
@@ -21,18 +21,13 @@ export class PaymentsController {
   }
 
   @Get()
-  findAll() {
-    return this.paymentsService.findAll();
+  findAll(@Query() params: AppointmentPaymentQueryDto) {
+    return this.paymentsService.findAll(params);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.paymentsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
-    return this.paymentsService.update(+id, updatePaymentDto);
   }
 
   @Delete(':id')

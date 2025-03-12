@@ -2,9 +2,6 @@ import { IsInt, IsNumber, IsString } from 'class-validator';
 
 export class CreateSaleItemDto {
   @IsInt()
-  saleId: number;
-
-  @IsInt()
   productId: number;
 
   @IsString()

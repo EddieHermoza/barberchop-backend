@@ -30,7 +30,7 @@ let AppointmentsController = class AppointmentsController {
         this.appointmentsService = appointmentsService;
     }
     create(user, createAppointmentDto) {
-        createAppointmentDto.userId = user.id;
+        createAppointmentDto.customerId = user.id;
         return this.appointmentsService.create(createAppointmentDto);
     }
     findAll(params) {

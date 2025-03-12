@@ -9,26 +9,46 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { ValidateId } from '../common/pipes/validate-id.pipe';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+// import { Auth } from 'src/auth/decorators/auth.decorator';
+// import { ApiBearerAuth } from '@nestjs/swagger';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { CreateClientDto } from './dto/create-client.dto';
+import { CreateBarberDto } from './dto/create-barber.dto';
+import { CreateAdminDto } from './dto/create-admin.dto';
+import { UpdateAdminDto } from './dto/update-admin.dto';
+import { UpdateBarberDto } from './dto/update-barber.dto';
+import { UpdateClientDto } from './dto/update-client.dto';
 
-@ApiBearerAuth()
-@Auth(['ADMINISTRADOR'])
+// @ApiBearerAuth()
+// @Auth(['ADMINISTRADOR'])
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    const hash = await bcrypt.hash(createUserDto.password, 10);
-    const UserDto = { ...createUserDto, password: hash };
+  @Post('/create-customer')
+  async createCustomer(@Body() createClientDto: CreateClientDto) {
+    const hash = await bcrypt.hash(createClientDto.password, 10);
+    const UserDto = { ...createClientDto, password: hash };
 
-    return this.usersService.create(UserDto);
+    return this.usersService.createClientUser(UserDto);
+  }
+
+  @Post('/create-barber')
+  async createBarber(@Body() createBarberDto: CreateBarberDto) {
+    const hash = await bcrypt.hash(createBarberDto.password, 10);
+    const UserDto = { ...createBarberDto, password: hash };
+
+    return this.usersService.createBarberUser(UserDto);
+  }
+
+  @Post('/create-admin')
+  async createAdmin(@Body() createAdminDto: CreateAdminDto) {
+    const hash = await bcrypt.hash(createAdminDto.password, 10);
+    const UserDto = { ...createAdminDto, password: hash };
+
+    return this.usersService.createAdminUser(UserDto);
   }
 
   @Get('/get-customers')
@@ -41,17 +61,38 @@ export class UsersController {
     return this.usersService.findAll('ADMINISTRADOR', params);
   }
 
+  @Get('/get-barbers')
+  findAllBarbers(@Query() params: SearchStatusQueryDto) {
+    return this.usersService.findAll('BARBERO', params);
+  }
+
   @Get(':id')
   findOne(@Param('id', ValidateId) id: number) {
     return this.usersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
+  @Patch(':id/update-customer')
+  updateCustomer(
     @Param('id', ValidateId) id: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() updateClientDto: UpdateClientDto,
   ) {
-    return this.usersService.update(id, updateUserDto);
+    return this.usersService.updateClient(id, updateClientDto);
+  }
+
+  @Patch(':id/update-barber')
+  updateBarber(
+    @Param('id', ValidateId) id: number,
+    @Body() updateBarberDto: UpdateBarberDto,
+  ) {
+    return this.usersService.updateBarber(id, updateBarberDto);
+  }
+
+  @Patch(':id/update-admin')
+  updateAdmin(
+    @Param('id', ValidateId) id: number,
+    @Body() UpdateAdminDto: UpdateAdminDto,
+  ) {
+    return this.usersService.updateAdmin(id, UpdateAdminDto);
   }
 
   @Delete(':id')
