@@ -4,11 +4,23 @@ import { UpdateHaircutDto } from './dto/update-haircut.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class HaircutsService {
-  constructor(private readonly db: PrismaService) {}
-  async create(createHaircutDto: CreateHaircutDto) {
+  constructor(
+    private readonly db: PrismaService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
+  async create(
+    createHaircutDto: CreateHaircutDto,
+    files?: Express.Multer.File[],
+  ) {
+    if (files && files.length > 0) {
+      const uploadedImages = await this.cloudinaryService.uploadFiles(files);
+      const urls = uploadedImages.map((img) => img.secure_url);
+      createHaircutDto.imgs = urls;
+    }
     return await this.db.haircutType.create({
       data: createHaircutDto,
     });
@@ -48,7 +60,20 @@ export class HaircutsService {
     return haircut;
   }
 
-  async update(id: number, updateHaircutDto: UpdateHaircutDto) {
+  async update(
+    id: number,
+    updateHaircutDto: UpdateHaircutDto,
+    files?: Express.Multer.File[],
+  ) {
+    const currentHaircut = await this.findOne(id);
+    if (files && files.length > 0) {
+      const uploadedImages = await this.cloudinaryService.uploadFiles(files);
+      const urls = uploadedImages.map((img) => img.secure_url);
+      updateHaircutDto.imgs = currentHaircut.imgs.concat(urls);
+    } else {
+      updateHaircutDto.imgs = currentHaircut.imgs;
+    }
+
     try {
       const updateHaircut = await this.db.haircutType.update({
         where: {

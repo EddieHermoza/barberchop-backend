@@ -61,7 +61,7 @@ __decorate([
 ], PurchasesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

@@ -30,16 +30,11 @@ export class HaircutsController {
 
   @Post()
   @UseInterceptors(FilesInterceptor('files'))
-  async create(
+  create(
     @UploadedImages() files: Express.Multer.File[],
     @Body() createHaircutDto: CreateHaircutDto,
   ) {
-    if (files && files.length > 0) {
-      const uploadedImages = await this.cloudinaryService.uploadFiles(files);
-      const urls = uploadedImages.map((img) => img.secure_url);
-      createHaircutDto.imgs = urls;
-    }
-    return this.haircutsService.create(createHaircutDto);
+    return this.haircutsService.create(createHaircutDto, files);
   }
 
   @PublicAccess()
@@ -55,11 +50,13 @@ export class HaircutsController {
   }
 
   @Patch(':id')
+  @UseInterceptors(FilesInterceptor('files'))
   update(
+    @UploadedImages() files: Express.Multer.File[],
     @Param('id', ValidateId) id: number,
     @Body() updateHaircutDto: UpdateHaircutDto,
   ) {
-    return this.haircutsService.update(id, updateHaircutDto);
+    return this.haircutsService.update(id, updateHaircutDto, files);
   }
 
   @Delete(':id')

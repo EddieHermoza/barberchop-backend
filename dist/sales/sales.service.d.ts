@@ -8,36 +8,61 @@ export declare class SalesService {
     private readonly InventoryService;
     constructor(db: PrismaService, InventoryService: InventoryService);
     create(createSaleDto: CreateSaleDto): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
-        userId: number;
-        amount: Prisma.Decimal;
         discount: Prisma.Decimal;
-        totalAmount: Prisma.Decimal;
+        customerId: number;
         transaction: string;
+        amount: Prisma.Decimal;
+        totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
     }>;
     findAll({ limit, page, query }: SearchQueryDto): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
-        userId: number;
-        amount: Prisma.Decimal;
         discount: Prisma.Decimal;
-        totalAmount: Prisma.Decimal;
+        customerId: number;
         transaction: string;
+        amount: Prisma.Decimal;
+        totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
     }[]>;
     findOne(id: number): Promise<{
+        Customer: {
+            User: {
+                dni: string;
+                name: string;
+                lastName: string;
+                email: string;
+                id: number;
+                role: import(".prisma/client").$Enums.UserRole;
+            };
+        } & {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+        SaleItem: {
+            id: number;
+            discount: Prisma.Decimal;
+            price: Prisma.Decimal;
+            productId: number;
+            quantity: number;
+            productName: string;
+            saleId: number;
+        }[];
+    } & {
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
-        status: import(".prisma/client").$Enums.Status;
-        userId: number;
-        amount: Prisma.Decimal;
         discount: Prisma.Decimal;
-        totalAmount: Prisma.Decimal;
+        customerId: number;
         transaction: string;
+        amount: Prisma.Decimal;
+        totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
     }>;
     remove(id: number): Promise<{

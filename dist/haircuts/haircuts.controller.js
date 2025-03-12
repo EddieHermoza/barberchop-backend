@@ -30,13 +30,8 @@ let HaircutsController = class HaircutsController {
         this.haircutsService = haircutsService;
         this.cloudinaryService = cloudinaryService;
     }
-    async create(files, createHaircutDto) {
-        if (files && files.length > 0) {
-            const uploadedImages = await this.cloudinaryService.uploadFiles(files);
-            const urls = uploadedImages.map((img) => img.secure_url);
-            createHaircutDto.imgs = urls;
-        }
-        return this.haircutsService.create(createHaircutDto);
+    create(files, createHaircutDto) {
+        return this.haircutsService.create(createHaircutDto, files);
     }
     findAll(params) {
         return this.haircutsService.findAll(params);
@@ -44,8 +39,8 @@ let HaircutsController = class HaircutsController {
     findOne(id) {
         return this.haircutsService.findOne(id);
     }
-    update(id, updateHaircutDto) {
-        return this.haircutsService.update(id, updateHaircutDto);
+    update(files, id, updateHaircutDto) {
+        return this.haircutsService.update(id, updateHaircutDto, files);
     }
     remove(id) {
         return this.haircutsService.remove(id);
@@ -60,7 +55,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array, create_haircut_dto_1.CreateHaircutDto]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], HaircutsController.prototype, "create", null);
 __decorate([
     (0, public_decorator_1.PublicAccess)(),
@@ -82,11 +77,13 @@ __decorate([
 ], HaircutsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
-    __param(1, (0, common_1.Body)()),
+    __param(0, (0, upload_images_decorator_1.UploadedImages)()),
+    __param(1, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_haircut_dto_1.UpdateHaircutDto]),
+    __metadata("design:paramtypes", [Array, Number, update_haircut_dto_1.UpdateHaircutDto]),
     __metadata("design:returntype", void 0)
 ], HaircutsController.prototype, "update", null);
 __decorate([

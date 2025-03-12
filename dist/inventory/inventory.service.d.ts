@@ -9,12 +9,12 @@ export declare class InventoryService {
     private readonly productService;
     constructor(db: PrismaService, productService: ProductsService);
     createMovement(createMovementDto: CreateMovementDto): Promise<{
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        notes: string;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
+        notes: string;
     }>;
     findAllProductsInventory({ page, limit, query, status, }: SearchStatusQueryDto): Promise<{
         name: string;
@@ -28,35 +28,35 @@ export declare class InventoryService {
             name: string;
         };
     } & {
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        notes: string;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
+        notes: string;
     })[]>;
     findOneMovement(id: number): Promise<{
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        notes: string;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
+        notes: string;
     }>;
     updateProductStock(productId: number, quantity: number, type: string): Promise<{
+        description: string;
         name: string;
         isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
         isArchived: boolean;
-        img: string;
-        discount: Prisma.Decimal;
-        description: string;
-        price: Prisma.Decimal;
-        category: string;
-        stock: number;
+        category: import(".prisma/client").$Enums.ProductCategory;
         orderLimit: number;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
         lastStockEntry: Date | null;
     }>;
 }

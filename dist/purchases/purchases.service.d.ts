@@ -10,8 +10,8 @@ export declare class PurchasesService {
     create(createPurchaseDto: CreatePurchaseDto): Promise<{
         id: number;
         created: Date;
-        userId: number;
         totalAmount: Prisma.Decimal;
+        adminId: number;
         providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
@@ -20,18 +20,42 @@ export declare class PurchasesService {
     findAll({ limit, page, query }: SearchQueryDto): Promise<{
         id: number;
         created: Date;
-        userId: number;
         totalAmount: Prisma.Decimal;
+        adminId: number;
         providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
     }[]>;
     findOne(id: number): Promise<{
+        Admin: {
+            User: {
+                dni: string;
+                name: string;
+                lastName: string;
+                email: string;
+                id: number;
+                role: import(".prisma/client").$Enums.UserRole;
+            };
+        };
+        Provider: {
+            name: string;
+            id: number;
+            ruc: string;
+        };
+        PurchaseItem: {
+            id: number;
+            price: Prisma.Decimal;
+            productId: number;
+            quantity: number;
+            productName: string;
+            purchaseId: number;
+        }[];
+    } & {
         id: number;
         created: Date;
-        userId: number;
         totalAmount: Prisma.Decimal;
+        adminId: number;
         providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
@@ -40,8 +64,8 @@ export declare class PurchasesService {
     remove(id: number): Promise<{
         id: number;
         created: Date;
-        userId: number;
         totalAmount: Prisma.Decimal;
+        adminId: number;
         providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;

@@ -13,11 +13,18 @@ exports.HaircutsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 let HaircutsService = class HaircutsService {
-    constructor(db) {
+    constructor(db, cloudinaryService) {
         this.db = db;
+        this.cloudinaryService = cloudinaryService;
     }
-    async create(createHaircutDto) {
+    async create(createHaircutDto, files) {
+        if (files && files.length > 0) {
+            const uploadedImages = await this.cloudinaryService.uploadFiles(files);
+            const urls = uploadedImages.map((img) => img.secure_url);
+            createHaircutDto.imgs = urls;
+        }
         return await this.db.haircutType.create({
             data: createHaircutDto,
         });
@@ -51,7 +58,16 @@ let HaircutsService = class HaircutsService {
         }
         return haircut;
     }
-    async update(id, updateHaircutDto) {
+    async update(id, updateHaircutDto, files) {
+        const currentHaircut = await this.findOne(id);
+        if (files && files.length > 0) {
+            const uploadedImages = await this.cloudinaryService.uploadFiles(files);
+            const urls = uploadedImages.map((img) => img.secure_url);
+            updateHaircutDto.imgs = currentHaircut.imgs.concat(urls);
+        }
+        else {
+            updateHaircutDto.imgs = currentHaircut.imgs;
+        }
         try {
             const updateHaircut = await this.db.haircutType.update({
                 where: {
@@ -94,6 +110,7 @@ let HaircutsService = class HaircutsService {
 exports.HaircutsService = HaircutsService;
 exports.HaircutsService = HaircutsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        cloudinary_service_1.CloudinaryService])
 ], HaircutsService);
 //# sourceMappingURL=haircuts.service.js.map

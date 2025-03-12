@@ -10,7 +10,6 @@ export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
     createCustomer(createClientDto: CreateClientDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -24,7 +23,6 @@ export declare class UsersController {
         isArchived: boolean;
     }>;
     createBarber(createBarberDto: CreateBarberDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -38,7 +36,6 @@ export declare class UsersController {
         isArchived: boolean;
     }>;
     createAdmin(createAdminDto: CreateAdminDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -51,50 +48,106 @@ export declare class UsersController {
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
-    findAllCustomers(params: SearchStatusQueryDto): Promise<{
-        number: string;
+    findAllCustomers(params: SearchStatusQueryDto): Promise<({
+        Customer: {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+        Admin: {
+            id: number;
+            isArchived: boolean;
+            lastLogin: Date | null;
+            userId: number;
+        };
+        Barber: {
+            isActive: boolean;
+            img: string | null;
+            skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
         email: string;
-        password: string;
         isActive: boolean;
         id: number;
         created: Date;
         updated: Date;
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
-    }[]>;
-    findAllAdmins(params: SearchStatusQueryDto): Promise<{
-        number: string;
+    })[]>;
+    findAllAdmins(params: SearchStatusQueryDto): Promise<({
+        Customer: {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+        Admin: {
+            id: number;
+            isArchived: boolean;
+            lastLogin: Date | null;
+            userId: number;
+        };
+        Barber: {
+            isActive: boolean;
+            img: string | null;
+            skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
         email: string;
-        password: string;
         isActive: boolean;
         id: number;
         created: Date;
         updated: Date;
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
-    }[]>;
-    findAllBarbers(params: SearchStatusQueryDto): Promise<{
-        number: string;
+    })[]>;
+    findAllBarbers(params: SearchStatusQueryDto): Promise<({
+        Customer: {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+        Admin: {
+            id: number;
+            isArchived: boolean;
+            lastLogin: Date | null;
+            userId: number;
+        };
+        Barber: {
+            isActive: boolean;
+            img: string | null;
+            skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
         email: string;
-        password: string;
         isActive: boolean;
         id: number;
         created: Date;
         updated: Date;
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
-    }[]>;
+    })[]>;
     findOne(id: number): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -108,7 +161,6 @@ export declare class UsersController {
         isArchived: boolean;
     }>;
     updateCustomer(id: number, updateClientDto: UpdateClientDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -122,7 +174,6 @@ export declare class UsersController {
         isArchived: boolean;
     }>;
     updateBarber(id: number, updateBarberDto: UpdateBarberDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -136,7 +187,6 @@ export declare class UsersController {
         isArchived: boolean;
     }>;
     updateAdmin(id: number, UpdateAdminDto: UpdateAdminDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;

@@ -11,7 +11,6 @@ export declare class UsersService {
     private readonly db;
     constructor(db: PrismaService);
     createAdminUser(createAdminDto: CreateAdminDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -25,7 +24,6 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     createClientUser(createClientDto: CreateClientDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -39,7 +37,6 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     createBarberUser(createBarberDto: CreateBarberDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -52,22 +49,40 @@ export declare class UsersService {
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
-    findAll(role: UserRole, { limit, query, status, page }: SearchStatusQueryDto): Promise<{
-        number: string;
+    findAll(role: UserRole, { limit, query, status, page }: SearchStatusQueryDto): Promise<({
+        Customer: {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+        Admin: {
+            id: number;
+            isArchived: boolean;
+            lastLogin: Date | null;
+            userId: number;
+        };
+        Barber: {
+            isActive: boolean;
+            img: string | null;
+            skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
         email: string;
-        password: string;
         isActive: boolean;
         id: number;
         created: Date;
         updated: Date;
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
-    }[]>;
+    })[]>;
     findOne(id: number): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -81,7 +96,15 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     findBarber(id: number): Promise<{
-        number: string;
+        Barber: {
+            isActive: boolean;
+            img: string | null;
+            skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
@@ -95,7 +118,13 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     findAdmin(id: number): Promise<{
-        number: string;
+        Admin: {
+            id: number;
+            isArchived: boolean;
+            lastLogin: Date | null;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
@@ -109,7 +138,13 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     findCustomer(id: number): Promise<{
-        number: string;
+        Customer: {
+            number: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
+        };
+    } & {
         dni: string;
         name: string;
         lastName: string;
@@ -123,7 +158,6 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     updateAdmin(id: number, updateAdminDto: UpdateAdminDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -137,7 +171,6 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     updateBarber(id: number, updateBarberDto: UpdateBarberDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -151,7 +184,6 @@ export declare class UsersService {
         isArchived: boolean;
     }>;
     updateClient(id: number, updateClientDto: UpdateClientDto): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
@@ -168,7 +200,6 @@ export declare class UsersService {
         message: string;
     }>;
     findOneByEmail(email: string): Promise<{
-        number: string;
         dni: string;
         name: string;
         lastName: string;
