@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { HaircutsService } from './haircuts.service';
 import { HaircutsController } from './haircuts.controller';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
+  imports: [CloudinaryModule],
   exports: [HaircutsService],
   controllers: [HaircutsController],
-  providers: [HaircutsService, CloudinaryService, PrismaService],
+  providers: [HaircutsService, PrismaService],
 })
 export class HaircutsModule {}

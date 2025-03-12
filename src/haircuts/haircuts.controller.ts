@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { HaircutsService } from './haircuts.service';
 import { CreateHaircutDto } from './dto/create-haircut.dto';
@@ -15,14 +16,29 @@ import { ValidateId } from 'src/common/pipes/validate-id.pipe';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { PublicAccess } from 'src/common/decorators/public.decorator';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { UploadedImages } from 'src/cloudinary/decorators/upload-images.decorator';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @ApiBearerAuth()
 @Controller('haircuts')
 export class HaircutsController {
-  constructor(private readonly haircutsService: HaircutsService) {}
+  constructor(
+    private readonly haircutsService: HaircutsService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post()
-  create(@Body() createHaircutDto: CreateHaircutDto) {
+  @UseInterceptors(FilesInterceptor('files'))
+  async create(
+    @UploadedImages() files: Express.Multer.File[],
+    @Body() createHaircutDto: CreateHaircutDto,
+  ) {
+    if (files && files.length > 0) {
+      const uploadedImages = await this.cloudinaryService.uploadFiles(files);
+      const urls = uploadedImages.map((img) => img.secure_url);
+      createHaircutDto.imgs = urls;
+    }
     return this.haircutsService.create(createHaircutDto);
   }
 

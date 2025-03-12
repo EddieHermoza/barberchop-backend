@@ -22,11 +22,20 @@ const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const swagger_1 = require("@nestjs/swagger");
 const public_decorator_1 = require("../common/decorators/public.decorator");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
+const upload_images_decorator_1 = require("../cloudinary/decorators/upload-images.decorator");
+const platform_express_1 = require("@nestjs/platform-express");
 let HaircutsController = class HaircutsController {
-    constructor(haircutsService) {
+    constructor(haircutsService, cloudinaryService) {
         this.haircutsService = haircutsService;
+        this.cloudinaryService = cloudinaryService;
     }
-    create(createHaircutDto) {
+    async create(files, createHaircutDto) {
+        if (files && files.length > 0) {
+            const uploadedImages = await this.cloudinaryService.uploadFiles(files);
+            const urls = uploadedImages.map((img) => img.secure_url);
+            createHaircutDto.imgs = urls;
+        }
         return this.haircutsService.create(createHaircutDto);
     }
     findAll(params) {
@@ -45,11 +54,13 @@ let HaircutsController = class HaircutsController {
 exports.HaircutsController = HaircutsController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
     openapi.ApiResponse({ status: 201 }),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, upload_images_decorator_1.UploadedImages)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_haircut_dto_1.CreateHaircutDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Array, create_haircut_dto_1.CreateHaircutDto]),
+    __metadata("design:returntype", Promise)
 ], HaircutsController.prototype, "create", null);
 __decorate([
     (0, public_decorator_1.PublicAccess)(),
@@ -89,6 +100,7 @@ __decorate([
 exports.HaircutsController = HaircutsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('haircuts'),
-    __metadata("design:paramtypes", [haircuts_service_1.HaircutsService])
+    __metadata("design:paramtypes", [haircuts_service_1.HaircutsService,
+        cloudinary_service_1.CloudinaryService])
 ], HaircutsController);
 //# sourceMappingURL=haircuts.controller.js.map

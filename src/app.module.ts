@@ -16,6 +16,8 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { HaircutsModule } from './haircuts/haircuts.module';
 import { PurchasesModule } from './purchases/purchases.module';
 import { PaymentsModule } from './payments/payments.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { PaymentsModule } from './payments/payments.module';
     HaircutsModule,
     PurchasesModule,
     PaymentsModule,
+    CloudinaryModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],
   providers: [PrismaService, AuthService, CloudinaryService, AppService],

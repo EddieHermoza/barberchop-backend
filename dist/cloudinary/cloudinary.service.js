@@ -8,7 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudinaryService = void 0;
 const common_1 = require("@nestjs/common");
+const cloudinary_1 = require("cloudinary");
+const streamifier = require('streamifier');
 let CloudinaryService = class CloudinaryService {
+    uploadFile(file) {
+        return new Promise((resolve, reject) => {
+            const uploadStream = cloudinary_1.v2.uploader.upload_stream((error, result) => {
+                if (error)
+                    return reject(error);
+                if (result && 'secure_url' in result) {
+                    return resolve({ secure_url: result.secure_url });
+                }
+                reject(new Error('No se encontró secure_url en la respuesta'));
+            });
+            streamifier.createReadStream(file.buffer).pipe(uploadStream);
+        });
+    }
+    uploadFiles(files) {
+        return Promise.all(files.map((file) => this.uploadFile(file)));
+    }
 };
 exports.CloudinaryService = CloudinaryService;
 exports.CloudinaryService = CloudinaryService = __decorate([

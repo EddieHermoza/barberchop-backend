@@ -10,8 +10,10 @@ export class CreateHaircutDto {
 
   @IsArray()
   @IsString({ each: true })
+  @IsOptional()
   imgs: string[];
 
   @IsBoolean()
+  @IsOptional()
   isActive: boolean;
 }
