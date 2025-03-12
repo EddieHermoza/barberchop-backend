@@ -62,33 +62,21 @@ let SalesService = class SalesService {
             where: {
                 id,
             },
-            select: {
-                id: true,
-                created: true,
-                transaction: true,
-                amount: true,
-                discount: true,
-                totalAmount: true,
-                paymentMethod: true,
-                status: true,
-                User: {
-                    select: {
-                        id: true,
-                        name: true,
-                        lastName: true,
-                        email: true,
+            include: {
+                Customer: {
+                    include: {
+                        User: {
+                            omit: {
+                                password: true,
+                                created: true,
+                                updated: true,
+                                isActive: true,
+                                isArchived: true,
+                            },
+                        },
                     },
                 },
-                SaleItem: {
-                    select: {
-                        id: true,
-                        productId: true,
-                        productName: true,
-                        quantity: true,
-                        price: true,
-                        discount: true,
-                    },
-                },
+                SaleItem: {},
             },
         });
         if (!sale)
@@ -96,13 +84,14 @@ let SalesService = class SalesService {
         return sale;
     }
     async remove(id) {
+        await this.findOne(id);
         const sale = await this.db.sale.delete({
             where: {
                 id,
             },
         });
-        if (!sale)
-            throw new common_1.NotFoundException(`La venta del id ${id} no existe`);
+        if (sale)
+            return { message: `La venta del ID ${id} fue borrada` };
     }
 };
 exports.SalesService = SalesService;

@@ -7,48 +7,42 @@ export declare class ServicesService {
     private readonly db;
     constructor(db: PrismaService);
     create(createServiceDto: CreateServiceDto): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string | null;
         id: number;
         isArchived: boolean;
-        img: string | null;
         price: Prisma.Decimal;
     }>;
     findAll({ limit, page, query, status }: SearchStatusQueryDto): Prisma.PrismaPromise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string | null;
         id: number;
         isArchived: boolean;
-        img: string | null;
         price: Prisma.Decimal;
     }[]>;
     findOne(id: number): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string | null;
         id: number;
         isArchived: boolean;
-        img: string | null;
         price: Prisma.Decimal;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto): Promise<{
-        name: string;
         description: string;
+        name: string;
         isActive: boolean;
+        img: string | null;
         id: number;
         isArchived: boolean;
-        img: string | null;
         price: Prisma.Decimal;
     }>;
     remove(id: number): Promise<{
-        name: string;
-        description: string;
-        isActive: boolean;
-        id: number;
-        isArchived: boolean;
-        img: string | null;
-        price: Prisma.Decimal;
+        message: string;
     }>;
 }

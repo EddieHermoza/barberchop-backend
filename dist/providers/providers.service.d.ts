@@ -58,16 +58,6 @@ export declare class ProvidersService {
         web: string | null;
     }>;
     remove(id: number): Promise<{
-        number: string;
-        name: string;
-        email: string;
-        isActive: boolean;
-        id: number;
-        created: Date;
-        updated: Date;
-        isArchived: boolean;
-        ruc: string;
-        legal: string;
-        web: string | null;
+        message: string;
     }>;
 }

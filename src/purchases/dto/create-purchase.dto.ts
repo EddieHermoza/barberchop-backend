@@ -4,19 +4,22 @@ import {
   ArrayNotEmpty,
   IsDate,
   IsEnum,
+  IsInt,
   IsNumber,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { CreatePurchaseItemDto } from './create-purchase-item.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class CreatePurchaseDto {
-  @ApiProperty({ required: false })
-  @IsNumber()
-  userId: number;
+  @ApiHideProperty()
+  @IsOptional()
+  @IsInt()
+  adminId: number;
 
-  @IsNumber()
+  @IsInt()
   providerId: number;
 
   @IsNumber({ maxDecimalPlaces: 2 })
@@ -32,11 +35,12 @@ export class CreatePurchaseDto {
   @IsString()
   receiptNumber: string;
 
+  @Type(() => Date)
   @IsDate()
   receiptDate: Date;
 
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreatePurchaseItemDto)
-  purchaseItems: CreatePurchaseItemDto[];
+  PurchaseItem: CreatePurchaseItemDto[];
 }

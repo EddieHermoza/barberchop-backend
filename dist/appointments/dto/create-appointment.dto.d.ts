@@ -1,7 +1,7 @@
 import { AppointmentStatus } from '@prisma/client';
 export declare class CreateAppointmentDto {
     scheduledAt: Date;
-    userId: number;
+    customerId: number;
     barberId: number;
     serviceId: number;
     status: AppointmentStatus;

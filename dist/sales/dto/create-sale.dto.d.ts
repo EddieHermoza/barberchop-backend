@@ -1,7 +1,7 @@
 import { PaymentMethod, Status } from '@prisma/client';
 import { CreateSaleItemDto } from './create-sale-item.dto';
 export declare class CreateSaleDto {
-    userId: number;
+    customerId: number;
     transaction: string;
     amount: number;
     discount: number;

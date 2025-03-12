@@ -19,7 +19,6 @@ const cloudinary_service_1 = require("./cloudinary/cloudinary.service");
 const inventory_module_1 = require("./inventory/inventory.module");
 const sales_module_1 = require("./sales/sales.module");
 const app_service_1 = require("./app.service");
-const barbers_module_1 = require("./barbers/barbers.module");
 const services_module_1 = require("./services/services.module");
 const appointments_module_1 = require("./appointments/appointments.module");
 const haircuts_module_1 = require("./haircuts/haircuts.module");
@@ -39,7 +38,6 @@ exports.AppModule = AppModule = __decorate([
             products_module_1.ProductsModule,
             inventory_module_1.InventoryModule,
             sales_module_1.SalesModule,
-            barbers_module_1.BarbersModule,
             services_module_1.ServicesModule,
             appointments_module_1.AppointmentsModule,
             haircuts_module_1.HaircutsModule,

@@ -28,7 +28,7 @@ export class SalesController {
     @UserSession() user: IUserSession,
     @Body() createSaleDto: CreateSaleDto,
   ) {
-    createSaleDto.userId = user.id;
+    createSaleDto.customerId = user.id;
     return this.salesService.create(createSaleDto);
   }
 

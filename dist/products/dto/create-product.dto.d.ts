@@ -1,7 +1,8 @@
+import { ProductCategory } from '@prisma/client';
 export declare class CreateProductDto {
     name: string;
     description: string;
-    category: string;
+    category: ProductCategory;
     img: string;
     orderLimit: number;
     discount: number;

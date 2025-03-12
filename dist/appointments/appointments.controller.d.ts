@@ -12,7 +12,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -23,7 +23,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -34,7 +34,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -45,7 +45,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -56,7 +56,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -67,7 +67,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -78,7 +78,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -89,21 +89,13 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
     }>;
     remove(id: number): Promise<{
-        status: import(".prisma/client").$Enums.AppointmentStatus;
-        id: number;
-        created: Date;
-        isArchived: boolean;
-        notes: string | null;
-        userId: number;
-        scheduledAt: Date;
-        barberId: number;
-        serviceId: number;
+        message: string;
     }>;
     confirmAppointment(id: number): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
@@ -111,7 +103,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -122,7 +114,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -133,7 +125,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;
@@ -144,7 +136,7 @@ export declare class AppointmentsController {
         created: Date;
         isArchived: boolean;
         notes: string | null;
-        userId: number;
+        customerId: number;
         scheduledAt: Date;
         barberId: number;
         serviceId: number;

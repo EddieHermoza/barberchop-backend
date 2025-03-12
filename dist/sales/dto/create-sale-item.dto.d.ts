@@ -1,5 +1,4 @@
 export declare class CreateSaleItemDto {
-    saleId: number;
     productId: number;
     productName: string;
     quantity: number;

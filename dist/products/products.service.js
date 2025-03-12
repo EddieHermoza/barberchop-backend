@@ -90,7 +90,8 @@ let ProductsService = class ProductsService {
                     isArchived: true,
                 },
             });
-            return archivedProduct;
+            if (archivedProduct)
+                return { message: `El producto con el ID ${id} fue archivado` };
         }
         catch (error) {
             if (error.code === 'P2025')

@@ -2,18 +2,21 @@ import { PaymentMethod, Status } from '@prisma/client';
 import {
   ArrayNotEmpty,
   IsEnum,
+  IsInt,
   IsNumber,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { CreateSaleItemDto } from './create-sale-item.dto';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class CreateSaleDto {
-  @ApiProperty({ required: false })
-  @IsNumber()
-  userId: number;
+  @ApiHideProperty()
+  @IsOptional()
+  @IsInt()
+  customerId: number;
 
   @IsString()
   transaction: string;

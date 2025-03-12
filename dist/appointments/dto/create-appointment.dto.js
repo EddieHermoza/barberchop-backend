@@ -17,7 +17,7 @@ const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateAppointmentDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { scheduledAt: { required: true, type: () => Date }, userId: { required: true, type: () => Number }, barberId: { required: true, type: () => Number }, serviceId: { required: true, type: () => Number }, status: { required: true, type: () => Object }, notes: { required: true, type: () => String } };
+        return { scheduledAt: { required: true, type: () => Date }, barberId: { required: true, type: () => Number }, serviceId: { required: true, type: () => Number }, status: { required: true, type: () => Object }, notes: { required: true, type: () => String } };
     }
 }
 exports.CreateAppointmentDto = CreateAppointmentDto;
@@ -27,11 +27,11 @@ __decorate([
     __metadata("design:type", Date)
 ], CreateAppointmentDto.prototype, "scheduledAt", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, swagger_1.ApiHideProperty)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], CreateAppointmentDto.prototype, "userId", void 0);
+], CreateAppointmentDto.prototype, "customerId", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)

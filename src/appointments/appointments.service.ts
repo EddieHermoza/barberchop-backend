@@ -3,7 +3,6 @@ import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ServicesService } from 'src/services/services.service';
-import { BarbersService } from 'src/barbers/barbers.service';
 import { UsersService } from 'src/users/users.service';
 import { endOfDay, startOfDay } from 'date-fns';
 import { AppointmentQueryDto } from './dto/appointment-query.dto';
@@ -14,17 +13,23 @@ export class AppointmentsService {
   constructor(
     private readonly db: PrismaService,
     private readonly servicesService: ServicesService,
-    private readonly barbersService: BarbersService,
     private readonly usersService: UsersService,
   ) {}
   async create(createAppointmentDto: CreateAppointmentDto) {
-    const { userId, barberId, serviceId } = createAppointmentDto;
+    const { customerId, serviceId, barberId } = createAppointmentDto;
     try {
-      await Promise.all([
-        this.servicesService.findOne(serviceId),
-        this.barbersService.findOne(barberId),
-        this.usersService.findOne(userId),
-      ]);
+      const service = await this.servicesService.findOne(serviceId);
+      const Customer = await this.usersService.findCustomer(customerId);
+      const { Barber } = await this.usersService.findBarber(barberId);
+
+      if (!service.isActive)
+        throw new NotFoundException('El servicio no esta disponible');
+
+      if (!Customer.isActive)
+        throw new NotFoundException('El cliente no esta habilitado');
+
+      if (!Barber.isActive)
+        throw new NotFoundException('El barbero no esta habilitado');
 
       const newAppointment = await this.db.appointment.create({
         data: createAppointmentDto,
@@ -89,7 +94,7 @@ export class AppointmentsService {
 
   async remove(id: number) {
     try {
-      const deleteAppointment = await this.db.appointment.update({
+      const arhivedAppointment = await this.db.appointment.update({
         where: {
           id,
         },
@@ -97,7 +102,8 @@ export class AppointmentsService {
           isArchived: true,
         },
       });
-      return deleteAppointment;
+      if (arhivedAppointment)
+        return { message: `La cita con el ID ${id} fue archivada` };
     } catch (error) {
       if (error.code === 'P2025') {
         throw new NotFoundException(`La cita del id ${id} no existe`);
@@ -157,7 +163,7 @@ export class AppointmentsService {
   async findAppointmentsByUser(id: number) {
     const appointments = await this.db.appointment.findMany({
       where: {
-        userId: id,
+        customerId: id,
         isArchived: false,
       },
     });

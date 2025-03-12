@@ -17,7 +17,7 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const payments_service_1 = require("./payments.service");
 const create_payment_dto_1 = require("./dto/create-payment.dto");
-const update_payment_dto_1 = require("./dto/update-payment.dto");
+const appointmentPayment_query_dto_1 = require("./dto/appointmentPayment-query.dto");
 let PaymentsController = class PaymentsController {
     constructor(paymentsService) {
         this.paymentsService = paymentsService;
@@ -25,14 +25,11 @@ let PaymentsController = class PaymentsController {
     create(createPaymentDto) {
         return this.paymentsService.create(createPaymentDto);
     }
-    findAll() {
-        return this.paymentsService.findAll();
+    findAll(params) {
+        return this.paymentsService.findAll(params);
     }
     findOne(id) {
         return this.paymentsService.findOne(+id);
-    }
-    update(id, updatePaymentDto) {
-        return this.paymentsService.update(+id, updatePaymentDto);
     }
     remove(id) {
         return this.paymentsService.remove(+id);
@@ -41,7 +38,7 @@ let PaymentsController = class PaymentsController {
 exports.PaymentsController = PaymentsController;
 __decorate([
     (0, common_1.Post)(),
-    openapi.ApiResponse({ status: 201, type: String }),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_payment_dto_1.CreatePaymentDto]),
@@ -49,31 +46,23 @@ __decorate([
 ], PaymentsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [appointmentPayment_query_dto_1.AppointmentPaymentQueryDto]),
     __metadata("design:returntype", void 0)
 ], PaymentsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PaymentsController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    openapi.ApiResponse({ status: 200, type: String }),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_payment_dto_1.UpdatePaymentDto]),
-    __metadata("design:returntype", void 0)
-], PaymentsController.prototype, "update", null);
-__decorate([
     (0, common_1.Delete)(':id'),
-    openapi.ApiResponse({ status: 200, type: String }),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

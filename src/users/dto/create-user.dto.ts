@@ -1,15 +1,9 @@
-import { IsString, IsEmail, IsBoolean, Length, IsEnum } from 'class-validator';
-import { UserRole } from '@prisma/client';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsEmail, IsBoolean, Length } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
   @Length(8, 8, { message: 'El DNI debe tener exactamente 8 caracteres.' })
   dni: string;
-
-  @IsString()
-  @Length(9, 9, { message: 'El número debe tener 9 caracteres.' })
-  number: string;
 
   @IsString()
   @Length(2, 50, { message: 'El nombre debe tener entre 2 y 50 caracteres.' })
@@ -27,13 +21,6 @@ export class CreateUserDto {
     message: 'La contraseña debe tener entre 8 y 20 caracteres.',
   })
   password: string;
-
-  @ApiProperty({ enum: UserRole })
-  @IsEnum(UserRole, {
-    message:
-      'El rol debe ser uno de los siguientes valores: ADMINISTRADOR, CLIENTE.',
-  })
-  role: UserRole;
 
   @IsBoolean({ message: 'El campo isActive debe ser un valor booleano.' })
   isActive: boolean;

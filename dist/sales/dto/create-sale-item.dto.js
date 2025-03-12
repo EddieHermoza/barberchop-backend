@@ -14,14 +14,10 @@ const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateSaleItemDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { saleId: { required: true, type: () => Number }, productId: { required: true, type: () => Number }, productName: { required: true, type: () => String }, quantity: { required: true, type: () => Number }, price: { required: true, type: () => Number }, discount: { required: true, type: () => Number } };
+        return { productId: { required: true, type: () => Number }, productName: { required: true, type: () => String }, quantity: { required: true, type: () => Number }, price: { required: true, type: () => Number }, discount: { required: true, type: () => Number } };
     }
 }
 exports.CreateSaleItemDto = CreateSaleItemDto;
-__decorate([
-    (0, class_validator_1.IsInt)(),
-    __metadata("design:type", Number)
-], CreateSaleItemDto.prototype, "saleId", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)

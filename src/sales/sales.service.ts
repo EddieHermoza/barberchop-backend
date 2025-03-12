@@ -64,33 +64,21 @@ export class SalesService {
       where: {
         id,
       },
-      select: {
-        id: true,
-        created: true,
-        transaction: true,
-        amount: true,
-        discount: true,
-        totalAmount: true,
-        paymentMethod: true,
-        status: true,
-        User: {
-          select: {
-            id: true,
-            name: true,
-            lastName: true,
-            email: true,
+      include: {
+        Customer: {
+          include: {
+            User: {
+              omit: {
+                password: true,
+                created: true,
+                updated: true,
+                isActive: true,
+                isArchived: true,
+              },
+            },
           },
         },
-        SaleItem: {
-          select: {
-            id: true,
-            productId: true,
-            productName: true,
-            quantity: true,
-            price: true,
-            discount: true,
-          },
-        },
+        SaleItem: {},
       },
     });
 
@@ -100,12 +88,13 @@ export class SalesService {
   }
 
   async remove(id: number) {
+    await this.findOne(id);
     const sale = await this.db.sale.delete({
       where: {
         id,
       },
     });
 
-    if (!sale) throw new NotFoundException(`La venta del id ${id} no existe`);
+    if (sale) return { message: `La venta del ID ${id} fue borrada` };
   }
 }

@@ -28,7 +28,7 @@ export class PurchasesController {
     @UserSession() user: IUserSession,
     @Body() createPurchaseDto: CreatePurchaseDto,
   ) {
-    createPurchaseDto.userId = user.id;
+    createPurchaseDto.adminId = user.id;
     return this.purchasesService.create(createPurchaseDto);
   }
 

@@ -20,18 +20,19 @@ let PurchasesService = class PurchasesService {
         this.InventoryService = InventoryService;
     }
     async create(createPurchaseDto) {
+        const { PurchaseItem } = createPurchaseDto;
         return await this.db.$transaction(async (prisma) => {
             const purchase = await prisma.purchase.create({
                 data: {
                     ...createPurchaseDto,
                     PurchaseItem: {
                         createMany: {
-                            data: createPurchaseDto.purchaseItems,
+                            data: PurchaseItem,
                         },
                     },
                 },
             });
-            await Promise.all(createPurchaseDto.purchaseItems.map(async (item) => {
+            await Promise.all(createPurchaseDto.PurchaseItem.map(async (item) => {
                 await this.InventoryService.updateProductStock(item.productId, item.quantity, 'ENTRADA');
             }));
             return purchase;
@@ -60,32 +61,26 @@ let PurchasesService = class PurchasesService {
     async findOne(id) {
         const purchase = await this.db.purchase.findFirst({
             where: { id },
-            select: {
-                id: true,
-                created: true,
-                totalAmount: true,
-                receiptNumber: true,
-                receiptType: true,
-                receiptDate: true,
+            include: {
+                Admin: {
+                    select: {
+                        User: {
+                            omit: {
+                                password: true,
+                                created: true,
+                                updated: true,
+                                isActive: true,
+                                isArchived: true,
+                            },
+                        },
+                    },
+                },
+                PurchaseItem: {},
                 Provider: {
                     select: {
                         id: true,
+                        ruc: true,
                         name: true,
-                    },
-                },
-                User: {
-                    select: {
-                        id: true,
-                        name: true,
-                        lastName: true,
-                    },
-                },
-                PurchaseItem: {
-                    select: {
-                        productId: true,
-                        productName: true,
-                        quantity: true,
-                        price: true,
                     },
                 },
             },
@@ -95,11 +90,10 @@ let PurchasesService = class PurchasesService {
         return purchase;
     }
     async remove(id) {
+        await this.findOne(id);
         const purchase = await this.db.purchase.delete({
             where: { id },
         });
-        if (!purchase)
-            throw new common_1.NotFoundException(`La compra del id ${id} no existe`);
         return purchase;
     }
 };

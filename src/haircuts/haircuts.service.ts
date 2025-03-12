@@ -70,7 +70,7 @@ export class HaircutsService {
 
   async remove(id: number) {
     try {
-      const deleteHaircut = await this.db.haircutType.update({
+      const archivedHaircut = await this.db.haircutType.update({
         where: {
           id,
         },
@@ -79,7 +79,8 @@ export class HaircutsService {
           isArchived: true,
         },
       });
-      return deleteHaircut;
+      if (archivedHaircut)
+        return { message: `El corte con el ID ${id} fue archivado` };
     } catch (error) {
       if (error.code === 'P2025') {
         throw new NotFoundException(

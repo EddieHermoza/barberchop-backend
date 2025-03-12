@@ -10,7 +10,6 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { InventoryModule } from './inventory/inventory.module';
 import { SalesModule } from './sales/sales.module';
 import { AppService } from './app.service';
-import { BarbersModule } from './barbers/barbers.module';
 import { ServicesModule } from './services/services.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { HaircutsModule } from './haircuts/haircuts.module';
@@ -27,7 +26,6 @@ import { ConfigModule } from '@nestjs/config';
     ProductsModule,
     InventoryModule,
     SalesModule,
-    BarbersModule,
     ServicesModule,
     AppointmentsModule,
     HaircutsModule,

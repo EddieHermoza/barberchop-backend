@@ -12,24 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateBarberDto = void 0;
 const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class CreateBarberDto {
+const create_user_dto_1 = require("./create-user.dto");
+class CreateBarberDto extends create_user_dto_1.CreateUserDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { name: { required: true, type: () => String, minLength: 2, maxLength: 50 }, img: { required: true, type: () => String }, isActive: { required: true, type: () => Boolean } };
+        return { img: { required: true, type: () => String, format: "uri" }, skills: { required: true, type: () => String, minLength: 2, maxLength: 100 }, isActiveBarber: { required: true, type: () => Boolean } };
     }
 }
 exports.CreateBarberDto = CreateBarberDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(2, 50, { message: 'El nombre debe tener entre 2 y 50 caracteres.' }),
-    __metadata("design:type", String)
-], CreateBarberDto.prototype, "name", void 0);
-__decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)({ message: 'La imagen debe ser una url válida' }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], CreateBarberDto.prototype, "img", void 0);
 __decorate([
-    (0, class_validator_1.IsBoolean)({ message: 'El campo isActive debe ser un valor booleano.' }),
+    (0, class_validator_1.Length)(2, 100),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateBarberDto.prototype, "skills", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
-], CreateBarberDto.prototype, "isActive", void 0);
+], CreateBarberDto.prototype, "isActiveBarber", void 0);
 //# sourceMappingURL=create-barber.dto.js.map

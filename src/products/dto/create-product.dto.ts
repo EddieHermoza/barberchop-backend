@@ -1,4 +1,13 @@
-import { IsBoolean, IsInt, IsNumber, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { ProductCategory } from '@prisma/client';
+import {
+  IsBoolean,
+  IsEnum,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -7,9 +16,11 @@ export class CreateProductDto {
   @IsString()
   description: string;
 
-  @IsString()
-  category: string;
+  @ApiProperty({ enum: ProductCategory })
+  @IsEnum(ProductCategory)
+  category: ProductCategory;
 
+  @IsOptional()
   @IsString()
   img: string;
 
