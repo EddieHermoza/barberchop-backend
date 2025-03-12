@@ -9,38 +9,38 @@ export declare class PaymentsService {
     create(createPaymentDto: CreatePaymentDto): Promise<{
         id: number;
         created: Date;
+        status: import(".prisma/client").$Enums.Status;
+        notes: string | null;
         appointmentId: number;
-        serviceAmount: import("@prisma/client/runtime/library").Decimal;
+        amount: import("@prisma/client/runtime/library").Decimal;
         additionalAmount: import("@prisma/client/runtime/library").Decimal;
         discount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         method: import(".prisma/client").$Enums.PaymentMethod;
-        status: import(".prisma/client").$Enums.Status;
-        notes: string | null;
     }>;
     findAll({ limit, payment, page, status }: AppointmentPaymentQueryDto): Promise<{
         id: number;
         created: Date;
+        status: import(".prisma/client").$Enums.Status;
+        notes: string | null;
         appointmentId: number;
-        serviceAmount: import("@prisma/client/runtime/library").Decimal;
+        amount: import("@prisma/client/runtime/library").Decimal;
         additionalAmount: import("@prisma/client/runtime/library").Decimal;
         discount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         method: import(".prisma/client").$Enums.PaymentMethod;
-        status: import(".prisma/client").$Enums.Status;
-        notes: string | null;
     }[]>;
     findOne(id: number): Promise<{
         id: number;
         created: Date;
+        status: import(".prisma/client").$Enums.Status;
+        notes: string | null;
         appointmentId: number;
-        serviceAmount: import("@prisma/client/runtime/library").Decimal;
+        amount: import("@prisma/client/runtime/library").Decimal;
         additionalAmount: import("@prisma/client/runtime/library").Decimal;
         discount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         method: import(".prisma/client").$Enums.PaymentMethod;
-        status: import(".prisma/client").$Enums.Status;
-        notes: string | null;
     }>;
     remove(id: number): Promise<{
         message: string;

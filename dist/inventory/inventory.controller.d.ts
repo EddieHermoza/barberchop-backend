@@ -13,31 +13,31 @@ export declare class InventoryController {
         lastStockEntry: Date;
     }[]>;
     create(createMovementDto: CreateMovementDto): Promise<{
-        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
+        notes: string;
+        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
-        notes: string;
     }>;
     findAllMovements(params: MovementQueryDto): Promise<({
         Product: {
             name: string;
         };
     } & {
-        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
+        notes: string;
+        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
-        notes: string;
     })[]>;
     findOne(id: number): Promise<{
-        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
+        notes: string;
+        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
-        notes: string;
     }>;
 }

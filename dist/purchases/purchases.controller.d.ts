@@ -8,65 +8,41 @@ export declare class PurchasesController {
     create(user: IUserSession, createPurchaseDto: CreatePurchaseDto): Promise<{
         id: number;
         created: Date;
-        providerId: number;
+        userId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
-        adminId: number;
     }>;
     findAll(params: SearchQueryDto): Promise<{
         id: number;
         created: Date;
-        providerId: number;
+        userId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
-        adminId: number;
     }[]>;
     findOne(id: number): Promise<{
-        Provider: {
-            id: number;
-            name: string;
-            ruc: string;
-        };
-        PurchaseItem: {
-            id: number;
-            productName: string;
-            quantity: number;
-            price: import("@prisma/client/runtime/library").Decimal;
-            productId: number;
-            purchaseId: number;
-        }[];
-        Admin: {
-            User: {
-                id: number;
-                name: string;
-                dni: string;
-                lastName: string;
-                email: string;
-                role: import(".prisma/client").$Enums.UserRole;
-            };
-        };
-    } & {
         id: number;
         created: Date;
-        providerId: number;
+        userId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
-        adminId: number;
     }>;
     remove(id: number): Promise<{
         id: number;
         created: Date;
-        providerId: number;
+        userId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
-        adminId: number;
     }>;
 }
