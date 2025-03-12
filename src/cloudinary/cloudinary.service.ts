@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import {
   CloudinaryResponse,
   CloudinarySecureResponse,
-} from './cloudinary-response';
+} from './interfaces/cloudinary-response.interface';
 const streamifier = require('streamifier');
 
 @Injectable()
@@ -25,9 +25,13 @@ export class CloudinaryService {
     });
   }
 
-  uploadFiles(
-    files: Express.Multer.File[],
-  ): Promise<CloudinarySecureResponse[]> {
-    return Promise.all(files.map((file) => this.uploadFile(file)));
+  async uploadFiles(files: Express.Multer.File[]): Promise<any[]> {
+    let images = [];
+    if (files && files.length > 0) {
+      const uploadedImages = await this.uploadFiles(files);
+      const urls = uploadedImages.map((img) => img.secure_url);
+      images = urls;
+    }
+    return images;
   }
 }

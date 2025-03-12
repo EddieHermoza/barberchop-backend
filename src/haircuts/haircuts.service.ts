@@ -16,11 +16,8 @@ export class HaircutsService {
     createHaircutDto: CreateHaircutDto,
     files?: Express.Multer.File[],
   ) {
-    if (files && files.length > 0) {
-      const uploadedImages = await this.cloudinaryService.uploadFiles(files);
-      const urls = uploadedImages.map((img) => img.secure_url);
-      createHaircutDto.imgs = urls;
-    }
+    createHaircutDto.imgs = await this.cloudinaryService.uploadFiles(files);
+
     return await this.db.haircutType.create({
       data: createHaircutDto,
     });
@@ -66,12 +63,9 @@ export class HaircutsService {
     files?: Express.Multer.File[],
   ) {
     const currentHaircut = await this.findOne(id);
-    if (files && files.length > 0) {
-      const uploadedImages = await this.cloudinaryService.uploadFiles(files);
-      const urls = uploadedImages.map((img) => img.secure_url);
-      updateHaircutDto.imgs = currentHaircut.imgs.concat(urls);
-    } else {
-      updateHaircutDto.imgs = currentHaircut.imgs;
+    const newImages = await this.cloudinaryService.uploadFiles(files);
+    if (currentHaircut.imgs.length > 0) {
+      updateHaircutDto.imgs = [...currentHaircut.imgs, ...newImages];
     }
 
     try {
