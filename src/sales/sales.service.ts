@@ -95,5 +95,6 @@ export class SalesService {
     });
 
     if (!sale) throw new NotFoundException(`La venta del id ${id} no existe`);
+    return sale;
   }
 }
