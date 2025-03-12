@@ -90,11 +90,10 @@ let PurchasesService = class PurchasesService {
         return purchase;
     }
     async remove(id) {
+        await this.findOne(id);
         const purchase = await this.db.purchase.delete({
             where: { id },
         });
-        if (!purchase)
-            throw new common_1.NotFoundException(`La compra del id ${id} no existe`);
         return purchase;
     }
 };

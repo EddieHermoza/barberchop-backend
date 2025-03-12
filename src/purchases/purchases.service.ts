@@ -97,11 +97,10 @@ export class PurchasesService {
   }
 
   async remove(id: number) {
+    await this.findOne(id);
     const purchase = await this.db.purchase.delete({
       where: { id },
     });
-    if (!purchase)
-      throw new NotFoundException(`La compra del id ${id} no existe`);
 
     return purchase;
   }

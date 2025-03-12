@@ -84,13 +84,14 @@ let SalesService = class SalesService {
         return sale;
     }
     async remove(id) {
+        await this.findOne(id);
         const sale = await this.db.sale.delete({
             where: {
                 id,
             },
         });
-        if (!sale)
-            throw new common_1.NotFoundException(`La venta del id ${id} no existe`);
+        if (sale)
+            return { message: `La venta del ID ${id} fue borrada` };
     }
 };
 exports.SalesService = SalesService;

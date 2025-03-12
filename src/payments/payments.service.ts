@@ -50,18 +50,13 @@ export class PaymentsService {
   }
 
   async remove(id: number) {
-    const payment = await this.db.appointmentPayment.findUnique({
+    await this.findOne(id);
+
+    const deletedPayment = await this.db.appointmentPayment.delete({
       where: { id },
     });
 
-    if (!payment) {
-      throw new NotFoundException(`Pago con el ID ${id} no encontrado`);
-    }
-
-    await this.db.appointmentPayment.delete({
-      where: { id },
-    });
-
-    return { message: `Pago con el ID ${id} fue eliminado` };
+    if (deletedPayment)
+      return { message: `Pago con el ID ${id} fue eliminado` };
   }
 }

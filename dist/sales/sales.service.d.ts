@@ -65,5 +65,7 @@ export declare class SalesService {
         status: import(".prisma/client").$Enums.Status;
         customerId: number;
     }>;
-    remove(id: number): Promise<void>;
+    remove(id: number): Promise<{
+        message: string;
+    }>;
 }
