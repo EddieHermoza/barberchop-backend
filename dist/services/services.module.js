@@ -12,12 +12,14 @@ const services_service_1 = require("./services.service");
 const services_controller_1 = require("./services.controller");
 const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 const prisma_service_1 = require("../prisma/prisma.service");
+const cloudinary_module_1 = require("../cloudinary/cloudinary.module");
 let ServicesModule = class ServicesModule {
 };
 exports.ServicesModule = ServicesModule;
 exports.ServicesModule = ServicesModule = __decorate([
     (0, common_1.Module)({
         exports: [services_service_1.ServicesService],
+        imports: [cloudinary_module_1.CloudinaryModule],
         controllers: [services_controller_1.ServicesController],
         providers: [services_service_1.ServicesService, cloudinary_service_1.CloudinaryService, prisma_service_1.PrismaService],
     })

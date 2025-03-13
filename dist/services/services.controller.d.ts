@@ -5,7 +5,7 @@ import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ServicesController {
     private readonly servicesService;
     constructor(servicesService: ServicesService);
-    create(createServiceDto: CreateServiceDto): Promise<{
+    create(createServiceDto: CreateServiceDto, file: Express.Multer.File): Promise<{
         id: number;
         name: string;
         description: string;
@@ -32,7 +32,7 @@ export declare class ServicesController {
         isActive: boolean;
         isArchived: boolean;
     }>;
-    update(id: number, updateServiceDto: UpdateServiceDto): Promise<{
+    update(id: number, updateServiceDto: UpdateServiceDto, file: Express.Multer.File): Promise<{
         id: number;
         name: string;
         description: string;

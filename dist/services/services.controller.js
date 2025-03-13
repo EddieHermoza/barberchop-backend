@@ -22,12 +22,14 @@ const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const swagger_1 = require("@nestjs/swagger");
 const public_decorator_1 = require("../common/decorators/public.decorator");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
+const file_interceptor_decorator_1 = require("../common/decorators/file-interceptor.decorator");
+const upload_images_decorator_1 = require("../cloudinary/decorators/upload-images.decorator");
 let ServicesController = class ServicesController {
     constructor(servicesService) {
         this.servicesService = servicesService;
     }
-    create(createServiceDto) {
-        return this.servicesService.create(createServiceDto);
+    create(createServiceDto, file) {
+        return this.servicesService.create(createServiceDto, file);
     }
     findAll(params) {
         return this.servicesService.findAll(params);
@@ -35,8 +37,8 @@ let ServicesController = class ServicesController {
     findOne(id) {
         return this.servicesService.findOne(id);
     }
-    update(id, updateServiceDto) {
-        return this.servicesService.update(id, updateServiceDto);
+    update(id, updateServiceDto, file) {
+        return this.servicesService.update(id, updateServiceDto, file);
     }
     remove(id) {
         return this.servicesService.remove(id);
@@ -44,11 +46,13 @@ let ServicesController = class ServicesController {
 };
 exports.ServicesController = ServicesController;
 __decorate([
+    (0, file_interceptor_decorator_1.UseFileInterceptor)(),
     (0, common_1.Post)(),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, upload_images_decorator_1.UploadedImage)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_service_dto_1.CreateServiceDto]),
+    __metadata("design:paramtypes", [create_service_dto_1.CreateServiceDto, Object]),
     __metadata("design:returntype", void 0)
 ], ServicesController.prototype, "create", null);
 __decorate([
@@ -70,12 +74,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ServicesController.prototype, "findOne", null);
 __decorate([
+    (0, file_interceptor_decorator_1.UseFileInterceptor)(),
     (0, common_1.Patch)(':id'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, upload_images_decorator_1.UploadedImage)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_service_dto_1.UpdateServiceDto]),
+    __metadata("design:paramtypes", [Number, update_service_dto_1.UpdateServiceDto, Object]),
     __metadata("design:returntype", void 0)
 ], ServicesController.prototype, "update", null);
 __decorate([

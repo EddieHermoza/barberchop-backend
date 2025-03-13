@@ -12,104 +12,104 @@ export declare class AppointmentsService {
     constructor(db: PrismaService, servicesService: ServicesService, usersService: UsersService);
     create(createAppointmentDto: CreateAppointmentDto): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }>;
     findAll({ limit, page, from_date, status, to_date, }: AppointmentQueryDto): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }[]>;
     findOne(id: number): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }>;
     update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }>;
     remove(id: number): Promise<{
         message: string;
     }>;
     findAppointmentsByDay(date: Date): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }[]>;
     findAppointmentsToday(): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }[]>;
     findAppointmentsByBarber(id: number): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }[]>;
     findAppointmentsByUser(id: number): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }[]>;
     updateStatus(id: number, status: AppointmentStatus): Promise<{
         id: number;
+        isArchived: boolean;
+        status: import(".prisma/client").$Enums.AppointmentStatus;
         created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
         serviceId: number;
-        status: import(".prisma/client").$Enums.AppointmentStatus;
         notes: string | null;
-        isArchived: boolean;
     }>;
 }

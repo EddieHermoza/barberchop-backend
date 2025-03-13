@@ -13,11 +13,14 @@ exports.ServicesService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 let ServicesService = class ServicesService {
-    constructor(db) {
+    constructor(db, cloudinaryService) {
         this.db = db;
+        this.cloudinaryService = cloudinaryService;
     }
-    async create(createServiceDto) {
+    async create(createServiceDto, file) {
+        createServiceDto.img = await this.cloudinaryService.uploadImage(file);
         return await this.db.service.create({
             data: createServiceDto,
         });
@@ -51,7 +54,8 @@ let ServicesService = class ServicesService {
         }
         return service;
     }
-    async update(id, updateServiceDto) {
+    async update(id, updateServiceDto, file) {
+        updateServiceDto.img = await this.cloudinaryService.uploadImage(file);
         try {
             const updateService = await this.db.service.update({
                 where: {
@@ -92,6 +96,7 @@ let ServicesService = class ServicesService {
 exports.ServicesService = ServicesService;
 exports.ServicesService = ServicesService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        cloudinary_service_1.CloudinaryService])
 ], ServicesService);
 //# sourceMappingURL=services.service.js.map
