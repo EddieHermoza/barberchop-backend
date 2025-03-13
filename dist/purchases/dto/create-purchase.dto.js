@@ -29,10 +29,12 @@ __decorate([
     __metadata("design:type", Number)
 ], CreatePurchaseDto.prototype, "adminId", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreatePurchaseDto.prototype, "providerId", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
 ], CreatePurchaseDto.prototype, "totalAmount", void 0);

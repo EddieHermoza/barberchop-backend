@@ -12,9 +12,9 @@ export declare class SalesService {
         created: Date;
         discount: Prisma.Decimal;
         status: import(".prisma/client").$Enums.Status;
-        totalAmount: Prisma.Decimal;
         transaction: string;
         amount: Prisma.Decimal;
+        totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
         customerId: number;
     }>;
@@ -23,9 +23,9 @@ export declare class SalesService {
         created: Date;
         discount: Prisma.Decimal;
         status: import(".prisma/client").$Enums.Status;
-        totalAmount: Prisma.Decimal;
         transaction: string;
         amount: Prisma.Decimal;
+        totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
         customerId: number;
     }[]>;
@@ -59,9 +59,9 @@ export declare class SalesService {
         created: Date;
         discount: Prisma.Decimal;
         status: import(".prisma/client").$Enums.Status;
-        totalAmount: Prisma.Decimal;
         transaction: string;
         amount: Prisma.Decimal;
+        totalAmount: Prisma.Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
         customerId: number;
     }>;

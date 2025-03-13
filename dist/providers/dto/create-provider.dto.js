@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateProviderDto = void 0;
 const openapi = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateProviderDto {
     static _OPENAPI_METADATA_FACTORY() {
@@ -46,7 +47,9 @@ __decorate([
     __metadata("design:type", String)
 ], CreateProviderDto.prototype, "number", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Boolean),
     (0, class_validator_1.IsBoolean)({ message: 'El campo isActive debe ser un booleano' }),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)
 ], CreateProviderDto.prototype, "isActive", void 0);
 //# sourceMappingURL=create-provider.dto.js.map

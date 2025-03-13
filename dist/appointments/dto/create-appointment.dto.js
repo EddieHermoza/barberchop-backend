@@ -33,10 +33,12 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateAppointmentDto.prototype, "customerId", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateAppointmentDto.prototype, "barberId", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateAppointmentDto.prototype, "serviceId", void 0);

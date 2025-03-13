@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateSaleItemDto = void 0;
 const openapi = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateSaleItemDto {
     static _OPENAPI_METADATA_FACTORY() {
@@ -19,6 +20,7 @@ class CreateSaleItemDto {
 }
 exports.CreateSaleItemDto = CreateSaleItemDto;
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateSaleItemDto.prototype, "productId", void 0);
@@ -27,14 +29,17 @@ __decorate([
     __metadata("design:type", String)
 ], CreateSaleItemDto.prototype, "productName", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateSaleItemDto.prototype, "quantity", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
 ], CreateSaleItemDto.prototype, "price", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
 ], CreateSaleItemDto.prototype, "discount", void 0);

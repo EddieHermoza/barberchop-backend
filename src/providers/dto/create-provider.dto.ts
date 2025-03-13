@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -28,6 +29,8 @@ export class CreateProviderDto {
   @Length(9, 9, { message: 'El número debe tener 9 caracteres.' })
   number: string;
 
+  @Type(() => Boolean)
   @IsBoolean({ message: 'El campo isActive debe ser un booleano' })
+  @IsOptional()
   isActive: boolean;
 }

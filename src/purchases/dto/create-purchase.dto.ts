@@ -19,9 +19,11 @@ export class CreatePurchaseDto {
   @IsInt()
   adminId: number;
 
+  @Type(() => Number)
   @IsInt()
   providerId: number;
 
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 })
   totalAmount: number;
 

@@ -10,9 +10,9 @@ export declare class SalesController {
         created: Date;
         discount: import("@prisma/client/runtime/library").Decimal;
         status: import(".prisma/client").$Enums.Status;
-        totalAmount: import("@prisma/client/runtime/library").Decimal;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
         customerId: number;
     }>;
@@ -21,9 +21,9 @@ export declare class SalesController {
         created: Date;
         discount: import("@prisma/client/runtime/library").Decimal;
         status: import(".prisma/client").$Enums.Status;
-        totalAmount: import("@prisma/client/runtime/library").Decimal;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
         customerId: number;
     }[]>;
@@ -57,9 +57,9 @@ export declare class SalesController {
         created: Date;
         discount: import("@prisma/client/runtime/library").Decimal;
         status: import(".prisma/client").$Enums.Status;
-        totalAmount: import("@prisma/client/runtime/library").Decimal;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
         customerId: number;
     }>;

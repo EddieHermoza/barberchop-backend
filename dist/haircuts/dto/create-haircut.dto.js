@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateHaircutDto = void 0;
 const openapi = require("@nestjs/swagger");
+const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateHaircutDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { name: { required: true, type: () => String }, description: { required: true, type: () => String }, imgs: { required: true, type: () => [String] }, isActive: { required: true, type: () => Boolean } };
+        return { name: { required: true, type: () => String }, description: { required: true, type: () => String }, isActive: { required: true, type: () => Boolean } };
     }
 }
 exports.CreateHaircutDto = CreateHaircutDto;
@@ -28,12 +30,14 @@ __decorate([
     __metadata("design:type", String)
 ], CreateHaircutDto.prototype, "description", void 0);
 __decorate([
+    (0, swagger_1.ApiHideProperty)(),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
 ], CreateHaircutDto.prototype, "imgs", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Boolean),
     (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)

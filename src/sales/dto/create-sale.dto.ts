@@ -13,6 +13,7 @@ import { Type } from 'class-transformer';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 export class CreateSaleDto {
+  @Type(() => Number)
   @ApiHideProperty()
   @IsOptional()
   @IsInt()
@@ -21,12 +22,15 @@ export class CreateSaleDto {
   @IsString()
   transaction: string;
 
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 })
   amount: number;
 
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 })
   discount: number;
 
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 })
   totalAmount: number;
 

@@ -1,11 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MovementType } from '@prisma/client';
+import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsString } from 'class-validator';
 
 export class CreateMovementDto {
+  @Type(() => Number)
   @IsInt()
   productId: number;
 
+  @Type(() => Number)
   @IsInt()
   quantity: number;
 

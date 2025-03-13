@@ -1,4 +1,11 @@
-import { IsString, IsEmail, IsBoolean, Length } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsEmail,
+  IsBoolean,
+  Length,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -22,6 +29,8 @@ export class CreateUserDto {
   })
   password: string;
 
+  @Type(() => Boolean)
   @IsBoolean({ message: 'El campo isActive debe ser un valor booleano.' })
+  @IsOptional()
   isActive: boolean;
 }

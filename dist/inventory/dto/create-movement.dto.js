@@ -13,6 +13,7 @@ exports.CreateMovementDto = void 0;
 const openapi = require("@nestjs/swagger");
 const swagger_1 = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateMovementDto {
     static _OPENAPI_METADATA_FACTORY() {
@@ -21,10 +22,12 @@ class CreateMovementDto {
 }
 exports.CreateMovementDto = CreateMovementDto;
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateMovementDto.prototype, "productId", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateMovementDto.prototype, "quantity", void 0);

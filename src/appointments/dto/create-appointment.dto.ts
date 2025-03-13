@@ -13,9 +13,11 @@ export class CreateAppointmentDto {
   @IsInt()
   customerId: number;
 
+  @Type(() => Number)
   @IsInt()
   barberId: number;
 
+  @Type(() => Number)
   @IsInt()
   serviceId: number;
 

@@ -61,16 +61,16 @@ export declare class UsersService {
         Admin: {
             id: number;
             isArchived: boolean;
-            lastLogin: Date | null;
             userId: number;
+            lastLogin: Date | null;
         };
         Barber: {
             isActive: boolean;
-            img: string | null;
-            skills: string;
             id: number;
             isArchived: boolean;
             userId: number;
+            img: string | null;
+            skills: string;
         };
     } & {
         dni: string;
@@ -100,11 +100,11 @@ export declare class UsersService {
     findBarber(id: number): Promise<{
         Barber: {
             isActive: boolean;
-            img: string | null;
-            skills: string;
             id: number;
             isArchived: boolean;
             userId: number;
+            img: string | null;
+            skills: string;
         };
     } & {
         dni: string;
@@ -123,8 +123,8 @@ export declare class UsersService {
         Admin: {
             id: number;
             isArchived: boolean;
-            lastLogin: Date | null;
             userId: number;
+            lastLogin: Date | null;
         };
     } & {
         dni: string;

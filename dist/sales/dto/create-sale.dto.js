@@ -23,6 +23,7 @@ class CreateSaleDto {
 }
 exports.CreateSaleDto = CreateSaleDto;
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, swagger_1.ApiHideProperty)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),
@@ -33,14 +34,17 @@ __decorate([
     __metadata("design:type", String)
 ], CreateSaleDto.prototype, "transaction", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
 ], CreateSaleDto.prototype, "amount", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
 ], CreateSaleDto.prototype, "discount", void 0);
 __decorate([
+    (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     __metadata("design:type", Number)
 ], CreateSaleDto.prototype, "totalAmount", void 0);

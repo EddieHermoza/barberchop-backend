@@ -8,8 +8,8 @@ export declare class PurchasesController {
     create(user: IUserSession, createPurchaseDto: CreatePurchaseDto): Promise<{
         id: number;
         created: Date;
-        providerId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
@@ -18,8 +18,8 @@ export declare class PurchasesController {
     findAll(params: SearchQueryDto): Promise<{
         id: number;
         created: Date;
-        providerId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
@@ -52,8 +52,8 @@ export declare class PurchasesController {
     } & {
         id: number;
         created: Date;
-        providerId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
@@ -62,8 +62,8 @@ export declare class PurchasesController {
     remove(id: number): Promise<{
         id: number;
         created: Date;
-        providerId: number;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
+        providerId: number;
         receiptType: import(".prisma/client").$Enums.ReceiptType;
         receiptNumber: string;
         receiptDate: Date;
