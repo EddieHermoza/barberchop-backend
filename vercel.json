@@ -8,6 +8,11 @@
   ],
   "routes": [
     {
+      "src": "/",
+      "status": 308,
+      "headers": { "Location": "/doc" }
+    },
+    {
       "src": "/(.*)",
       "dest": "dist/main.js",
       "methods": [
