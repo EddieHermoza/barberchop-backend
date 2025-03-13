@@ -24,7 +24,7 @@ const public_decorator_1 = require("../common/decorators/public.decorator");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 const upload_images_decorator_1 = require("../cloudinary/decorators/upload-images.decorator");
-const platform_express_1 = require("@nestjs/platform-express");
+const file_interceptor_decorator_1 = require("../common/decorators/file-interceptor.decorator");
 let HaircutsController = class HaircutsController {
     constructor(haircutsService, cloudinaryService) {
         this.haircutsService = haircutsService;
@@ -49,7 +49,7 @@ let HaircutsController = class HaircutsController {
 exports.HaircutsController = HaircutsController;
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
+    (0, file_interceptor_decorator_1.UseFilesInterceptor)(),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, upload_images_decorator_1.UploadedImages)()),
     __param(1, (0, common_1.Body)()),
@@ -77,7 +77,7 @@ __decorate([
 ], HaircutsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
+    (0, file_interceptor_decorator_1.UseFilesInterceptor)(),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, upload_images_decorator_1.UploadedImages)()),
     __param(1, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),

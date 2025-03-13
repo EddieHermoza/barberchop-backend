@@ -11,6 +11,7 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
+        transform: true,
         exceptionFactory: (errors) => {
             const message = errors.map((err) => `El campo '${err.property}' no está permitido.`);
             return new common_1.BadRequestException({

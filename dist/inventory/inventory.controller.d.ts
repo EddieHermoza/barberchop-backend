@@ -6,16 +6,16 @@ export declare class InventoryController {
     private readonly inventoryService;
     constructor(inventoryService: InventoryService);
     findAll(params: SearchStatusQueryDto): Promise<{
-        name: string;
-        isActive: boolean;
         id: number;
+        name: string;
         stock: number;
+        isActive: boolean;
         lastStockEntry: Date;
     }[]>;
     create(createMovementDto: CreateMovementDto): Promise<{
-        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
+        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
@@ -25,17 +25,17 @@ export declare class InventoryController {
             name: string;
         };
     } & {
-        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
+        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     })[]>;
     findOne(id: number): Promise<{
-        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
+        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;

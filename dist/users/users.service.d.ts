@@ -7,9 +7,11 @@ import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 export declare class UsersService {
     private readonly db;
-    constructor(db: PrismaService);
+    private readonly cloudinaryService;
+    constructor(db: PrismaService, cloudinaryService: CloudinaryService);
     createAdminUser(createAdminDto: CreateAdminDto): Promise<{
         dni: string;
         name: string;
@@ -36,7 +38,7 @@ export declare class UsersService {
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
-    createBarberUser(createBarberDto: CreateBarberDto): Promise<{
+    createBarberUser(createBarberDto: CreateBarberDto, file?: Express.Multer.File): Promise<{
         dni: string;
         name: string;
         lastName: string;
@@ -170,7 +172,7 @@ export declare class UsersService {
         role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
-    updateBarber(id: number, updateBarberDto: UpdateBarberDto): Promise<{
+    updateBarber(id: number, updateBarberDto: UpdateBarberDto, file?: Express.Multer.File): Promise<{
         dni: string;
         name: string;
         lastName: string;

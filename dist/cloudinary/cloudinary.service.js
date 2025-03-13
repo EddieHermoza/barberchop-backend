@@ -24,14 +24,18 @@ let CloudinaryService = class CloudinaryService {
             streamifier.createReadStream(file.buffer).pipe(uploadStream);
         });
     }
-    async uploadFiles(files) {
+    async uploadImages(files) {
         let images = [];
         if (files && files.length > 0) {
-            const uploadedImages = await this.uploadFiles(files);
+            const uploadedImages = await Promise.all(files.map((file) => this.uploadFile(file)));
             const urls = uploadedImages.map((img) => img.secure_url);
             images = urls;
         }
         return images;
+    }
+    async uploadImage(file) {
+        const uploadedImage = await this.uploadFile(file);
+        return uploadedImage.secure_url;
     }
 };
 exports.CloudinaryService = CloudinaryService;

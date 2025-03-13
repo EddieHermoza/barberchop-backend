@@ -8,10 +8,14 @@ import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(
+    private readonly db: PrismaService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   async createAdminUser(createAdminDto: CreateAdminDto) {
     return await this.db.user.create({
@@ -38,7 +42,11 @@ export class UsersService {
     });
   }
 
-  async createBarberUser(createBarberDto: CreateBarberDto) {
+  async createBarberUser(
+    createBarberDto: CreateBarberDto,
+    file?: Express.Multer.File,
+  ) {
+    createBarberDto.img = await this.cloudinaryService.uploadImage(file);
     const { skills, isActive } = createBarberDto;
     return await this.db.user.create({
       data: {
@@ -196,7 +204,12 @@ export class UsersService {
     }
   }
 
-  async updateBarber(id: number, updateBarberDto: UpdateBarberDto) {
+  async updateBarber(
+    id: number,
+    updateBarberDto: UpdateBarberDto,
+    file?: Express.Multer.File,
+  ) {
+    updateBarberDto.img = await this.cloudinaryService.uploadImage(file);
     const { skills, isActiveBarber } = updateBarberDto;
     try {
       const user = await this.db.user.findUnique({

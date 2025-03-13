@@ -9,7 +9,9 @@ const streamifier = require('streamifier');
 
 @Injectable()
 export class CloudinaryService {
-  uploadFile(file: Express.Multer.File): Promise<CloudinarySecureResponse> {
+  private uploadFile(
+    file: Express.Multer.File,
+  ): Promise<CloudinarySecureResponse> {
     return new Promise<CloudinarySecureResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         (error, result: CloudinaryResponse) => {
@@ -25,13 +27,20 @@ export class CloudinaryService {
     });
   }
 
-  async uploadFiles(files: Express.Multer.File[]): Promise<any[]> {
-    let images = [];
+  async uploadImages(files: Express.Multer.File[]): Promise<string[]> {
+    let images: string[] = [];
     if (files && files.length > 0) {
-      const uploadedImages = await this.uploadFiles(files);
-      const urls = uploadedImages.map((img) => img.secure_url);
+      const uploadedImages = await Promise.all(
+        files.map((file) => this.uploadFile(file)),
+      );
+      const urls: string[] = uploadedImages.map((img) => img.secure_url);
       images = urls;
     }
     return images;
+  }
+
+  async uploadImage(file: Express.Multer.File): Promise<string> {
+    const uploadedImage = await this.uploadFile(file);
+    return uploadedImage.secure_url;
   }
 }

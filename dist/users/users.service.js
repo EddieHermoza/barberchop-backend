@@ -13,9 +13,11 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 let UsersService = class UsersService {
-    constructor(db) {
+    constructor(db, cloudinaryService) {
         this.db = db;
+        this.cloudinaryService = cloudinaryService;
     }
     async createAdminUser(createAdminDto) {
         return await this.db.user.create({
@@ -40,7 +42,8 @@ let UsersService = class UsersService {
             },
         });
     }
-    async createBarberUser(createBarberDto) {
+    async createBarberUser(createBarberDto, file) {
+        createBarberDto.img = await this.cloudinaryService.uploadImage(file);
         const { skills, isActive } = createBarberDto;
         return await this.db.user.create({
             data: {
@@ -178,7 +181,8 @@ let UsersService = class UsersService {
             throw error;
         }
     }
-    async updateBarber(id, updateBarberDto) {
+    async updateBarber(id, updateBarberDto, file) {
+        updateBarberDto.img = await this.cloudinaryService.uploadImage(file);
         const { skills, isActiveBarber } = updateBarberDto;
         try {
             const user = await this.db.user.findUnique({
@@ -310,6 +314,7 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        cloudinary_service_1.CloudinaryService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

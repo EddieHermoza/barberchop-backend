@@ -4,12 +4,17 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(
+    private readonly db: PrismaService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, file?: Express.Multer.File) {
+    createProductDto.img = await this.cloudinaryService.uploadImage(file);
     return await this.db.product.create({
       data: createProductDto,
     });
@@ -60,7 +65,13 @@ export class ProductsService {
     return product;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(
+    id: number,
+    updateProductDto: UpdateProductDto,
+    file?: Express.Multer.File,
+  ) {
+    updateProductDto.img = await this.cloudinaryService.uploadImage(file);
+
     try {
       const updatedProduct = await this.db.product.update({
         where: {

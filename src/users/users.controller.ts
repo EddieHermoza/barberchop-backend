@@ -11,8 +11,8 @@ import {
 import { UsersService } from './users.service';
 import * as bcrypt from 'bcryptjs';
 import { ValidateId } from '../common/pipes/validate-id.pipe';
-// import { Auth } from 'src/auth/decorators/auth.decorator';
-// import { ApiBearerAuth } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { CreateClientDto } from './dto/create-client.dto';
 import { CreateBarberDto } from './dto/create-barber.dto';
@@ -20,9 +20,11 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { UseFileInterceptor } from 'src/common/decorators/file-interceptor.decorator';
+import { UploadedImage } from 'src/cloudinary/decorators/upload-images.decorator';
 
-// @ApiBearerAuth()
-// @Auth(['ADMINISTRADOR'])
+@ApiBearerAuth()
+@Auth(['ADMINISTRADOR'])
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -35,12 +37,16 @@ export class UsersController {
     return this.usersService.createClientUser(UserDto);
   }
 
+  @UseFileInterceptor()
   @Post('/create-barber')
-  async createBarber(@Body() createBarberDto: CreateBarberDto) {
+  async createBarber(
+    @Body() createBarberDto: CreateBarberDto,
+    @UploadedImage() file: Express.Multer.File,
+  ) {
     const hash = await bcrypt.hash(createBarberDto.password, 10);
     const UserDto = { ...createBarberDto, password: hash };
 
-    return this.usersService.createBarberUser(UserDto);
+    return this.usersService.createBarberUser(UserDto, file);
   }
 
   @Post('/create-admin')
@@ -79,12 +85,14 @@ export class UsersController {
     return this.usersService.updateClient(id, updateClientDto);
   }
 
+  @UseFileInterceptor()
   @Patch(':id/update-barber')
   updateBarber(
     @Param('id', ValidateId) id: number,
     @Body() updateBarberDto: UpdateBarberDto,
+    @UploadedImage() file: Express.Multer.File,
   ) {
-    return this.usersService.updateBarber(id, updateBarberDto);
+    return this.usersService.updateBarber(id, updateBarberDto, file);
   }
 
   @Patch(':id/update-admin')

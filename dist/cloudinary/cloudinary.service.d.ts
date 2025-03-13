@@ -1,5 +1,5 @@
-import { CloudinarySecureResponse } from './interfaces/cloudinary-response.interface';
 export declare class CloudinaryService {
-    uploadFile(file: Express.Multer.File): Promise<CloudinarySecureResponse>;
-    uploadFiles(files: Express.Multer.File[]): Promise<any[]>;
+    private uploadFile;
+    uploadImages(files: Express.Multer.File[]): Promise<string[]>;
+    uploadImage(file: Express.Multer.File): Promise<string>;
 }

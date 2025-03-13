@@ -37,6 +37,6 @@ export class AppController {
     )
     files: Express.Multer.File[],
   ) {
-    return this.cloudinaryService.uploadFiles(files);
+    return this.cloudinaryService.uploadImages(files);
   }
 }

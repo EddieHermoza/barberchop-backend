@@ -12,6 +12,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+      transform: true,
       exceptionFactory: (errors) => {
         const message = errors.map(
           (err) => `El campo '${err.property}' no está permitido.`,

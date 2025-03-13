@@ -20,7 +20,7 @@ let HaircutsService = class HaircutsService {
         this.cloudinaryService = cloudinaryService;
     }
     async create(createHaircutDto, files) {
-        createHaircutDto.imgs = await this.cloudinaryService.uploadFiles(files);
+        createHaircutDto.imgs = await this.cloudinaryService.uploadImages(files);
         return await this.db.haircutType.create({
             data: createHaircutDto,
         });
@@ -56,10 +56,8 @@ let HaircutsService = class HaircutsService {
     }
     async update(id, updateHaircutDto, files) {
         const currentHaircut = await this.findOne(id);
-        const newImages = await this.cloudinaryService.uploadFiles(files);
-        if (currentHaircut.imgs.length > 0) {
-            updateHaircutDto.imgs = [...currentHaircut.imgs, ...newImages];
-        }
+        const updatedImages = await this.cloudinaryService.uploadImages(files);
+        updateHaircutDto.imgs = [...currentHaircut.imgs, ...(updatedImages || [])];
         try {
             const updateHaircut = await this.db.haircutType.update({
                 where: {

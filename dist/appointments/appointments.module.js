@@ -13,8 +13,6 @@ const appointments_controller_1 = require("./appointments.controller");
 const prisma_service_1 = require("../prisma/prisma.service");
 const services_module_1 = require("../services/services.module");
 const users_module_1 = require("../users/users.module");
-const users_service_1 = require("../users/users.service");
-const services_service_1 = require("../services/services.service");
 let AppointmentsModule = class AppointmentsModule {
 };
 exports.AppointmentsModule = AppointmentsModule;
@@ -23,12 +21,7 @@ exports.AppointmentsModule = AppointmentsModule = __decorate([
         imports: [services_module_1.ServicesModule, users_module_1.UsersModule],
         exports: [appointments_service_1.AppointmentsService],
         controllers: [appointments_controller_1.AppointmentsController],
-        providers: [
-            appointments_service_1.AppointmentsService,
-            users_service_1.UsersService,
-            services_service_1.ServicesService,
-            prisma_service_1.PrismaService,
-        ],
+        providers: [appointments_service_1.AppointmentsService, prisma_service_1.PrismaService],
     })
 ], AppointmentsModule);
 //# sourceMappingURL=appointments.module.js.map

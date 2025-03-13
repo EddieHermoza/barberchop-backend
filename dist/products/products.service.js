@@ -13,11 +13,14 @@ exports.ProductsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 let ProductsService = class ProductsService {
-    constructor(db) {
+    constructor(db, cloudinaryService) {
         this.db = db;
+        this.cloudinaryService = cloudinaryService;
     }
-    async create(createProductDto) {
+    async create(createProductDto, file) {
+        createProductDto.img = await this.cloudinaryService.uploadImage(file);
         return await this.db.product.create({
             data: createProductDto,
         });
@@ -62,7 +65,8 @@ let ProductsService = class ProductsService {
             throw new common_1.NotFoundException(`El producto del id ${id} no existe`);
         return product;
     }
-    async update(id, updateProductDto) {
+    async update(id, updateProductDto, file) {
+        updateProductDto.img = await this.cloudinaryService.uploadImage(file);
         try {
             const updatedProduct = await this.db.product.update({
                 where: {
@@ -103,6 +107,7 @@ let ProductsService = class ProductsService {
 exports.ProductsService = ProductsService;
 exports.ProductsService = ProductsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        cloudinary_service_1.CloudinaryService])
 ], ProductsService);
 //# sourceMappingURL=products.service.js.map

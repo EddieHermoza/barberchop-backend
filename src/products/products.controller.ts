@@ -16,6 +16,8 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { PublicAccess } from 'src/common/decorators/public.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
+import { UseFileInterceptor } from 'src/common/decorators/file-interceptor.decorator';
+import { UploadedImage } from 'src/cloudinary/decorators/upload-images.decorator';
 
 @Auth(['ADMINISTRADOR'])
 @Controller('products')
@@ -23,9 +25,13 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @ApiBearerAuth()
+  @UseFileInterceptor()
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @UploadedImage() file: Express.Multer.File,
+  ) {
+    return this.productsService.create(createProductDto, file);
   }
 
   @PublicAccess()
@@ -42,11 +48,13 @@ export class ProductsController {
 
   @ApiBearerAuth()
   @Patch(':id')
+  @UseFileInterceptor()
   update(
     @Param('id', ValidateId) id: number,
     @Body() updateProductDto: UpdateProductDto,
+    @UploadedImage() file: Express.Multer.File,
   ) {
-    return this.productsService.update(id, updateProductDto);
+    return this.productsService.update(id, updateProductDto, file);
   }
 
   @ApiBearerAuth()

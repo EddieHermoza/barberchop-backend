@@ -18,6 +18,8 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const bcrypt = require("bcryptjs");
 const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
+const auth_decorator_1 = require("../auth/decorators/auth.decorator");
+const swagger_1 = require("@nestjs/swagger");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 const create_client_dto_1 = require("./dto/create-client.dto");
 const create_barber_dto_1 = require("./dto/create-barber.dto");
@@ -25,6 +27,8 @@ const create_admin_dto_1 = require("./dto/create-admin.dto");
 const update_admin_dto_1 = require("./dto/update-admin.dto");
 const update_barber_dto_1 = require("./dto/update-barber.dto");
 const update_client_dto_1 = require("./dto/update-client.dto");
+const file_interceptor_decorator_1 = require("../common/decorators/file-interceptor.decorator");
+const upload_images_decorator_1 = require("../cloudinary/decorators/upload-images.decorator");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -34,10 +38,10 @@ let UsersController = class UsersController {
         const UserDto = { ...createClientDto, password: hash };
         return this.usersService.createClientUser(UserDto);
     }
-    async createBarber(createBarberDto) {
+    async createBarber(createBarberDto, file) {
         const hash = await bcrypt.hash(createBarberDto.password, 10);
         const UserDto = { ...createBarberDto, password: hash };
-        return this.usersService.createBarberUser(UserDto);
+        return this.usersService.createBarberUser(UserDto, file);
     }
     async createAdmin(createAdminDto) {
         const hash = await bcrypt.hash(createAdminDto.password, 10);
@@ -59,8 +63,8 @@ let UsersController = class UsersController {
     updateCustomer(id, updateClientDto) {
         return this.usersService.updateClient(id, updateClientDto);
     }
-    updateBarber(id, updateBarberDto) {
-        return this.usersService.updateBarber(id, updateBarberDto);
+    updateBarber(id, updateBarberDto, file) {
+        return this.usersService.updateBarber(id, updateBarberDto, file);
     }
     updateAdmin(id, UpdateAdminDto) {
         return this.usersService.updateAdmin(id, UpdateAdminDto);
@@ -79,11 +83,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createCustomer", null);
 __decorate([
+    (0, file_interceptor_decorator_1.UseFileInterceptor)(),
     (0, common_1.Post)('/create-barber'),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, upload_images_decorator_1.UploadedImage)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_barber_dto_1.CreateBarberDto]),
+    __metadata("design:paramtypes", [create_barber_dto_1.CreateBarberDto, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createBarber", null);
 __decorate([
@@ -136,12 +142,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateCustomer", null);
 __decorate([
+    (0, file_interceptor_decorator_1.UseFileInterceptor)(),
     (0, common_1.Patch)(':id/update-barber'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, upload_images_decorator_1.UploadedImage)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_barber_dto_1.UpdateBarberDto]),
+    __metadata("design:paramtypes", [Number, update_barber_dto_1.UpdateBarberDto, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateBarber", null);
 __decorate([
@@ -162,6 +170,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "remove", null);
 exports.UsersController = UsersController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, auth_decorator_1.Auth)(['ADMINISTRADOR']),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);

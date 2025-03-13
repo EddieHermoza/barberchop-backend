@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Query,
-  UseInterceptors,
 } from '@nestjs/common';
 import { HaircutsService } from './haircuts.service';
 import { CreateHaircutDto } from './dto/create-haircut.dto';
@@ -18,7 +17,7 @@ import { PublicAccess } from 'src/common/decorators/public.decorator';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { UploadedImages } from 'src/cloudinary/decorators/upload-images.decorator';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { UseFilesInterceptor } from 'src/common/decorators/file-interceptor.decorator';
 
 @ApiBearerAuth()
 @Controller('haircuts')
@@ -29,7 +28,7 @@ export class HaircutsController {
   ) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseFilesInterceptor()
   create(
     @UploadedImages() files: Express.Multer.File[],
     @Body() createHaircutDto: CreateHaircutDto,
@@ -50,7 +49,7 @@ export class HaircutsController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseFilesInterceptor()
   update(
     @UploadedImages() files: Express.Multer.File[],
     @Param('id', ValidateId) id: number,

@@ -23,12 +23,14 @@ const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const public_decorator_1 = require("../common/decorators/public.decorator");
 const swagger_1 = require("@nestjs/swagger");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
+const file_interceptor_decorator_1 = require("../common/decorators/file-interceptor.decorator");
+const upload_images_decorator_1 = require("../cloudinary/decorators/upload-images.decorator");
 let ProductsController = class ProductsController {
     constructor(productsService) {
         this.productsService = productsService;
     }
-    create(createProductDto) {
-        return this.productsService.create(createProductDto);
+    create(createProductDto, file) {
+        return this.productsService.create(createProductDto, file);
     }
     findAll(params) {
         return this.productsService.findAll(params);
@@ -36,8 +38,8 @@ let ProductsController = class ProductsController {
     findOne(id) {
         return this.productsService.findOne(id);
     }
-    update(id, updateProductDto) {
-        return this.productsService.update(id, updateProductDto);
+    update(id, updateProductDto, file) {
+        return this.productsService.update(id, updateProductDto, file);
     }
     remove(id) {
         return this.productsService.remove(id);
@@ -46,11 +48,13 @@ let ProductsController = class ProductsController {
 exports.ProductsController = ProductsController;
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
+    (0, file_interceptor_decorator_1.UseFileInterceptor)(),
     (0, common_1.Post)(),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, upload_images_decorator_1.UploadedImage)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto]),
+    __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto, Object]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
 __decorate([
@@ -74,11 +78,13 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Patch)(':id'),
+    (0, file_interceptor_decorator_1.UseFileInterceptor)(),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, upload_images_decorator_1.UploadedImage)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_product_dto_1.UpdateProductDto]),
+    __metadata("design:paramtypes", [Number, update_product_dto_1.UpdateProductDto, Object]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "update", null);
 __decorate([

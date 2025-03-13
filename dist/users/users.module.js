@@ -11,12 +11,14 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
 const prisma_service_1 = require("../prisma/prisma.service");
+const cloudinary_module_1 = require("../cloudinary/cloudinary.module");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
         exports: [users_service_1.UsersService],
+        imports: [cloudinary_module_1.CloudinaryModule],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService, prisma_service_1.PrismaService],
     })

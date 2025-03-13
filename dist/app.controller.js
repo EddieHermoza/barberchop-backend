@@ -27,7 +27,7 @@ let AppController = class AppController {
         return this.appService.getHello();
     }
     uploadImage(files) {
-        return this.cloudinaryService.uploadFiles(files);
+        return this.cloudinaryService.uploadImages(files);
     }
 };
 exports.AppController = AppController;
@@ -41,7 +41,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)('upload'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
-    openapi.ApiResponse({ status: 201, type: [Object] }),
+    openapi.ApiResponse({ status: 201, type: [String] }),
     __param(0, (0, common_1.UploadedFiles)(new common_1.ParseFilePipe({
         validators: [
             new common_1.MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
