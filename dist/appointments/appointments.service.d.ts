@@ -12,9 +12,9 @@ export declare class AppointmentsService {
     constructor(db: PrismaService, servicesService: ServicesService, usersService: UsersService);
     create(createAppointmentDto: CreateAppointmentDto): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -23,9 +23,9 @@ export declare class AppointmentsService {
     }>;
     findAll({ limit, page, from_date, status, to_date, }: AppointmentQueryDto): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -34,9 +34,9 @@ export declare class AppointmentsService {
     }[]>;
     findOne(id: number): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -45,9 +45,9 @@ export declare class AppointmentsService {
     }>;
     update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -59,9 +59,9 @@ export declare class AppointmentsService {
     }>;
     findAppointmentsByDay(date: Date): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -70,9 +70,9 @@ export declare class AppointmentsService {
     }[]>;
     findAppointmentsToday(): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -81,9 +81,9 @@ export declare class AppointmentsService {
     }[]>;
     findAppointmentsByBarber(id: number): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -92,9 +92,9 @@ export declare class AppointmentsService {
     }[]>;
     findAppointmentsByUser(id: number): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;
@@ -103,9 +103,9 @@ export declare class AppointmentsService {
     }[]>;
     updateStatus(id: number, status: AppointmentStatus): Promise<{
         id: number;
+        created: Date;
         isArchived: boolean;
         status: import(".prisma/client").$Enums.AppointmentStatus;
-        created: Date;
         scheduledAt: Date;
         customerId: number;
         barberId: number;

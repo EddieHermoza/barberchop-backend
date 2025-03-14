@@ -8,34 +8,34 @@ export declare class HaircutsController {
     private readonly cloudinaryService;
     constructor(haircutsService: HaircutsService, cloudinaryService: CloudinaryService);
     create(files: Express.Multer.File[], createHaircutDto: CreateHaircutDto): Promise<{
-        id: number;
-        name: string;
         description: string | null;
+        name: string;
         isActive: boolean;
+        id: number;
         isArchived: boolean;
         imgs: string[];
     }>;
     findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
-        id: number;
-        name: string;
         description: string | null;
+        name: string;
         isActive: boolean;
+        id: number;
         isArchived: boolean;
         imgs: string[];
     }[]>;
     findOne(id: number): Promise<{
-        id: number;
-        name: string;
         description: string | null;
+        name: string;
         isActive: boolean;
+        id: number;
         isArchived: boolean;
         imgs: string[];
     }>;
     update(files: Express.Multer.File[], id: number, updateHaircutDto: UpdateHaircutDto): Promise<{
-        id: number;
-        name: string;
         description: string | null;
+        name: string;
         isActive: boolean;
+        id: number;
         isArchived: boolean;
         imgs: string[];
     }>;

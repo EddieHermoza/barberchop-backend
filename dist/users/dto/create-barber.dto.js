@@ -13,13 +13,15 @@ exports.CreateBarberDto = void 0;
 const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const create_user_dto_1 = require("./create-user.dto");
+const swagger_1 = require("@nestjs/swagger");
 class CreateBarberDto extends create_user_dto_1.CreateUserDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { img: { required: true, type: () => String, format: "uri" }, skills: { required: true, type: () => String, minLength: 2, maxLength: 100 }, isActiveBarber: { required: true, type: () => Boolean } };
+        return { skills: { required: true, type: () => String, minLength: 2, maxLength: 100 }, isActiveBarber: { required: true, type: () => Boolean } };
     }
 }
 exports.CreateBarberDto = CreateBarberDto;
 __decorate([
+    (0, swagger_1.ApiHideProperty)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsUrl)(),

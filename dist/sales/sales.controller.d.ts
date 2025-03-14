@@ -6,44 +6,35 @@ export declare class SalesController {
     private readonly salesService;
     constructor(salesService: SalesService);
     create(user: IUserSession, createSaleDto: CreateSaleDto): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
         discount: import("@prisma/client/runtime/library").Decimal;
-        status: import(".prisma/client").$Enums.Status;
+        customerId: number;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        customerId: number;
     }>;
     findAll(params: SearchQueryDto): Promise<{
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
         discount: import("@prisma/client/runtime/library").Decimal;
-        status: import(".prisma/client").$Enums.Status;
+        customerId: number;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        customerId: number;
     }[]>;
     findOne(id: number): Promise<{
-        SaleItem: {
-            id: number;
-            price: import("@prisma/client/runtime/library").Decimal;
-            discount: import("@prisma/client/runtime/library").Decimal;
-            productId: number;
-            quantity: number;
-            productName: string;
-            saleId: number;
-        }[];
         Customer: {
             User: {
-                id: number;
-                name: string;
                 dni: string;
+                name: string;
                 lastName: string;
                 email: string;
+                id: number;
                 role: import(".prisma/client").$Enums.UserRole;
             };
         } & {
@@ -52,16 +43,25 @@ export declare class SalesController {
             isArchived: boolean;
             userId: number;
         };
+        SaleItem: {
+            id: number;
+            discount: import("@prisma/client/runtime/library").Decimal;
+            price: import("@prisma/client/runtime/library").Decimal;
+            productId: number;
+            quantity: number;
+            productName: string;
+            saleId: number;
+        }[];
     } & {
+        status: import(".prisma/client").$Enums.Status;
         id: number;
         created: Date;
         discount: import("@prisma/client/runtime/library").Decimal;
-        status: import(".prisma/client").$Enums.Status;
+        customerId: number;
         transaction: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        customerId: number;
     }>;
     remove(id: number): Promise<{
         message: string;

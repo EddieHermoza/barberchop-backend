@@ -9,18 +9,18 @@ export declare class InventoryService {
     private readonly productService;
     constructor(db: PrismaService, productService: ProductsService);
     createMovement(createMovementDto: CreateMovementDto): Promise<{
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     }>;
     findAllProductsInventory({ page, limit, query, status, }: SearchStatusQueryDto): Promise<{
-        id: number;
         name: string;
-        stock: number;
         isActive: boolean;
+        id: number;
+        stock: number;
         lastStockEntry: Date;
     }[]>;
     findAllMovements({ page, limit, status }: MovementQueryDto): Promise<({
@@ -28,35 +28,35 @@ export declare class InventoryService {
             name: string;
         };
     } & {
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     })[]>;
     findOneMovement(id: number): Promise<{
+        type: import(".prisma/client").$Enums.MovementType;
         id: number;
         created: Date;
-        type: import(".prisma/client").$Enums.MovementType;
         productId: number;
         quantity: number;
         notes: string;
     }>;
     updateProductStock(productId: number, quantity: number, type: string): Promise<{
+        description: string;
+        name: string;
+        isActive: boolean;
+        img: string;
         id: number;
         created: Date;
         updated: Date;
-        name: string;
-        description: string;
-        category: import(".prisma/client").$Enums.ProductCategory;
-        img: string;
-        stock: number;
-        price: Prisma.Decimal;
-        discount: Prisma.Decimal;
-        orderLimit: number;
-        isActive: boolean;
         isArchived: boolean;
+        category: import(".prisma/client").$Enums.ProductCategory;
+        orderLimit: number;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
         lastStockEntry: Date | null;
     }>;
 }

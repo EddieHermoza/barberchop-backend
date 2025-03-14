@@ -21,7 +21,7 @@ import { ValidateDate } from './pipes/validate-date.pipe';
 import { AppointmentQueryDto } from './dto/appointment-query.dto';
 
 @ApiBearerAuth()
-@Auth([UserRole.CLIENTE, UserRole.ADMINISTRADOR])
+@Auth([UserRole.CLIENTE, UserRole.BARBERO, UserRole.ADMINISTRADOR])
 @Controller('appointments')
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}

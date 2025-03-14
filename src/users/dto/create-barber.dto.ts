@@ -6,8 +6,10 @@ import {
   Length,
 } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
+import { ApiHideProperty } from '@nestjs/swagger';
 
 export class CreateBarberDto extends CreateUserDto {
+  @ApiHideProperty()
   @IsOptional()
   @IsString()
   @IsUrl()

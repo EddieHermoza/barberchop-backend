@@ -178,7 +178,7 @@ __decorate([
 ], AppointmentsController.prototype, "completeAppointment", null);
 exports.AppointmentsController = AppointmentsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
-    (0, auth_decorator_1.Auth)([client_1.UserRole.CLIENTE, client_1.UserRole.ADMINISTRADOR]),
+    (0, auth_decorator_1.Auth)([client_1.UserRole.CLIENTE, client_1.UserRole.BARBERO, client_1.UserRole.ADMINISTRADOR]),
     (0, common_1.Controller)('appointments'),
     __metadata("design:paramtypes", [appointments_service_1.AppointmentsService])
 ], AppointmentsController);
