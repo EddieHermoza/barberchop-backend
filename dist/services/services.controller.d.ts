@@ -5,7 +5,7 @@ import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 export declare class ServicesController {
     private readonly servicesService;
     constructor(servicesService: ServicesService);
-    create(createServiceDto: CreateServiceDto, file: Express.Multer.File): Promise<{
+    create(createServiceDto: CreateServiceDto, file?: Express.Multer.File): Promise<{
         description: string;
         name: string;
         isActive: boolean;

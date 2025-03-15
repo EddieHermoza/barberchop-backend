@@ -41,7 +41,7 @@ export class UsersController {
   @Post('/create-barber')
   async createBarber(
     @Body() createBarberDto: CreateBarberDto,
-    @UploadedImage() file: Express.Multer.File,
+    @UploadedImage() file?: Express.Multer.File,
   ) {
     const hash = await bcrypt.hash(createBarberDto.password, 10);
     const UserDto = { ...createBarberDto, password: hash };

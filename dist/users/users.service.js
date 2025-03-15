@@ -44,13 +44,13 @@ let UsersService = class UsersService {
     }
     async createBarberUser(createBarberDto, file) {
         createBarberDto.img = await this.cloudinaryService.uploadImage(file);
-        const { skills, isActive } = createBarberDto;
+        const { skills, isActiveBarber, img, ...userData } = createBarberDto;
         return await this.db.user.create({
             data: {
-                ...createBarberDto,
+                ...userData,
                 role: client_1.UserRole.BARBERO,
                 Barber: {
-                    create: { skills, isActive },
+                    create: { skills, isActive: isActiveBarber, img },
                 },
             },
         });

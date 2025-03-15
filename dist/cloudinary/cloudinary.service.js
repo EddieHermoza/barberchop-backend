@@ -34,8 +34,12 @@ let CloudinaryService = class CloudinaryService {
         return images;
     }
     async uploadImage(file) {
-        const uploadedImage = await this.uploadFile(file);
-        return uploadedImage.secure_url;
+        let image = '';
+        if (file) {
+            const uploadedImage = await this.uploadFile(file);
+            image = uploadedImage.secure_url;
+        }
+        return image;
     }
 };
 exports.CloudinaryService = CloudinaryService;

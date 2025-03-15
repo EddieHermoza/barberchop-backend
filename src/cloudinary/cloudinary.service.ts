@@ -40,7 +40,11 @@ export class CloudinaryService {
   }
 
   async uploadImage(file: Express.Multer.File): Promise<string> {
-    const uploadedImage = await this.uploadFile(file);
-    return uploadedImage.secure_url;
+    let image = '';
+    if (file) {
+      const uploadedImage = await this.uploadFile(file);
+      image = uploadedImage.secure_url;
+    }
+    return image;
   }
 }
