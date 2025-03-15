@@ -13,42 +13,42 @@ export declare class UsersService {
     private readonly cloudinaryService;
     constructor(db: PrismaService, cloudinaryService: CloudinaryService);
     createAdminUser(createAdminDto: CreateAdminDto): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     createClientUser(createClientDto: CreateClientDto): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     createBarberUser(createBarberDto: CreateBarberDto, file?: Express.Multer.File): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     findAll(role: UserRole, { limit, query, status, page }: SearchStatusQueryDto): Promise<({
@@ -61,82 +61,82 @@ export declare class UsersService {
         Admin: {
             id: number;
             isArchived: boolean;
-            userId: number;
             lastLogin: Date | null;
+            userId: number;
         };
         Barber: {
-            id: number;
             isActive: boolean;
-            isArchived: boolean;
-            userId: number;
             img: string | null;
             skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
         };
     } & {
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
-        isArchived: boolean;
-    })[]>;
-    findOne(id: number): Promise<{
         id: number;
         created: Date;
         updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
+        isArchived: boolean;
+    })[]>;
+    findOne(id: number): Promise<{
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     findBarber(id: number): Promise<{
         Barber: {
-            id: number;
             isActive: boolean;
-            isArchived: boolean;
-            userId: number;
             img: string | null;
             skills: string;
+            id: number;
+            isArchived: boolean;
+            userId: number;
         };
     } & {
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     findAdmin(id: number): Promise<{
         Admin: {
             id: number;
             isArchived: boolean;
-            userId: number;
             lastLogin: Date | null;
+            userId: number;
         };
     } & {
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     findCustomer(id: number): Promise<{
@@ -147,71 +147,71 @@ export declare class UsersService {
             userId: number;
         };
     } & {
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     updateAdmin(id: number, updateAdminDto: UpdateAdminDto): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     updateBarber(id: number, updateBarberDto: UpdateBarberDto, file?: Express.Multer.File): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     updateClient(id: number, updateClientDto: UpdateClientDto): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
     remove(id: number): Promise<{
         message: string;
     }>;
     findOneByEmail(email: string): Promise<{
-        id: number;
-        created: Date;
-        updated: Date;
         dni: string;
         name: string;
         lastName: string;
         email: string;
         password: string;
-        role: import(".prisma/client").$Enums.UserRole;
         isActive: boolean;
+        id: number;
+        created: Date;
+        updated: Date;
+        role: import(".prisma/client").$Enums.UserRole;
         isArchived: boolean;
     }>;
 }

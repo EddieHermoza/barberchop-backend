@@ -6,40 +6,40 @@ export declare class ServicesController {
     private readonly servicesService;
     constructor(servicesService: ServicesService);
     create(createServiceDto: CreateServiceDto, file: Express.Multer.File): Promise<{
-        description: string;
-        name: string;
-        isActive: boolean;
-        img: string | null;
         id: number;
-        isArchived: boolean;
+        name: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        img: string | null;
+        isActive: boolean;
+        isArchived: boolean;
     }>;
     findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
-        description: string;
-        name: string;
-        isActive: boolean;
-        img: string | null;
         id: number;
-        isArchived: boolean;
+        name: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        img: string | null;
+        isActive: boolean;
+        isArchived: boolean;
     }[]>;
     findOne(id: number): Promise<{
-        description: string;
-        name: string;
-        isActive: boolean;
-        img: string | null;
         id: number;
-        isArchived: boolean;
+        name: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        img: string | null;
+        isActive: boolean;
+        isArchived: boolean;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto, file: Express.Multer.File): Promise<{
-        description: string;
-        name: string;
-        isActive: boolean;
-        img: string | null;
         id: number;
-        isArchived: boolean;
+        name: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        img: string | null;
+        isActive: boolean;
+        isArchived: boolean;
     }>;
     remove(id: number): Promise<{
         message: string;

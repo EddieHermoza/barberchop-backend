@@ -7,6 +7,12 @@ import { UsersService } from 'src/users/users.service';
 import { endOfDay, startOfDay } from 'date-fns';
 import { AppointmentQueryDto } from './dto/appointment-query.dto';
 import { AppointmentStatus } from '@prisma/client';
+import { formatTime, generateSlots } from './helpers/slot-utils';
+import {
+  SCHEDULE_BLOCKS,
+  SESSION_DURATION,
+} from './constants/schedule.constants';
+import { Slot } from './interfaces/slot.interface';
 
 @Injectable()
 export class AppointmentsService {
@@ -189,5 +195,56 @@ export class AppointmentsService {
       }
       throw error;
     }
+  }
+
+  async getAvailability(
+    barberId: number,
+    date: string,
+  ): Promise<{ slots: Slot[] }> {
+    const queryDate = new Date(date);
+    const allSlots: Slot[] = [];
+
+    SCHEDULE_BLOCKS.forEach((block) => {
+      const blockStart = new Date(queryDate);
+      blockStart.setHours(block.startHour, 0, 0, 0);
+
+      const blockEnd = new Date(queryDate);
+      blockEnd.setHours(block.endHour, 0, 0, 0);
+
+      const slots = generateSlots(blockStart, blockEnd);
+      allSlots.push(...slots);
+    });
+
+    const dayStart = startOfDay(queryDate);
+    const dayEnd = endOfDay(queryDate);
+
+    const appointments = await this.db.appointment.findMany({
+      where: {
+        barberId,
+        scheduledAt: {
+          gte: dayStart,
+          lt: dayEnd,
+        },
+        isArchived: false,
+      },
+    });
+
+    const reservedSet = new Set<string>();
+    appointments.forEach((app) => {
+      const startTime = new Date(app.scheduledAt);
+      const sessionEnd = new Date(
+        startTime.getTime() + SESSION_DURATION * 60000,
+      );
+      const reservedRange = `${formatTime(startTime)} - ${formatTime(sessionEnd)}`;
+      reservedSet.add(reservedRange);
+    });
+
+    allSlots.forEach((slot) => {
+      if (reservedSet.has(slot.range)) {
+        slot.available = false;
+      }
+    });
+
+    return { slots: allSlots };
   }
 }

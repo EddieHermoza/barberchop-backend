@@ -60,6 +60,14 @@ export class AppointmentsController {
     return this.appointmentsService.findAppointmentsByUser(userId);
   }
 
+  @Get('availability')
+  async getAvailability(
+    @Query('barberId', ValidateId) barberId: number,
+    @Query('date', ValidateDate) date: string,
+  ) {
+    return this.appointmentsService.getAvailability(barberId, date);
+  }
+
   @Get(':id')
   findOne(@Param('id', ValidateId) id: number) {
     return this.appointmentsService.findOne(id);

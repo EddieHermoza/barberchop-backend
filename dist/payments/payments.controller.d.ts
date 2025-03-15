@@ -6,8 +6,8 @@ export declare class PaymentsController {
     constructor(paymentsService: PaymentsService);
     create(createPaymentDto: CreatePaymentDto): Promise<{
         id: number;
-        created: Date;
         status: import(".prisma/client").$Enums.Status;
+        created: Date;
         notes: string | null;
         appointmentId: number;
         serviceAmount: import("@prisma/client/runtime/library").Decimal;
@@ -18,8 +18,8 @@ export declare class PaymentsController {
     }>;
     findAll(params: AppointmentPaymentQueryDto): Promise<{
         id: number;
-        created: Date;
         status: import(".prisma/client").$Enums.Status;
+        created: Date;
         notes: string | null;
         appointmentId: number;
         serviceAmount: import("@prisma/client/runtime/library").Decimal;
@@ -30,8 +30,8 @@ export declare class PaymentsController {
     }[]>;
     findOne(id: string): Promise<{
         id: number;
-        created: Date;
         status: import(".prisma/client").$Enums.Status;
+        created: Date;
         notes: string | null;
         appointmentId: number;
         serviceAmount: import("@prisma/client/runtime/library").Decimal;

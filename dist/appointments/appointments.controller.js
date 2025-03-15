@@ -48,6 +48,9 @@ let AppointmentsController = class AppointmentsController {
     findAllAppointmentsByUser(userId) {
         return this.appointmentsService.findAppointmentsByUser(userId);
     }
+    async getAvailability(barberId, date) {
+        return this.appointmentsService.getAvailability(barberId, date);
+    }
     findOne(id) {
         return this.appointmentsService.findOne(id);
     }
@@ -119,6 +122,15 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AppointmentsController.prototype, "findAllAppointmentsByUser", null);
+__decorate([
+    (0, common_1.Get)('availability'),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Query)('barberId', validate_id_pipe_1.ValidateId)),
+    __param(1, (0, common_1.Query)('date', validate_date_pipe_1.ValidateDate)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", Promise)
+], AppointmentsController.prototype, "getAvailability", null);
 __decorate([
     (0, common_1.Get)(':id'),
     openapi.ApiResponse({ status: 200 }),
