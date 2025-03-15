@@ -27,7 +27,7 @@ export class ServicesController {
   @Post()
   create(
     @Body() createServiceDto: CreateServiceDto,
-    @UploadedImage() file: Express.Multer.File,
+    @UploadedImage() file?: Express.Multer.File,
   ) {
     return this.servicesService.create(createServiceDto, file);
   }

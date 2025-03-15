@@ -29,7 +29,7 @@ export class ProductsController {
   @Post()
   create(
     @Body() createProductDto: CreateProductDto,
-    @UploadedImage() file: Express.Multer.File,
+    @UploadedImage() file?: Express.Multer.File,
   ) {
     return this.productsService.create(createProductDto, file);
   }
