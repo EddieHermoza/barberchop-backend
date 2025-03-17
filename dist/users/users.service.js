@@ -30,11 +30,11 @@ let UsersService = class UsersService {
             },
         });
     }
-    async createClientUser(createClientDto) {
-        const { number } = createClientDto;
+    async createCustomerUser(createClientDto) {
+        const { number, ...userData } = createClientDto;
         return await this.db.user.create({
             data: {
-                ...createClientDto,
+                ...userData,
                 role: client_1.UserRole.CLIENTE,
                 Customer: {
                     create: { number },
@@ -92,6 +92,9 @@ let UsersService = class UsersService {
     }
     async findOne(id) {
         const user = await this.db.user.findFirst({
+            omit: {
+                password: true,
+            },
             where: {
                 id,
                 isArchived: false,
@@ -103,6 +106,9 @@ let UsersService = class UsersService {
     }
     async findBarber(id) {
         const user = await this.db.user.findFirst({
+            omit: {
+                password: true,
+            },
             where: {
                 id,
                 isArchived: false,
@@ -115,11 +121,14 @@ let UsersService = class UsersService {
             },
         });
         if (!user)
-            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw new common_1.NotFoundException(`El Barbero del id ${id} no existe`);
         return user;
     }
     async findAdmin(id) {
         const user = await this.db.user.findFirst({
+            omit: {
+                password: true,
+            },
             where: {
                 id,
                 isArchived: false,
@@ -132,11 +141,14 @@ let UsersService = class UsersService {
             },
         });
         if (!user)
-            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw new common_1.NotFoundException(`El Administrador del id ${id} no existe`);
         return user;
     }
     async findCustomer(id) {
         const user = await this.db.user.findFirst({
+            omit: {
+                password: true,
+            },
             where: {
                 id,
                 isArchived: false,
@@ -149,7 +161,7 @@ let UsersService = class UsersService {
             },
         });
         if (!user)
-            throw new common_1.NotFoundException(`El usuario del id ${id} no existe`);
+            throw new common_1.NotFoundException(`El Cliente del id ${id} no existe`);
         return user;
     }
     async updateAdmin(id, updateAdminDto) {
@@ -215,7 +227,7 @@ let UsersService = class UsersService {
             throw error;
         }
     }
-    async updateClient(id, updateClientDto) {
+    async updateCustomer(id, updateClientDto) {
         const { number } = updateClientDto;
         try {
             const user = await this.db.user.findUnique({
@@ -304,6 +316,11 @@ let UsersService = class UsersService {
                 email,
                 isActive: true,
                 isArchived: false,
+            },
+            include: {
+                Admin: true,
+                Barber: true,
+                Customer: true,
             },
         });
         if (!user)

@@ -34,7 +34,7 @@ export class UsersController {
     const hash = await bcrypt.hash(createClientDto.password, 10);
     const UserDto = { ...createClientDto, password: hash };
 
-    return this.usersService.createClientUser(UserDto);
+    return this.usersService.createCustomerUser(UserDto);
   }
 
   @UseFileInterceptor()
@@ -72,6 +72,21 @@ export class UsersController {
     return this.usersService.findAll('BARBERO', params);
   }
 
+  @Get('/get-customer/:id')
+  findOneCustomer(@Param('id', ValidateId) id: number) {
+    return this.usersService.findCustomer(id);
+  }
+
+  @Get('/get-barber/:id')
+  findOneBarber(@Param('id', ValidateId) id: number) {
+    return this.usersService.findBarber(id);
+  }
+
+  @Get('/get-admin/:id')
+  findOneAdmin(@Param('id', ValidateId) id: number) {
+    return this.usersService.findAdmin(id);
+  }
+
   @Get(':id')
   findOne(@Param('id', ValidateId) id: number) {
     return this.usersService.findOne(id);
@@ -82,7 +97,7 @@ export class UsersController {
     @Param('id', ValidateId) id: number,
     @Body() updateClientDto: UpdateClientDto,
   ) {
-    return this.usersService.updateClient(id, updateClientDto);
+    return this.usersService.updateCustomer(id, updateClientDto);
   }
 
   @UseFileInterceptor()

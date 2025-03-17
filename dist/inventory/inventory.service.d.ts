@@ -4,6 +4,7 @@ import { ProductsService } from '../products/products.service';
 import { Prisma } from '@prisma/client';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { MovementQueryDto } from './dto/movement-query.dto';
+import { ProductCategoryQueryDto } from './dto/product-category-query.dto';
 export declare class InventoryService {
     private readonly db;
     private readonly productService;
@@ -16,6 +17,17 @@ export declare class InventoryService {
         quantity: number;
         notes: string;
     }>;
+    findAvailaibleProducts({ page, limit, query, category, }: ProductCategoryQueryDto): Promise<{
+        description: string;
+        name: string;
+        img: string;
+        id: number;
+        category: import(".prisma/client").$Enums.ProductCategory;
+        orderLimit: number;
+        discount: Prisma.Decimal;
+        price: Prisma.Decimal;
+        stock: number;
+    }[]>;
     findAllProductsInventory({ page, limit, query, status, }: SearchStatusQueryDto): Promise<{
         name: string;
         isActive: boolean;

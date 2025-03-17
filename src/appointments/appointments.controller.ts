@@ -17,7 +17,7 @@ import { IUserSession } from 'src/common/interfaces/user-session.interface';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AppointmentStatus, UserRole } from '@prisma/client';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { ValidateDate } from './pipes/validate-date.pipe';
+import { ValidateDate } from '../common/pipes/validate-date.pipe';
 import { AppointmentQueryDto } from './dto/appointment-query.dto';
 
 @ApiBearerAuth()
@@ -31,7 +31,7 @@ export class AppointmentsController {
     @UserSession() user: IUserSession,
     @Body() createAppointmentDto: CreateAppointmentDto,
   ) {
-    createAppointmentDto.customerId = user.id;
+    createAppointmentDto.customerId = user.roleId;
     return this.appointmentsService.create(createAppointmentDto);
   }
 
@@ -57,15 +57,7 @@ export class AppointmentsController {
 
   @Get('/get-appointments-by-user/:userId')
   findAllAppointmentsByUser(@Param('userId', ValidateId) userId: number) {
-    return this.appointmentsService.findAppointmentsByUser(userId);
-  }
-
-  @Get('availability')
-  async getAvailability(
-    @Query('barberId', ValidateId) barberId: number,
-    @Query('date', ValidateDate) date: string,
-  ) {
-    return this.appointmentsService.getAvailability(barberId, date);
+    return this.appointmentsService.findAppointmentsByCustomer(userId);
   }
 
   @Get(':id')

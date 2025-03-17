@@ -19,6 +19,7 @@ const auth_service_1 = require("./auth.service");
 const signIn_dto_1 = require("./dto/signIn.dto");
 const user_session_decorator_1 = require("../common/decorators/user-session.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const auth_decorator_1 = require("./decorators/auth.decorator");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -27,6 +28,7 @@ let AuthController = class AuthController {
         return await this.authService.signIn(signInDto);
     }
     getProfile(user) {
+        console.log(user);
         if (!user)
             throw new common_1.BadRequestException('No se ha encontrado el usuario');
         return user.id;
@@ -44,6 +46,7 @@ __decorate([
 ], AuthController.prototype, "signIn", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
+    (0, auth_decorator_1.Auth)(['ADMINISTRADOR', 'CLIENTE', 'BARBERO']),
     (0, common_1.Get)('/profile'),
     openapi.ApiResponse({ status: 200, type: Number }),
     __param(0, (0, user_session_decorator_1.UserSession)()),

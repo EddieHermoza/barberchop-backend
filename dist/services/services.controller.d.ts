@@ -6,39 +6,39 @@ export declare class ServicesController {
     private readonly servicesService;
     constructor(servicesService: ServicesService);
     create(createServiceDto: CreateServiceDto, file?: Express.Multer.File): Promise<{
-        id: number;
+        description: string;
         name: string;
         isActive: boolean;
-        isArchived: boolean;
         img: string | null;
-        description: string;
+        id: number;
+        isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
     findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
-        id: number;
+        description: string;
         name: string;
         isActive: boolean;
-        isArchived: boolean;
         img: string | null;
-        description: string;
+        id: number;
+        isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
     }[]>;
     findOne(id: number): Promise<{
-        id: number;
+        description: string;
         name: string;
         isActive: boolean;
-        isArchived: boolean;
         img: string | null;
-        description: string;
+        id: number;
+        isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto, file: Express.Multer.File): Promise<{
-        id: number;
+        description: string;
         name: string;
         isActive: boolean;
-        isArchived: boolean;
         img: string | null;
-        description: string;
+        id: number;
+        isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
     }>;
     remove(id: number): Promise<{

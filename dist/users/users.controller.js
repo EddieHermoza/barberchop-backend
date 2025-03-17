@@ -36,7 +36,7 @@ let UsersController = class UsersController {
     async createCustomer(createClientDto) {
         const hash = await bcrypt.hash(createClientDto.password, 10);
         const UserDto = { ...createClientDto, password: hash };
-        return this.usersService.createClientUser(UserDto);
+        return this.usersService.createCustomerUser(UserDto);
     }
     async createBarber(createBarberDto, file) {
         const hash = await bcrypt.hash(createBarberDto.password, 10);
@@ -57,11 +57,20 @@ let UsersController = class UsersController {
     findAllBarbers(params) {
         return this.usersService.findAll('BARBERO', params);
     }
+    findOneCustomer(id) {
+        return this.usersService.findCustomer(id);
+    }
+    findOneBarber(id) {
+        return this.usersService.findBarber(id);
+    }
+    findOneAdmin(id) {
+        return this.usersService.findAdmin(id);
+    }
     findOne(id) {
         return this.usersService.findOne(id);
     }
     updateCustomer(id, updateClientDto) {
-        return this.usersService.updateClient(id, updateClientDto);
+        return this.usersService.updateCustomer(id, updateClientDto);
     }
     updateBarber(id, updateBarberDto, file) {
         return this.usersService.updateBarber(id, updateBarberDto, file);
@@ -124,6 +133,30 @@ __decorate([
     __metadata("design:paramtypes", [search_status_query_dto_1.SearchStatusQueryDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAllBarbers", null);
+__decorate([
+    (0, common_1.Get)('/get-customer/:id'),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "findOneCustomer", null);
+__decorate([
+    (0, common_1.Get)('/get-barber/:id'),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "findOneBarber", null);
+__decorate([
+    (0, common_1.Get)('/get-admin/:id'),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "findOneAdmin", null);
 __decorate([
     (0, common_1.Get)(':id'),
     openapi.ApiResponse({ status: 200 }),

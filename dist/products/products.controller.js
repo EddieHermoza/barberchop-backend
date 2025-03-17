@@ -20,7 +20,6 @@ const create_product_dto_1 = require("./dto/create-product.dto");
 const update_product_dto_1 = require("./dto/update-product.dto");
 const validate_id_pipe_1 = require("../common/pipes/validate-id.pipe");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
-const public_decorator_1 = require("../common/decorators/public.decorator");
 const swagger_1 = require("@nestjs/swagger");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 const file_interceptor_decorator_1 = require("../common/decorators/file-interceptor.decorator");
@@ -58,7 +57,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
 __decorate([
-    (0, public_decorator_1.PublicAccess)(),
     (0, common_1.Get)(),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)()),
@@ -67,7 +65,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "findAll", null);
 __decorate([
-    (0, public_decorator_1.PublicAccess)(),
     (0, common_1.Get)(':id'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', validate_id_pipe_1.ValidateId)),

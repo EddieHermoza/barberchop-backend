@@ -9,6 +9,7 @@ import { ProductsService } from '../products/products.service';
 import { Prisma } from '@prisma/client';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { MovementQueryDto } from './dto/movement-query.dto';
+import { ProductCategoryQueryDto } from './dto/product-category-query.dto';
 
 @Injectable()
 export class InventoryService {
@@ -35,6 +36,53 @@ export class InventoryService {
 
     return await this.db.movement.create({
       data: createMovementDto,
+    });
+  }
+
+  async findAvailaibleProducts({
+    page,
+    limit,
+    query,
+    category,
+  }: ProductCategoryQueryDto) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
+    return await this.db.product.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        category: true,
+        stock: true,
+        orderLimit: true,
+        img: true,
+        price: true,
+        discount: true,
+      },
+      where: {
+        AND: [
+          query
+            ? {
+                name: {
+                  contains: query,
+                  mode: Prisma.QueryMode.insensitive,
+                },
+              }
+            : {},
+          category
+            ? {
+                category: {
+                  equals: category,
+                },
+              }
+            : {},
+        ],
+        stock: { gt: 0 },
+        isActive: true,
+        isArchived: false,
+      },
+      skip: skip,
+      take: limit,
     });
   }
 

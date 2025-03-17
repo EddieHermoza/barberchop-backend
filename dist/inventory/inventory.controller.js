@@ -22,9 +22,14 @@ const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const swagger_1 = require("@nestjs/swagger");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 const movement_query_dto_1 = require("./dto/movement-query.dto");
+const public_decorator_1 = require("../common/decorators/public.decorator");
+const product_category_query_dto_1 = require("./dto/product-category-query.dto");
 let InventoryController = class InventoryController {
     constructor(inventoryService) {
         this.inventoryService = inventoryService;
+    }
+    findAvailaibleProducts(params) {
+        return this.inventoryService.findAvailaibleProducts(params);
     }
     findAll(params) {
         return this.inventoryService.findAllProductsInventory(params);
@@ -40,6 +45,15 @@ let InventoryController = class InventoryController {
     }
 };
 exports.InventoryController = InventoryController;
+__decorate([
+    (0, public_decorator_1.PublicAccess)(),
+    (0, common_1.Get)('/get-availaible-products'),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [product_category_query_dto_1.ProductCategoryQueryDto]),
+    __metadata("design:returntype", void 0)
+], InventoryController.prototype, "findAvailaibleProducts", null);
 __decorate([
     (0, common_1.Get)(),
     openapi.ApiResponse({ status: 200 }),

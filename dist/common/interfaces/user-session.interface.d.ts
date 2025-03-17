@@ -4,4 +4,7 @@ export interface IUserSession {
     username: string;
     email: string;
     role: UserRole;
+    roleId: number;
+    iat?: number;
+    exp?: number;
 }

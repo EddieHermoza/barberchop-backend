@@ -29,11 +29,11 @@ export class UsersService {
     });
   }
 
-  async createClientUser(createClientDto: CreateClientDto) {
-    const { number } = createClientDto;
+  async createCustomerUser(createClientDto: CreateClientDto) {
+    const { number, ...userData } = createClientDto;
     return await this.db.user.create({
       data: {
-        ...createClientDto,
+        ...userData,
         role: UserRole.CLIENTE,
         Customer: {
           create: { number },
@@ -102,6 +102,9 @@ export class UsersService {
 
   async findOne(id: number) {
     const user = await this.db.user.findFirst({
+      omit: {
+        password: true,
+      },
       where: {
         id,
         isArchived: false,
@@ -115,6 +118,9 @@ export class UsersService {
 
   async findBarber(id: number) {
     const user = await this.db.user.findFirst({
+      omit: {
+        password: true,
+      },
       where: {
         id,
         isArchived: false,
@@ -127,13 +133,16 @@ export class UsersService {
       },
     });
 
-    if (!user) throw new NotFoundException(`El usuario del id ${id} no existe`);
+    if (!user) throw new NotFoundException(`El Barbero del id ${id} no existe`);
 
     return user;
   }
 
   async findAdmin(id: number) {
     const user = await this.db.user.findFirst({
+      omit: {
+        password: true,
+      },
       where: {
         id,
         isArchived: false,
@@ -146,13 +155,17 @@ export class UsersService {
       },
     });
 
-    if (!user) throw new NotFoundException(`El usuario del id ${id} no existe`);
+    if (!user)
+      throw new NotFoundException(`El Administrador del id ${id} no existe`);
 
     return user;
   }
 
   async findCustomer(id: number) {
     const user = await this.db.user.findFirst({
+      omit: {
+        password: true,
+      },
       where: {
         id,
         isArchived: false,
@@ -165,7 +178,7 @@ export class UsersService {
       },
     });
 
-    if (!user) throw new NotFoundException(`El usuario del id ${id} no existe`);
+    if (!user) throw new NotFoundException(`El Cliente del id ${id} no existe`);
 
     return user;
   }
@@ -247,7 +260,7 @@ export class UsersService {
     }
   }
 
-  async updateClient(id: number, updateClientDto: UpdateClientDto) {
+  async updateCustomer(id: number, updateClientDto: UpdateClientDto) {
     const { number } = updateClientDto;
     try {
       const user = await this.db.user.findUnique({
@@ -349,6 +362,11 @@ export class UsersService {
         email,
         isActive: true,
         isArchived: false,
+      },
+      include: {
+        Admin: true,
+        Barber: true,
+        Customer: true,
       },
     });
 

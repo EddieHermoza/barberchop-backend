@@ -15,8 +15,6 @@ const prisma_service_1 = require("../prisma/prisma.service");
 const services_service_1 = require("../services/services.service");
 const users_service_1 = require("../users/users.service");
 const date_fns_1 = require("date-fns");
-const slot_utils_1 = require("./helpers/slot-utils");
-const schedule_constants_1 = require("./constants/schedule.constants");
 let AppointmentsService = class AppointmentsService {
     constructor(db, servicesService, usersService) {
         this.db = db;
@@ -138,20 +136,34 @@ let AppointmentsService = class AppointmentsService {
         });
         return appointments;
     }
-    async findAppointmentsByBarber(id) {
+    async findAppointmentsByBarber(id, date) {
+        await this.usersService.findBarber(id);
+        const start = date ? (0, date_fns_1.startOfDay)(date) : null;
+        const end = date ? (0, date_fns_1.endOfDay)(date) : null;
         const appointments = await this.db.appointment.findMany({
             where: {
                 barberId: id,
+                scheduledAt: {
+                    ...(start ? { gte: start } : {}),
+                    ...(end ? { lt: end } : {}),
+                },
                 isArchived: false,
             },
         });
         return appointments;
     }
-    async findAppointmentsByUser(id) {
+    async findAppointmentsByCustomer(id, date) {
+        await this.usersService.findCustomer(id);
+        const start = date ? (0, date_fns_1.startOfDay)(date) : null;
+        const end = date ? (0, date_fns_1.endOfDay)(date) : null;
         const appointments = await this.db.appointment.findMany({
             where: {
                 customerId: id,
                 isArchived: false,
+                scheduledAt: {
+                    ...(start ? { gte: start } : {}),
+                    ...(end ? { lt: end } : {}),
+                },
             },
         });
         return appointments;
@@ -175,43 +187,6 @@ let AppointmentsService = class AppointmentsService {
             }
             throw error;
         }
-    }
-    async getAvailability(barberId, date) {
-        const queryDate = new Date(date);
-        const allSlots = [];
-        schedule_constants_1.SCHEDULE_BLOCKS.forEach((block) => {
-            const blockStart = new Date(queryDate);
-            blockStart.setHours(block.startHour, 0, 0, 0);
-            const blockEnd = new Date(queryDate);
-            blockEnd.setHours(block.endHour, 0, 0, 0);
-            const slots = (0, slot_utils_1.generateSlots)(blockStart, blockEnd);
-            allSlots.push(...slots);
-        });
-        const dayStart = (0, date_fns_1.startOfDay)(queryDate);
-        const dayEnd = (0, date_fns_1.endOfDay)(queryDate);
-        const appointments = await this.db.appointment.findMany({
-            where: {
-                barberId,
-                scheduledAt: {
-                    gte: dayStart,
-                    lt: dayEnd,
-                },
-                isArchived: false,
-            },
-        });
-        const reservedSet = new Set();
-        appointments.forEach((app) => {
-            const startTime = new Date(app.scheduledAt);
-            const sessionEnd = new Date(startTime.getTime() + schedule_constants_1.SESSION_DURATION * 60000);
-            const reservedRange = `${(0, slot_utils_1.formatTime)(startTime)} - ${(0, slot_utils_1.formatTime)(sessionEnd)}`;
-            reservedSet.add(reservedRange);
-        });
-        allSlots.forEach((slot) => {
-            if (reservedSet.has(slot.range)) {
-                slot.available = false;
-            }
-        });
-        return { slots: allSlots };
     }
 };
 exports.AppointmentsService = AppointmentsService;

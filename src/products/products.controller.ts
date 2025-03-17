@@ -13,7 +13,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ValidateId } from '../common/pipes/validate-id.pipe';
 import { Auth } from 'src/auth/decorators/auth.decorator';
-import { PublicAccess } from 'src/common/decorators/public.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { UseFileInterceptor } from 'src/common/decorators/file-interceptor.decorator';
@@ -34,13 +33,11 @@ export class ProductsController {
     return this.productsService.create(createProductDto, file);
   }
 
-  @PublicAccess()
   @Get()
   findAll(@Query() params: SearchStatusQueryDto) {
     return this.productsService.findAll(params);
   }
 
-  @PublicAccess()
   @Get(':id')
   findOne(@Param('id', ValidateId) id: number) {
     return this.productsService.findOne(id);

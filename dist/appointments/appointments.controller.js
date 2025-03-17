@@ -23,14 +23,14 @@ const user_session_decorator_1 = require("../common/decorators/user-session.deco
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
 const client_1 = require("@prisma/client");
 const swagger_1 = require("@nestjs/swagger");
-const validate_date_pipe_1 = require("./pipes/validate-date.pipe");
+const validate_date_pipe_1 = require("../common/pipes/validate-date.pipe");
 const appointment_query_dto_1 = require("./dto/appointment-query.dto");
 let AppointmentsController = class AppointmentsController {
     constructor(appointmentsService) {
         this.appointmentsService = appointmentsService;
     }
     create(user, createAppointmentDto) {
-        createAppointmentDto.customerId = user.id;
+        createAppointmentDto.customerId = user.roleId;
         return this.appointmentsService.create(createAppointmentDto);
     }
     findAll(params) {
@@ -46,10 +46,7 @@ let AppointmentsController = class AppointmentsController {
         return this.appointmentsService.findAppointmentsByBarber(barberId);
     }
     findAllAppointmentsByUser(userId) {
-        return this.appointmentsService.findAppointmentsByUser(userId);
-    }
-    async getAvailability(barberId, date) {
-        return this.appointmentsService.getAvailability(barberId, date);
+        return this.appointmentsService.findAppointmentsByCustomer(userId);
     }
     findOne(id) {
         return this.appointmentsService.findOne(id);
@@ -122,15 +119,6 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AppointmentsController.prototype, "findAllAppointmentsByUser", null);
-__decorate([
-    (0, common_1.Get)('availability'),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Query)('barberId', validate_id_pipe_1.ValidateId)),
-    __param(1, (0, common_1.Query)('date', validate_date_pipe_1.ValidateDate)),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
-    __metadata("design:returntype", Promise)
-], AppointmentsController.prototype, "getAvailability", null);
 __decorate([
     (0, common_1.Get)(':id'),
     openapi.ApiResponse({ status: 200 }),

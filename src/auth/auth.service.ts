@@ -16,7 +16,16 @@ export class AuthService {
 
   async signIn({ email, password }: SignInDto) {
     const user = await this.userService.findOneByEmail(email);
-
+    let roleId = 0;
+    if (user.role === 'ADMINISTRADOR' && user.Admin) {
+      roleId = user.Admin.id;
+    } else if (user.role === 'CLIENTE' && user.Customer) {
+      roleId = user.Customer.id;
+    } else if (user.role === 'BARBERO' && user.Barber) {
+      roleId = user.Barber.id;
+    } else {
+      throw new UnauthorizedException('El usuario no existe');
+    }
     if (!user) throw new UnauthorizedException('El usuario no existe');
 
     const match = await bcrypt.compare(password, user.password);
@@ -28,7 +37,10 @@ export class AuthService {
       username: user.name + ' ' + user.lastName,
       email: user.email,
       role: user.role,
+      roleId: roleId,
     };
+
+    console.log(payload);
 
     return this.jwtService.signAsync(payload);
   }

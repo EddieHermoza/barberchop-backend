@@ -9,40 +9,40 @@ export declare class ServicesService {
     private readonly cloudinaryService;
     constructor(db: PrismaService, cloudinaryService: CloudinaryService);
     create(createServiceDto: CreateServiceDto, file?: Express.Multer.File): Promise<{
-        id: number;
-        name: string;
         description: string;
-        price: Prisma.Decimal;
-        img: string | null;
+        name: string;
         isActive: boolean;
+        img: string | null;
+        id: number;
         isArchived: boolean;
+        price: Prisma.Decimal;
     }>;
     findAll({ limit, page, query, status }: SearchStatusQueryDto): Prisma.PrismaPromise<{
-        id: number;
-        name: string;
         description: string;
-        price: Prisma.Decimal;
-        img: string | null;
+        name: string;
         isActive: boolean;
+        img: string | null;
+        id: number;
         isArchived: boolean;
+        price: Prisma.Decimal;
     }[]>;
     findOne(id: number): Promise<{
-        id: number;
-        name: string;
         description: string;
-        price: Prisma.Decimal;
-        img: string | null;
+        name: string;
         isActive: boolean;
+        img: string | null;
+        id: number;
         isArchived: boolean;
+        price: Prisma.Decimal;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto, file?: Express.Multer.File): Promise<{
-        id: number;
-        name: string;
         description: string;
-        price: Prisma.Decimal;
-        img: string | null;
+        name: string;
         isActive: boolean;
+        img: string | null;
+        id: number;
         isArchived: boolean;
+        price: Prisma.Decimal;
     }>;
     remove(id: number): Promise<{
         message: string;

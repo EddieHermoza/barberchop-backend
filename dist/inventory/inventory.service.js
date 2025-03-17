@@ -31,6 +31,47 @@ let InventoryService = class InventoryService {
             data: createMovementDto,
         });
     }
+    async findAvailaibleProducts({ page, limit, query, category, }) {
+        const pages = page || 1;
+        const skip = (pages - 1) * limit;
+        return await this.db.product.findMany({
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                category: true,
+                stock: true,
+                orderLimit: true,
+                img: true,
+                price: true,
+                discount: true,
+            },
+            where: {
+                AND: [
+                    query
+                        ? {
+                            name: {
+                                contains: query,
+                                mode: client_1.Prisma.QueryMode.insensitive,
+                            },
+                        }
+                        : {},
+                    category
+                        ? {
+                            category: {
+                                equals: category,
+                            },
+                        }
+                        : {},
+                ],
+                stock: { gt: 0 },
+                isActive: true,
+                isArchived: false,
+            },
+            skip: skip,
+            take: limit,
+        });
+    }
     async findAllProductsInventory({ page, limit, query, status, }) {
         const pages = page || 1;
         const skip = (pages - 1) * limit;
