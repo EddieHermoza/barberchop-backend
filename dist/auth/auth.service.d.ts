@@ -8,7 +8,7 @@ export declare class AuthService {
     constructor(userService: UsersService, jwtService: JwtService);
     register(): Promise<void>;
     signIn({ email, password }: SignInDto): Promise<{
-        payload: IUserSession;
+        user: IUserSession;
         backendTokens: {
             accessToken: string;
             refreshToken: string;

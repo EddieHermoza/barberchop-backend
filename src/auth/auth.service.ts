@@ -39,10 +39,8 @@ export class AuthService {
       roleId: roleId,
     };
 
-    console.log(payload);
-
     return {
-      payload,
+      user: payload,
       backendTokens: {
         accessToken: await this.jwtService.signAsync(payload, {
           secret: process.env.JWT_SECRET,
