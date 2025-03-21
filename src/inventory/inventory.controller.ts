@@ -21,7 +21,7 @@ export class InventoryController {
     return this.inventoryService.findAvailaibleProducts(params);
   }
 
-  @Get()
+  @Get('/get-inventory')
   findAll(@Query() params: SearchStatusQueryDto) {
     return this.inventoryService.findAllProductsInventory(params);
   }

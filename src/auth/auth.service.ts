@@ -16,6 +16,9 @@ export class AuthService {
 
   async signIn({ email, password }: SignInDto) {
     const user = await this.userService.findOneByEmail(email);
+    if (!user) {
+      throw new UnauthorizedException('El usuario no existe');
+    }
     let roleId = 0;
     if (user.role === 'ADMINISTRADOR' && user.Admin) {
       roleId = user.Admin.id;
@@ -23,11 +26,7 @@ export class AuthService {
       roleId = user.Customer.id;
     } else if (user.role === 'BARBERO' && user.Barber) {
       roleId = user.Barber.id;
-    } else {
-      throw new UnauthorizedException('El usuario no existe');
     }
-    if (!user) throw new UnauthorizedException('El usuario no existe');
-
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) throw new UnauthorizedException('La contraseña es incorrecta');
@@ -42,8 +41,40 @@ export class AuthService {
 
     console.log(payload);
 
-    return this.jwtService.signAsync(payload);
+    return {
+      payload,
+      backendTokens: {
+        accessToken: await this.jwtService.signAsync(payload, {
+          secret: process.env.JWT_SECRET,
+          expiresIn: '1d',
+        }),
+        refreshToken: await this.jwtService.signAsync(payload, {
+          secret: process.env.JWT_REFRESH_SECRET,
+          expiresIn: '7d',
+        }),
+      },
+    };
   }
 
   async signOut() {}
+
+  async refresh(user: any) {
+    const payload: IUserSession = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      roleId: user.roleId,
+    };
+    return {
+      accessToken: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+        expiresIn: '1d',
+      }),
+      refreshToken: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_REFRESH_SECRET,
+        expiresIn: '7d',
+      }),
+    };
+  }
 }

@@ -25,7 +25,7 @@ let HaircutsService = class HaircutsService {
             data: createHaircutDto,
         });
     }
-    findAll({ limit, page, query, status }) {
+    async findAll({ limit, page, query, status }) {
         const pages = page || 1;
         const skip = (pages - 1) * limit;
         return this.db.haircutType.findMany({
@@ -37,6 +37,23 @@ let HaircutsService = class HaircutsService {
                     status !== null && status !== undefined ? { isActive: status } : {},
                 ],
                 isArchived: false,
+            },
+            skip: skip,
+            take: limit,
+        });
+    }
+    async findAvailaibleHaircuts({ limit, page, query }) {
+        const pages = page || 1;
+        const skip = (pages - 1) * limit;
+        return this.db.haircutType.findMany({
+            where: {
+                AND: [
+                    query
+                        ? { name: { contains: query, mode: client_1.Prisma.QueryMode.insensitive } }
+                        : {},
+                ],
+                isArchived: false,
+                isActive: true,
             },
             skip: skip,
             take: limit,

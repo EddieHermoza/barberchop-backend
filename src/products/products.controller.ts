@@ -33,7 +33,7 @@ export class ProductsController {
     return this.productsService.create(createProductDto, file);
   }
 
-  @Get()
+  @Get('/get-all-products')
   findAll(@Query() params: SearchStatusQueryDto) {
     return this.productsService.findAll(params);
   }

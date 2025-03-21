@@ -24,6 +24,7 @@ const public_decorator_1 = require("../common/decorators/public.decorator");
 const search_status_query_dto_1 = require("../common/dto/search-status-query.dto");
 const file_interceptor_decorator_1 = require("../common/decorators/file-interceptor.decorator");
 const upload_images_decorator_1 = require("../cloudinary/decorators/upload-images.decorator");
+const search_query_dto_1 = require("../common/dto/search-query.dto");
 let ServicesController = class ServicesController {
     constructor(servicesService) {
         this.servicesService = servicesService;
@@ -33,6 +34,9 @@ let ServicesController = class ServicesController {
     }
     findAll(params) {
         return this.servicesService.findAll(params);
+    }
+    findAvailaibleServices(params) {
+        return this.servicesService.findAvailableServices(params);
     }
     findOne(id) {
         return this.servicesService.findOne(id);
@@ -56,14 +60,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ServicesController.prototype, "create", null);
 __decorate([
-    (0, public_decorator_1.PublicAccess)(),
-    (0, common_1.Get)(),
+    (0, common_1.Get)('/get-all-services'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [search_status_query_dto_1.SearchStatusQueryDto]),
     __metadata("design:returntype", void 0)
 ], ServicesController.prototype, "findAll", null);
+__decorate([
+    (0, public_decorator_1.PublicAccess)(),
+    (0, common_1.Get)('/get-available-services'),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [search_query_dto_1.SearchQueryDto]),
+    __metadata("design:returntype", void 0)
+], ServicesController.prototype, "findAvailaibleServices", null);
 __decorate([
     (0, public_decorator_1.PublicAccess)(),
     (0, common_1.Get)(':id'),

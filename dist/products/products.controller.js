@@ -57,7 +57,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('/get-all-products'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),

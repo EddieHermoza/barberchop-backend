@@ -22,6 +22,9 @@ let AuthService = class AuthService {
     async register() { }
     async signIn({ email, password }) {
         const user = await this.userService.findOneByEmail(email);
+        if (!user) {
+            throw new common_1.UnauthorizedException('El usuario no existe');
+        }
         let roleId = 0;
         if (user.role === 'ADMINISTRADOR' && user.Admin) {
             roleId = user.Admin.id;
@@ -32,11 +35,6 @@ let AuthService = class AuthService {
         else if (user.role === 'BARBERO' && user.Barber) {
             roleId = user.Barber.id;
         }
-        else {
-            throw new common_1.UnauthorizedException('El usuario no existe');
-        }
-        if (!user)
-            throw new common_1.UnauthorizedException('El usuario no existe');
         const match = await bcrypt.compare(password, user.password);
         if (!match)
             throw new common_1.UnauthorizedException('La contraseña es incorrecta');
@@ -48,9 +46,40 @@ let AuthService = class AuthService {
             roleId: roleId,
         };
         console.log(payload);
-        return this.jwtService.signAsync(payload);
+        return {
+            payload,
+            backendTokens: {
+                accessToken: await this.jwtService.signAsync(payload, {
+                    secret: process.env.JWT_SECRET,
+                    expiresIn: '1d',
+                }),
+                refreshToken: await this.jwtService.signAsync(payload, {
+                    secret: process.env.JWT_REFRESH_SECRET,
+                    expiresIn: '7d',
+                }),
+            },
+        };
     }
     async signOut() { }
+    async refresh(user) {
+        const payload = {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            roleId: user.roleId,
+        };
+        return {
+            accessToken: await this.jwtService.signAsync(payload, {
+                secret: process.env.JWT_SECRET,
+                expiresIn: '1d',
+            }),
+            refreshToken: await this.jwtService.signAsync(payload, {
+                secret: process.env.JWT_REFRESH_SECRET,
+                expiresIn: '7d',
+            }),
+        };
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

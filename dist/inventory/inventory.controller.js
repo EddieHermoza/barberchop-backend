@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InventoryController.prototype, "findAvailaibleProducts", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('/get-inventory'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),

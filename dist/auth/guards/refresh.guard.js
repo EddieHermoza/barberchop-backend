@@ -9,30 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthGuard = void 0;
+exports.RefreshTokenGuard = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const public_decorator_1 = require("../../common/decorators/public.decorator");
 const core_1 = require("@nestjs/core");
-let AuthGuard = class AuthGuard {
+let RefreshTokenGuard = class RefreshTokenGuard {
     constructor(jwtService, reflector) {
         this.jwtService = jwtService;
         this.reflector = reflector;
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();
-        const isPublic = this.reflector.getAllAndOverride(public_decorator_1.PUBLIC_KEY, [
-            context.getHandler(),
-            context.getClass(),
-        ]);
-        if (isPublic)
-            return true;
         const token = this.extractTokenFromHeader(request);
         if (!token)
             throw new common_1.UnauthorizedException('No se ha proporcionado un token');
         try {
             const payload = await this.jwtService.verifyAsync(token, {
-                secret: process.env.JWT_SECRET,
+                secret: process.env.JWT_REFRESH_SECRET,
             });
             request['user'] = payload;
         }
@@ -43,13 +36,13 @@ let AuthGuard = class AuthGuard {
     }
     extractTokenFromHeader(request) {
         const [type, token] = request.headers.authorization?.split(' ') ?? [];
-        return type === 'Bearer' ? token : undefined;
+        return type === 'Refresh' ? token : undefined;
     }
 };
-exports.AuthGuard = AuthGuard;
-exports.AuthGuard = AuthGuard = __decorate([
+exports.RefreshTokenGuard = RefreshTokenGuard;
+exports.RefreshTokenGuard = RefreshTokenGuard = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [jwt_1.JwtService,
         core_1.Reflector])
-], AuthGuard);
-//# sourceMappingURL=auth.guard.js.map
+], RefreshTokenGuard);
+//# sourceMappingURL=refresh.guard.js.map

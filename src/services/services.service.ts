@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 
 @Injectable()
 export class ServicesService {
@@ -19,7 +20,7 @@ export class ServicesService {
     });
   }
 
-  findAll({ limit, page, query, status }: SearchStatusQueryDto) {
+  async findAll({ limit, page, query, status }: SearchStatusQueryDto) {
     const pages = page || 1;
     const skip = (pages - 1) * limit;
 
@@ -32,6 +33,29 @@ export class ServicesService {
           status !== null && status !== undefined ? { isActive: status } : {},
         ],
         isArchived: false,
+      },
+      skip: skip,
+      take: limit,
+    });
+  }
+
+  async findAvailableServices({ limit, page, query }: SearchQueryDto) {
+    const pages = page || 1;
+    const skip = (pages - 1) * limit;
+    return this.db.service.findMany({
+      where: {
+        AND: [
+          query
+            ? {
+                name: {
+                  contains: query,
+                  mode: Prisma.QueryMode.insensitive,
+                },
+              }
+            : {},
+        ],
+        isArchived: false,
+        isActive: true,
       },
       skip: skip,
       take: limit,

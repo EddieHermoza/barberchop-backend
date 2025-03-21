@@ -5,5 +5,4 @@ export declare class AppController {
     private readonly cloudinaryService;
     constructor(appService: AppService, cloudinaryService: CloudinaryService);
     getHello(): string;
-    uploadImage(files: Express.Multer.File[]): Promise<string[]>;
 }

@@ -57,17 +57,17 @@ export class UsersController {
     return this.usersService.createAdminUser(UserDto);
   }
 
-  @Get('/get-customers')
+  @Get('/get-all-customers')
   findAllCustomers(@Query() params: SearchStatusQueryDto) {
     return this.usersService.findAll('CLIENTE', params);
   }
 
-  @Get('/get-admins')
+  @Get('/get-all-admins')
   findAllAdmins(@Query() params: SearchStatusQueryDto) {
     return this.usersService.findAll('ADMINISTRADOR', params);
   }
 
-  @Get('/get-barbers')
+  @Get('/get-all-barbers')
   findAllBarbers(@Query() params: SearchStatusQueryDto) {
     return this.usersService.findAll('BARBERO', params);
   }

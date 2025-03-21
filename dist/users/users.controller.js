@@ -110,7 +110,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createAdmin", null);
 __decorate([
-    (0, common_1.Get)('/get-customers'),
+    (0, common_1.Get)('/get-all-customers'),
     openapi.ApiResponse({ status: 200, type: [Object] }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -118,7 +118,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAllCustomers", null);
 __decorate([
-    (0, common_1.Get)('/get-admins'),
+    (0, common_1.Get)('/get-all-admins'),
     openapi.ApiResponse({ status: 200, type: [Object] }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -126,7 +126,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAllAdmins", null);
 __decorate([
-    (0, common_1.Get)('/get-barbers'),
+    (0, common_1.Get)('/get-all-barbers'),
     openapi.ApiResponse({ status: 200, type: [Object] }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),

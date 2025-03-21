@@ -18,6 +18,7 @@ import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { UploadedImages } from 'src/cloudinary/decorators/upload-images.decorator';
 import { UseFilesInterceptor } from 'src/common/decorators/file-interceptor.decorator';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 
 @ApiBearerAuth()
 @Controller('haircuts')
@@ -36,9 +37,14 @@ export class HaircutsController {
     return this.haircutsService.create(createHaircutDto, files);
   }
 
-  @PublicAccess()
-  @Get()
+  @Get('/get-all-haircuts')
   findAll(@Query() params: SearchStatusQueryDto) {
+    return this.haircutsService.findAll(params);
+  }
+
+  @PublicAccess()
+  @Get('/get-all-haircuts')
+  findAvailaibleHaircuts(@Query() params: SearchQueryDto) {
     return this.haircutsService.findAll(params);
   }
 

@@ -3,6 +3,7 @@ import { CreateHaircutDto } from './dto/create-haircut.dto';
 import { UpdateHaircutDto } from './dto/update-haircut.dto';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 export declare class HaircutsController {
     private readonly haircutsService;
     private readonly cloudinaryService;
@@ -15,7 +16,15 @@ export declare class HaircutsController {
         isArchived: boolean;
         imgs: string[];
     }>;
-    findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
+    findAll(params: SearchStatusQueryDto): Promise<{
+        description: string | null;
+        name: string;
+        isActive: boolean;
+        id: number;
+        isArchived: boolean;
+        imgs: string[];
+    }[]>;
+    findAvailaibleHaircuts(params: SearchQueryDto): Promise<{
         description: string | null;
         name: string;
         isActive: boolean;

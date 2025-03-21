@@ -17,6 +17,7 @@ import { PublicAccess } from 'src/common/decorators/public.decorator';
 import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { UseFileInterceptor } from 'src/common/decorators/file-interceptor.decorator';
 import { UploadedImage } from 'src/cloudinary/decorators/upload-images.decorator';
+import { SearchQueryDto } from 'src/common/dto/search-query.dto';
 
 @ApiBearerAuth()
 @Controller('services')
@@ -32,10 +33,15 @@ export class ServicesController {
     return this.servicesService.create(createServiceDto, file);
   }
 
-  @PublicAccess()
-  @Get()
+  @Get('/get-all-services')
   findAll(@Query() params: SearchStatusQueryDto) {
     return this.servicesService.findAll(params);
+  }
+
+  @PublicAccess()
+  @Get('/get-available-services')
+  findAvailaibleServices(@Query() params: SearchQueryDto) {
+    return this.servicesService.findAvailableServices(params);
   }
 
   @PublicAccess()

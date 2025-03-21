@@ -25,7 +25,7 @@ let ServicesService = class ServicesService {
             data: createServiceDto,
         });
     }
-    findAll({ limit, page, query, status }) {
+    async findAll({ limit, page, query, status }) {
         const pages = page || 1;
         const skip = (pages - 1) * limit;
         return this.db.service.findMany({
@@ -37,6 +37,28 @@ let ServicesService = class ServicesService {
                     status !== null && status !== undefined ? { isActive: status } : {},
                 ],
                 isArchived: false,
+            },
+            skip: skip,
+            take: limit,
+        });
+    }
+    async findAvailableServices({ limit, page, query }) {
+        const pages = page || 1;
+        const skip = (pages - 1) * limit;
+        return this.db.service.findMany({
+            where: {
+                AND: [
+                    query
+                        ? {
+                            name: {
+                                contains: query,
+                                mode: client_1.Prisma.QueryMode.insensitive,
+                            },
+                        }
+                        : {},
+                ],
+                isArchived: false,
+                isActive: true,
             },
             skip: skip,
             take: limit,
